@@ -2,7 +2,6 @@
 module.exports = {
 	types: [
 		{ value: 'init', name: '🎉初始化:     配置搭建与环境准备' },
-		{ value: '', name: '✨新增:    新的内容' },
 		{ value: 'feat', name: '✨新增:    新的内容' },
 		{ value: 'fix', name: '🐛修复:    修复一个Bug' },
 		{ value: 'docs', name: '📝文档:    变更的只有文档' },
