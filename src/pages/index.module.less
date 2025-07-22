@@ -9,63 +9,20 @@
 	overflow: hidden;
 	/* 防止整个页面滚动 */
 	position: relative;
-}
-
-/* 头部导航栏 - 使用flex布局固定在顶部 */
-.nav {
-	flex-shrink: 0; /* 防止被压缩 */
-	height: 60px;
-	background-color: #ffffff;
-	border-bottom: 1px solid #e0e0e0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	z-index: 100;
-	position: relative;
+	justify-self: center;
 }
 
 /* 主要内容区域 - 使用flex布局 */
 main {
-	flex: 1;
 	display: flex;
 	flex-direction: column;
 	min-height: 0; /* 重要：允许flex子元素收缩 */
 	position: relative;
-}
-
-/* 中间内容列表 - 占据剩余空间并可滚动 */
-.list {
-	flex: 1;
 	overflow-y: auto;
 	overflow-x: hidden;
-	padding: 16px;
-	background-color: #f8f9fa;
-	/* 使用transform创建新的堆叠上下文 */
-	transform: translateZ(0);
-	-webkit-overflow-scrolling: auto; /* 禁用iOS弹性滚动 */
-	scroll-behavior: smooth;
-	touch-action: pan-y; /* 只允许垂直滚动 */
-	overscroll-behavior: contain; /* 限制滚动边界效果在容器内 */
-}
-
-/* 底部输入框 - 使用flex布局固定在底部 */
-.input {
-	flex-shrink: 0; /* 防止被压缩 */
-	min-height: 60px;
-	max-height: 120px;
-	padding: 12px 16px;
-	border: none;
-	border-top: 1px solid #e0e0e0;
-	background-color: #ffffff;
-	resize: none;
-	font-size: 16px;
-	line-height: 1.4;
-	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-	outline: none;
-	z-index: 100;
-	position: relative;
-	/* 自动调整高度 */
+	width: 100%; /* 确保宽度占满 */
+	max-width: calc(100% - 20px); /* 预留滚动条空间 */
+	margin: 0 auto; /* 居中内容 */
 	box-sizing: border-box;
 }
 

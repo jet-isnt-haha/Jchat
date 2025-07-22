@@ -1,0 +1,21 @@
+/* 底部输入框 - 使用flex布局固定在底部 */
+.input {
+	flex-shrink: 0;
+	min-height: 60px;
+	max-height: 120px;
+	padding: 12px 16px;
+	border: none;
+	border-top: 1px solid #e0e0e0;
+	background-color: #ffffff;
+	font-size: 16px;
+	line-height: 1.4;
+	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+	outline: none;
+	box-sizing: border-box;
+	border-radius: 10%;
+	width: 90%;
+	margin: 10px auto;
+	position: sticky; /* 或使用 position: fixed; bottom: 10px; */
+	bottom: 0; /* 贴近底部 */
+	z-index: 100; /* 确保在内容上方 */
+}

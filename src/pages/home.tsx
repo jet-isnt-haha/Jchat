@@ -1,6 +1,4 @@
-import { List, TextArea } from 'antd-mobile';
-
-import NavBar from '~/packages/ui/NavBar';
+import { NavBar, TextArea, MessageList } from '~/packages/ui';
 import styles from './index.module.less';
 const Home = () => {
 	return (
@@ -10,7 +8,7 @@ const Home = () => {
 			</header>
 
 			<main>
-				<List className={styles.list}>
+				<MessageList className={styles.list}>
 					11 11 11 1111 11 11 111111 11 11 1111 11 11 1111 11 11 11 1111 11 11
 					111111 11 11 1111 11 11 1111 11 11 11 1111 11 11 111111 11 11 1111 11
 					11 1111 11 11 11 1111 11 11 111111 11 11 1111 11 11 1111 11 11 11 1111
@@ -37,8 +35,8 @@ const Home = () => {
 					11 1111 11 11 11 1111 11 11 111111 11 11 1111 11 11 1111 11 11 11 1111
 					11 11 111111 11 11 1111 11 11 1111 11 11 11 1111 11 11 111111 11 11
 					1111 11 11 1111
-				</List>
-				<TextArea placeholder="111111" className={styles.input} />
+				</MessageList>
+				<TextArea className={styles.input} />
 			</main>
 		</section>
 	);
