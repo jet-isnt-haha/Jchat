@@ -21,7 +21,6 @@ export default tseslint.config([
 			globals: globals.browser
 		}
 	},
-
 	/**
 	 * javascript 规则
 	 */
