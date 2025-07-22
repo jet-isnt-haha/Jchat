@@ -1,0 +1,12 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+	overscroll-behavior: none; /* 防止橡皮筋效果 */
+	-webkit-overflow-scrolling: auto; /* 禁用iOS弹性滚动 */
+	touch-action: manipulation; /* 只允许基本触摸操作 */
+	user-select: none; /* 全局禁用文本选择 */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
