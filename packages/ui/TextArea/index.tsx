@@ -3,7 +3,7 @@ import {
 	type TextAreaProps as AntdTextAreaProps
 } from 'antd-mobile';
 import type { CSSProperties } from 'react';
-import styles from './index.module.less';
+import styles from '../index.module.less';
 import clsx from 'clsx';
 
 interface TextAreaProps extends Omit<AntdTextAreaProps, 'onChange'> {

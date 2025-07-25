@@ -13,18 +13,6 @@
 }
 
 /* 主要内容区域 - 使用flex布局 */
-main {
-	display: flex;
-	flex-direction: column;
-	min-height: 0; /* 重要：允许flex子元素收缩 */
-	position: relative;
-	overflow-y: auto;
-	overflow-x: hidden;
-	width: 100%; /* 确保宽度占满 */
-	max-width: calc(100% - 20px); /* 预留滚动条空间 */
-	margin: 0 auto; /* 居中内容 */
-	box-sizing: border-box;
-}
 
 /* 移动端特殊处理 */
 @media screen and (max-width: 768px) {

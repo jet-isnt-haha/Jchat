@@ -2,7 +2,7 @@ import {
 	NavBar as AntdNavBar,
 	type NavBarProps as AntdNavBarProps
 } from 'antd-mobile';
-import styles from './index.module.less';
+import styles from '../index.module.less';
 import type { CSSProperties } from 'react';
 import { clsx } from 'clsx';
 
