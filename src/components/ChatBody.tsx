@@ -1,11 +1,19 @@
+import { useChatStore } from '@/store/chatStore';
+import ChatbotIcon from './ChatbotIcon';
+import ChatMessage from './ChatMessage';
+import '../styles/message.less';
 const ChatBody = () => {
+	const chatMessages = useChatStore().session[0].messages;
+
 	return (
-		<main className="chat-body flex flex-col gap-[20px] px-[22px] py-[25px] h-[700px] overflow-y-auto mb-[82px] scrollbar-thin scrollbar-thumb-[#DDD3F9] scrollbar-track-transparent">
-			<div className="message bot-message flex items-center gap-[11px]">
-				<p className="message-text px-4 py-3 max-w-[75%] break-words whitespace-pre-line text-[0.95rem]">
-					Hey,how can i help u
-				</p>
+		<main className="chat-body">
+			<div className="message bot-message">
+				<ChatbotIcon />
+				<p className="message-text">Hey,how can i help u</p>
 			</div>
+			{chatMessages.map((msg, index) => (
+				<ChatMessage {...msg} key={index} />
+			))}
 		</main>
 	);
 };

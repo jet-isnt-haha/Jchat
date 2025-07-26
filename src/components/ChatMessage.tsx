@@ -1,5 +1,6 @@
-import { type Message } from '@/store/chat';
+import type { Message } from '~/packages/types/chatType';
 import ChatbotIcon from './ChatbotIcon';
+import '../styles/message.less';
 
 const ChatMessage = (msg: Message) => {
 	return (

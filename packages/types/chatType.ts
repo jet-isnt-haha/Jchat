@@ -1,5 +1,3 @@
-import { create } from 'zustand';
-
 //消息类型定义
 export interface Message {
 	id: string;
@@ -11,7 +9,7 @@ export interface Message {
 }
 
 //会话类型定义
-interface ChatSession {
+export interface ChatSession {
 	id: string;
 	title: string;
 	messages: Message[];
@@ -20,7 +18,7 @@ interface ChatSession {
 }
 
 //Store 状态类型
-interface ChatStore {
+export interface ChatStore {
 	//状态
 	session: ChatSession[];
 	currentSessionId: string | null;
@@ -28,13 +26,3 @@ interface ChatStore {
 
 	//Actions
 }
-
-//创建 zustand Store
-export const useChatStore = create<ChatStore>(() => ({
-	//初始状态
-	session: [],
-	currentSessionId: null,
-	isLoading: false
-
-	//创建新会话
-}));
