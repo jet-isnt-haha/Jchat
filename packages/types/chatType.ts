@@ -25,4 +25,5 @@ export interface ChatStore {
 	isLoading: boolean;
 
 	//Actions
+	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
 }
