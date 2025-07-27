@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Inter:opsz,wght@14..32,100..900&family=Lusitana:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Inter:opsz,wght@14..32,100..900&family=Lusitana:wght@400;700&family=Noto+Sans+SC:wght@100..900&display=swap');
 @import 'tailwindcss';
+@plugin 'tailwind-scrollbar';
 html,
 body {
 	margin: 0;
@@ -13,4 +14,57 @@ body {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+}
+
+.chat-header {
+	@apply flex items-center justify-between px-[22px] py-[15px] bg-[#6D4FC2];
+}
+
+.chat-body {
+	@apply flex flex-col gap-5 p-[25px_22px] h-[700px] overflow-y-auto mb-[82px] scrollbar-thin scrollbar-thumb-[#ddd3f9] scrollbar-track-transparent;
+}
+
+.chat-body .message {
+	@apply flex gap-[11px] items-center;
+}
+
+/* 转换后的Tailwind @apply形式 */
+.chat-body .bot-message.error .message-text {
+	@apply text-red-500;
+}
+
+.chat-body .bot-message svg {
+	@apply h-[35px] w-[35px] p-[6px] flex-shrink-0 fill-white 
+         self-end mb-[2px] bg-[#6d4fc2] rounded-full;
+}
+
+.chat-body .message .message-text {
+	@apply p-[12px_16px] max-w-[75%] break-words whitespace-pre-line 
+         text-[0.95rem];
+}
+
+.chat-body .bot-message .message-text {
+	@apply bg-[#f6f2ff] rounded-[13px_13px_13px_3px];
+}
+
+.chat-body .user-message {
+	@apply flex flex-col items-end;
+}
+
+.chat-body .user-message .message-text {
+	@apply bg-[#6d4fc2] text-white rounded-[13px_13px_3px_13px];
+}
+
+.chat-footer {
+	@apply absolute bottom-0 w-full px-[22px] pt-[15px] pb-[20px] bg-white;
+}
+
+.chat-footer .chat-form {
+	@apply flex items-center bg-white rounded-[32px] outline outline-[#CCCCE5] shadow-[0_0_8px_rgba(0,0,0,0.06)];
+}
+.chat-footer .chat-form input {
+	@apply border-none outline-none bg-transparent w-full h-[47px] px-[17px] text-[0.95rem];
+}
+.chat-footer .chat-form button {
+	@apply h-8.5 w-8.5 rounded-full bg-[#6D4FC2] text-white text-[1.15rem] mr-1.5 cursor-pointer transition-all duration-200 ease-in-out border-none outline-none flex-shrink-0;
 }

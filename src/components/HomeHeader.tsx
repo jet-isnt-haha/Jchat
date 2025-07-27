@@ -1,6 +1,8 @@
+import '../styles/global.css';
+
 const HomeHeader = () => {
 	return (
-		<header className="chat-header flex items-center justify-between px-[22px] py-[15px] bg-[#6D4FC2]">
+		<header className="chat-header">
 			<div className="chat-info">
 				<button>side_navigation</button>
 			</div>

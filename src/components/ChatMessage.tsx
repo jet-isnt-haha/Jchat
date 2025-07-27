@@ -1,6 +1,6 @@
 import type { Message } from '~/packages/types/chatType';
 import ChatbotIcon from './ChatbotIcon';
-import '../styles/message.less';
+import '../styles/global.css';
 
 const ChatMessage = (msg: Message) => {
 	return (

@@ -1,7 +1,7 @@
 import { useChatStore } from '@/store/chatStore';
 import ChatbotIcon from './ChatbotIcon';
 import ChatMessage from './ChatMessage';
-import '../styles/message.less';
+import '../styles/global.css';
 const ChatBody = () => {
 	const chatMessages = useChatStore().session[0].messages;
 
