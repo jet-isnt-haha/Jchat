@@ -1,23 +1,9 @@
-import { useChatStore } from '@/store/chatStore';
-import { useRef } from 'react';
+import { useChatSubmit } from '@/hooks/useChatSubmit';
 import '../styles/global.css';
+
 const HomeFooter = () => {
-	const inputRef = useRef<HTMLInputElement>(null);
-	const chatStore = useChatStore();
+	const { inputRef, handleFormSubmit } = useChatSubmit();
 
-	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		//获得用户输入的信息
-		if (inputRef.current?.value) {
-			const userMessage = inputRef.current.value;
-			chatStore.addMessage({
-				content: userMessage,
-				role: 'user'
-			});
-			inputRef.current.value = '';
-		}
-	};
 	return (
 		<div className="chat-footer">
 			<form action="#" className="chat-form" onSubmit={handleFormSubmit}>

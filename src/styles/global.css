@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Inter:opsz,wght@14..32,100..900&family=Lusitana:wght@400;700&family=Noto+Sans+SC:wght@100..900&display=swap');
 @import 'tailwindcss';
 @plugin 'tailwind-scrollbar';
+@config "../../tailwind.config.js";
 html,
 body {
 	margin: 0;
@@ -67,4 +68,8 @@ body {
 }
 .chat-footer .chat-form button {
 	@apply h-8.5 w-8.5 rounded-full bg-[#6D4FC2] text-white text-[1.15rem] mr-1.5 cursor-pointer transition-all duration-200 ease-in-out border-none outline-none flex-shrink-0;
+}
+
+.material-symbols-outlined.search {
+	@apply inline-block animate-custom-spin;
 }

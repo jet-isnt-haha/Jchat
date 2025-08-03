@@ -3,9 +3,9 @@ import { mockChatSessions } from '@/mocks/chatData';
 import type { ChatStore, Message } from '~/packages/types/chatType';
 
 //创建 zustand Store
-export const useChatStore = create<ChatStore>((set) => ({
+export const useChatStore = create<ChatStore>((set, get) => ({
 	//初始状态
-	session: process.env.NODE_ENV === 'development' ? mockChatSessions : [],
+	sessions: process.env.NODE_ENV === 'development' ? mockChatSessions : [],
 	currentSessionId:
 		process.env.NODE_ENV === 'development'
 			? mockChatSessions[0]?.id || null
@@ -22,7 +22,7 @@ export const useChatStore = create<ChatStore>((set) => ({
 		};
 
 		set((state) => {
-			const session = state.session.map((session) => {
+			const sessions = state.sessions.map((session) => {
 				if (session.id === state.currentSessionId) {
 					return {
 						...session,
@@ -36,7 +36,45 @@ export const useChatStore = create<ChatStore>((set) => ({
 				}
 				return session;
 			});
-			return { session };
+			return { sessions };
 		});
+	},
+
+	updateMessage: (messageId, update) => {
+		set((state) => {
+			const sessions = state.sessions.map((session) => {
+				if (session.id === state.currentSessionId) {
+					const messages: Message[] = session.messages.map(
+						(message: Message) => {
+							if (message.id === messageId) {
+								if (message.content === 'Thinking...') {
+									return (message = update);
+								} else {
+									return (message = {
+										...message,
+										content: message.content + update.content
+									});
+								}
+							}
+							return message;
+						}
+					);
+					return {
+						...session,
+						messages: [...messages],
+						updatedAt: Date.now(),
+						title: session.title
+					};
+				}
+				return session;
+			});
+			return { sessions };
+		});
+	},
+	getCurrentMessages: () => {
+		const state = get();
+		return state.sessions.find(
+			(session) => session.id === state.currentSessionId
+		)?.messages;
 	}
 }));

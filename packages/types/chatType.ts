@@ -20,10 +20,12 @@ export interface ChatSession {
 //Store 状态类型
 export interface ChatStore {
 	//状态
-	session: ChatSession[];
+	sessions: ChatSession[];
 	currentSessionId: string | null;
 	isLoading: boolean;
 
 	//Actions
 	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
+	updateMessage: (messageId: string, updates: Message) => void;
+	getCurrentMessages: () => Message[] | undefined;
 }
