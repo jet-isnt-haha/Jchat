@@ -1,5 +1,6 @@
 import { generateAPI } from '@/apis/fetch';
 import { useChatStore } from '@/store/chatStore';
+import streamProcessor from '@/utils/streamProcessor';
 import { useRef } from 'react';
 
 export const useChatSubmit = () => {
@@ -7,7 +8,7 @@ export const useChatSubmit = () => {
 	const chatStore = useChatStore();
 	const { getCurrentMessages } = useChatStore();
 
-	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		//获得用户输入的信息
@@ -17,43 +18,23 @@ export const useChatSubmit = () => {
 				content: userMessage,
 				role: 'user'
 			});
+
 			inputRef.current.value = '';
 
-			setTimeout(async () => {
-				chatStore.addMessage({
-					content: 'Thinking...',
-					role: 'model'
+			chatStore.addMessage({
+				content: 'Thinking...',
+				role: 'model'
+			});
+
+			const modelResponse = await generateAPI(getCurrentMessages()!);
+			const lastMessage = getCurrentMessages()?.at(-1);
+			if (!lastMessage) return;
+			await streamProcessor(modelResponse, (accumulatedText) => {
+				chatStore.updateMessage(lastMessage.id, {
+					...lastMessage,
+					content: accumulatedText
 				});
-
-				const modelResponse = await generateAPI(getCurrentMessages()!);
-				const reader = modelResponse.body?.getReader();
-				const decoder = new TextDecoder();
-				while (true) {
-					const { value } = await reader!.read();
-					const result = decoder.decode(value, { stream: true });
-					if (result.toString().includes('"finish_reason":"stop"')) {
-						break;
-					}
-					if (!result.toString().includes('"content":null')) {
-						const strs = result.split('\n');
-						for (const strObj of strs) {
-							if (strObj === '') {
-								continue;
-							}
-							const str = strObj.slice(6);
-
-							const jsonStr = JSON.parse(str);
-
-							const apiResponseText = jsonStr.choices[0].delta.content;
-							console.log(apiResponseText);
-							chatStore.updateMessage(getCurrentMessages()!.at(-1)!.id, {
-								...getCurrentMessages()!.at(-1)!,
-								content: apiResponseText
-							});
-						}
-					}
-				}
-			}, 1000);
+			});
 		}
 	};
 	return {

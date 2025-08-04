@@ -47,14 +47,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 					const messages: Message[] = session.messages.map(
 						(message: Message) => {
 							if (message.id === messageId) {
-								if (message.content === 'Thinking...') {
-									return (message = update);
-								} else {
-									return (message = {
-										...message,
-										content: message.content + update.content
-									});
-								}
+								return (message = update);
 							}
 							return message;
 						}
