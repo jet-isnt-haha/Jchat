@@ -1,6 +1,6 @@
 import type { Message } from '~/packages/types/chatType';
 
-export function generateAPI(chatMessages: Message[]) {
+export function generateAPI(chatMessages: Message[], signal: AbortSignal) {
 	const history = chatMessages.map((msg: Message) => ({
 		role: msg.role === 'model' ? 'assistant' : 'user',
 		content: msg.content
@@ -11,6 +11,7 @@ export function generateAPI(chatMessages: Message[]) {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({ history })
+		body: JSON.stringify({ history }),
+		signal
 	});
 }

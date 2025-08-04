@@ -69,6 +69,9 @@ body {
 .chat-footer .chat-form button {
 	@apply h-8.5 w-8.5 rounded-full bg-[#6D4FC2] text-white text-[1.15rem] mr-1.5 cursor-pointer transition-all duration-200 ease-in-out border-none outline-none flex-shrink-0;
 }
+.chat-footer .chat-form .loading {
+	@apply block animate-loading-rotate;
+}
 
 .material-symbols-outlined.search {
 	@apply inline-block animate-custom-spin;

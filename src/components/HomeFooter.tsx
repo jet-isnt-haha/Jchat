@@ -2,7 +2,7 @@ import { useChatSubmit } from '@/hooks/useChatSubmit';
 import '../styles/global.css';
 
 const HomeFooter = () => {
-	const { inputRef, handleFormSubmit } = useChatSubmit();
+	const { inputRef, handleFormSubmit, isLoading } = useChatSubmit();
 
 	return (
 		<div className="chat-footer">
@@ -13,7 +13,11 @@ const HomeFooter = () => {
 					className="message-input"
 					ref={inputRef}
 				/>
-				<button className={`material-symbols-outlined`}>arrow_upward</button>
+				<button
+					className={`material-symbols-outlined ${isLoading && 'loading'}`}
+				>
+					{isLoading ? 'crop_square' : 'arrow_upward'}
+				</button>
 			</form>
 		</div>
 	);
