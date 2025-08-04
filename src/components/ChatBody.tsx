@@ -1,17 +1,23 @@
 import { useChatStore } from '@/store/chatStore';
-import ChatbotIcon from './ChatbotIcon';
 import ChatMessage from './ChatMessage';
 import '../styles/global.css';
+import { useAutoScroll } from '@/hooks/useAutoScroll';
+import { useEffect } from 'react';
 const ChatBody = () => {
-	const chatMessages = useChatStore().sessions[0].messages;
+	const chatMessages = useChatStore().getCurrentMessages();
+	const { containerRef, scrollToBottom } = useAutoScroll();
+
+	//每次消息更新时滚动到底部
+	useEffect(() => {
+		scrollToBottom();
+	}, [chatMessages]);
 
 	return (
-		<main className="chat-body">
+		<main className="chat-body" ref={containerRef}>
 			<div className="message bot-message">
-				<ChatbotIcon />
 				<p className="message-text">Hey,how can i help u</p>
 			</div>
-			{chatMessages.map((msg, index) => (
+			{chatMessages?.map((msg, index) => (
 				<ChatMessage {...msg} key={index} />
 			))}
 		</main>

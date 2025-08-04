@@ -1,5 +1,4 @@
 import type { Message } from '~/packages/types/chatType';
-import ChatbotIcon from './ChatbotIcon';
 import '../styles/global.css';
 
 const ChatMessage = (msg: Message) => {
@@ -7,7 +6,6 @@ const ChatMessage = (msg: Message) => {
 		<div
 			className={`message ${msg.role === 'model' ? 'bot' : 'user'}-message ${msg.isError ? 'error' : ''}`}
 		>
-			{msg.role === 'model' && <ChatbotIcon />}
 			{msg.content === 'Thinking...' ? (
 				<span className="material-symbols-outlined search">search</span>
 			) : (
