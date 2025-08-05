@@ -28,4 +28,5 @@ export interface ChatStore {
 	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
 	updateMessage: (messageId: string, updates: Message) => void;
 	getCurrentMessages: () => Message[] | undefined;
+	setCurrentSessionId: (id: string) => void;
 }

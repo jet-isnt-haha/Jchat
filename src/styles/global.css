@@ -76,3 +76,7 @@ body {
 .material-symbols-outlined.search {
 	@apply inline-block animate-custom-spin;
 }
+
+.history-body {
+	@apply flex flex-col gap-5 p-[25px_22px] h-[700px] overflow-y-auto mb-[82px] scrollbar-thin scrollbar-thumb-[#ddd3f9] scrollbar-track-transparent;
+}

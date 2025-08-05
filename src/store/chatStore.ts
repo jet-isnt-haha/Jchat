@@ -6,11 +6,10 @@ import type { ChatStore, Message } from '~/packages/types/chatType';
 export const useChatStore = create<ChatStore>((set, get) => ({
 	//初始状态
 	sessions: process.env.NODE_ENV === 'development' ? mockChatSessions : [],
-	currentSessionId:
-		process.env.NODE_ENV === 'development'
+	currentSessionId: null,
+	/* process.env.NODE_ENV === 'development'
 			? mockChatSessions[0]?.id || null
-			: null,
-	isLoading: false,
+			: null */ isLoading: false,
 
 	//创建新会话
 
@@ -69,5 +68,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 		return state.sessions.find(
 			(session) => session.id === state.currentSessionId
 		)?.messages;
+	},
+	setCurrentSessionId: (id) => {
+		set(() => {
+			return { currentSessionId: id };
+		});
 	}
 }));

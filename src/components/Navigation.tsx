@@ -11,6 +11,9 @@ const Navigation = () => {
 				<li>
 					<Link to="/history">History</Link>
 				</li>
+				<li>
+					<Link to="">Session</Link>
+				</li>
 			</ul>
 		</nav>
 	);

@@ -92,7 +92,7 @@ function generateSession(index: number = 0): ChatSession {
 	const createdAt = Date.now() - 1000 * 60 * 60 * 24 * index; // 每个会话间隔一天
 
 	return {
-		id: `session_${faker.string.uuid()}`,
+		id: `${faker.string.uuid()}`,
 		title: faker.helpers.arrayElement(conversationTopics),
 		messages,
 		createdAt,
@@ -108,7 +108,7 @@ export function generateMockSessions(count: number = 5): ChatSession[] {
 // 生成特定类型的会话
 export function generateEmptySession(): ChatSession {
 	return {
-		id: `session_${faker.string.uuid()}`,
+		id: `${faker.string.uuid()}`,
 		title: '新对话',
 		messages: [],
 		createdAt: Date.now(),
@@ -271,7 +271,7 @@ export function generateChineseMockSessions(count: number = 5): ChatSession[] {
 		const createdAt = Date.now() - 1000 * 60 * 60 * 24 * index;
 
 		return {
-			id: `session_${faker.string.uuid()}`,
+			id: `${faker.string.uuid()}`,
 			title: faker.helpers.arrayElement(chineseTopics),
 			messages: messages.sort((a, b) => a.timestamp - b.timestamp),
 			createdAt,
