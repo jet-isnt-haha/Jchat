@@ -13,6 +13,97 @@
 	background-color: #fff;
 }
 
+.history {
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	background-color: #f9f9f9;
+	overflow: hidden;
+	position: relative;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+	padding: 12px 16px;
+	background-color: #6d4fc2;
+	border-bottom: 1px solid #eee;
+}
+
+.searchWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 8px 12px;
+	background-color: #f0f0f0;
+}
+
+.searchWrapper input {
+	border: none;
+	background: transparent;
+	flex: 1;
+	font-size: 14px;
+	outline: none;
+}
+
+.arrow {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-top: 2px solid #888;
+	border-right: 2px solid #888;
+	transform: rotate(45deg);
+	margin-left: 8px;
+}
+
+.body {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.emptyState {
+	text-align: center;
+}
+
+.statusText {
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+
+.statusHint {
+	font-size: 14px;
+	color: #888;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 16px;
+	background-color: #fff;
+	border-top: 1px solid #eee;
+}
+
+.userName {
+	font-size: 14px;
+	color: #666;
+}
+
+.settingsIcon {
+	width: 20px;
+	height: 20px;
+	background: url('/icons/setting.svg') no-repeat center;
+	background-size: contain;
+}
+
 /* 主要内容区域 - 使用flex布局 */
 
 /* 移动端特殊处理 */

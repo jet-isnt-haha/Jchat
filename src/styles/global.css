@@ -45,7 +45,7 @@ body {
 }
 
 .chat-body .bot-message .message-text {
-	@apply bg-[#f6f2ff] rounded-[13px_13px_13px_3px];
+	@apply bg-[#f6f2ff] rounded-[13px_13px_13px_3px] max-w-[100%];
 }
 
 .chat-body .user-message {
