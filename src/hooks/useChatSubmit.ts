@@ -27,7 +27,9 @@ export const useChatSubmit = () => {
 			content: userInput,
 			role: 'user'
 		});
+
 		inputRef.current!.value = '';
+
 		return userInput;
 	};
 
