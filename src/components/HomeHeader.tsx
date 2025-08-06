@@ -12,10 +12,17 @@ const HomeHeader = () => {
 					}}
 					className="material-symbols-outlined"
 				>
-					side_navigation
+					sort
 				</button>
 			</div>
-			<button className="material-symbols-outlined">keyboard_arrow_down</button>
+			<button
+				onClick={() => {
+					navigate('/session/new');
+				}}
+				className="material-symbols-outlined"
+			>
+				edit_square
+			</button>
 		</header>
 	);
 };

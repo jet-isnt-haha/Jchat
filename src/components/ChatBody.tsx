@@ -22,12 +22,11 @@ const ChatBody = () => {
 
 	return (
 		<main className="chat-body" ref={containerRef}>
-			<div className="message bot-message">
-				<p className="message-text">Hey,how can i help u</p>
-			</div>
-			{chatMessages?.map((msg, index) => (
-				<ChatMessage {...msg} key={index} />
-			))}
+			{chatMessages ? (
+				chatMessages?.map((msg, index) => <ChatMessage {...msg} key={index} />)
+			) : (
+				<p className="">请输入你的问题</p>
+			)}
 		</main>
 	);
 };

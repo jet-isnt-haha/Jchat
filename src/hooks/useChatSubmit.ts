@@ -1,7 +1,7 @@
 import { generateAPI } from '@/apis/fetch';
 import { useChatStore } from '@/store/chatStore';
 import streamProcessor from '@/utils/streamProcessor';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 export const useChatSubmit = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -11,11 +11,11 @@ export const useChatSubmit = () => {
 	const controllerRef = useRef<AbortController | null>(null);
 
 	//卸载时清理
-	useEffect(() => {
-		return () => {
-			controllerRef.current?.abort();
-		};
-	}, []);
+	// useEffect(() => {
+	// 	return () => {
+	// 		controllerRef.current?.abort();
+	// 	};
+	// }, []);
 
 	//处理用户输入
 	const handleUserInput = () => {
@@ -74,7 +74,6 @@ export const useChatSubmit = () => {
 			setIsLoading(false);
 			return;
 		}
-		//获得用户输入的信息
 
 		const userInput = handleUserInput();
 
@@ -82,6 +81,7 @@ export const useChatSubmit = () => {
 			await fetchAndUpdateResponse();
 		}
 	};
+
 	return {
 		inputRef,
 		handleFormSubmit,

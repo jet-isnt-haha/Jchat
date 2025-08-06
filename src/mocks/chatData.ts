@@ -146,8 +146,8 @@ export const mockChatSessions: ChatSession[] = [
 	generateActiveSession(), // 当前活跃会话
 	generateSession(), // 普通会话
 	generateLongSession(), // 长对话会话
-	generateEmptySession(), // 空会话
-	...generateMockSessions(3) // 额外3个随机会话
+
+	...generateMockSessions(10) // 额外3个随机会话
 ];
 
 // 开发环境下的调试工具
