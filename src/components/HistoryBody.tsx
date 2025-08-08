@@ -4,7 +4,7 @@ import ChatSession from './ChatSession';
 import { useRowVirtualizer } from '@/hooks/useRowVirtualizer';
 
 const HistoryBody = () => {
-	const chatSessions = useChatStore().sessions;
+	const { sessions: chatSessions, searchedSessions } = useChatStore();
 	const { rowVirtualizer, parentRef } = useRowVirtualizer({
 		count: chatSessions.length,
 		estimateSize: 50
@@ -15,20 +15,25 @@ const HistoryBody = () => {
 			ref={parentRef}
 			style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
 		>
-			{rowVirtualizer.getVirtualItems().map((virtualItem) => {
-				const session = chatSessions[virtualItem.index];
-
-				return (
-					<ChatSession
-						session={session}
-						style={{
-							height: `${virtualItem.size}px`,
-							transform: `translateY(${virtualItem.start}px)`
-						}}
-						key={virtualItem.key}
-					/>
-				);
-			})}
+			{!searchedSessions || searchedSessions.length ? (
+				rowVirtualizer.getVirtualItems().map((virtualItem) => {
+					const session = searchedSessions
+						? searchedSessions[virtualItem.index]
+						: chatSessions[virtualItem.index];
+					return (
+						<ChatSession
+							session={session}
+							style={{
+								height: `${virtualItem.size}px`,
+								transform: `translateY(${virtualItem.start}px)`
+							}}
+							key={virtualItem.key}
+						/>
+					);
+				})
+			) : (
+				<>未找到结果</>
+			)}
 		</main>
 	);
 };

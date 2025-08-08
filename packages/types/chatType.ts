@@ -23,10 +23,11 @@ export interface ChatStore {
 	sessions: ChatSession[];
 	currentSessionId: string | null;
 	isLoading: boolean;
-
+	searchedSessions: ChatSession[] | null;
 	//Actions
 	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
 	updateMessage: (messageId: string, updates: Message) => void;
 	getCurrentMessages: () => Message[] | undefined;
 	setCurrentSessionId: (id: string) => void;
+	setSearchSessions: (keywords: string) => void;
 }

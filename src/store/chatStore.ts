@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 import { mockChatSessions } from '@/mocks/chatData';
-import type { ChatStore, Message } from '~/packages/types/chatType';
+import type {
+	ChatSession,
+	ChatStore,
+	Message
+} from '~/packages/types/chatType';
 
 //创建 zustand Store
 export const useChatStore = create<ChatStore>((set, get) => ({
@@ -10,6 +14,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 	/* process.env.NODE_ENV === 'development'
 			? mockChatSessions[0]?.id || null
 			: null */ isLoading: false,
+	searchedSessions: null,
 
 	//创建新会话
 
@@ -72,6 +77,19 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 	setCurrentSessionId: (id) => {
 		set(() => {
 			return { currentSessionId: id };
+		});
+	},
+	setSearchSessions: (keywords) => {
+		set((state) => {
+			if (keywords) {
+				const results: ChatSession[] = state.sessions.filter((session) =>
+					session.title.includes(keywords)
+				);
+				console.log('aaa', results);
+				return { searchedSessions: results };
+			} else {
+				return { searchedSessions: null };
+			}
 		});
 	}
 }));
