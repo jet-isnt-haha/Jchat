@@ -2,13 +2,19 @@ import { useChatStore } from '@/store/chatStore';
 import '../styles/global.css';
 import ChatSession from './ChatSession';
 import { useRowVirtualizer } from '@/hooks/useRowVirtualizer';
+import SessionModal from './SessionModal';
+import { useShowModal } from '@/hooks/useShowModal';
 
 const HistoryBody = () => {
 	const { sessions: chatSessions, searchedSessions } = useChatStore();
+
 	const { rowVirtualizer, parentRef } = useRowVirtualizer({
 		count: chatSessions.length,
 		estimateSize: 50
 	});
+
+	const { showModal, handleTouchEnd, handleTouchStart, closeModal } =
+		useShowModal();
 	return (
 		<main
 			className="history-body"
@@ -28,12 +34,15 @@ const HistoryBody = () => {
 								transform: `translateY(${virtualItem.start}px)`
 							}}
 							key={virtualItem.key}
+							onTouchStart={handleTouchStart}
+							onTouchEnd={handleTouchEnd}
 						/>
 					);
 				})
 			) : (
 				<>未找到结果</>
 			)}
+			{showModal && <SessionModal closeModal={closeModal} />}
 		</main>
 	);
 };
