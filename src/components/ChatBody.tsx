@@ -3,6 +3,7 @@ import ChatMessage from './ChatMessage';
 import '../styles/global.css';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useEffect } from 'react';
+
 const ChatBody = () => {
 	const chatMessages = useChatStore().getCurrentMessages();
 	const { containerRef, autoScrollToBottom, forceScrollToBottom } =
@@ -22,6 +23,7 @@ const ChatBody = () => {
 
 	return (
 		<main className="chat-body" ref={containerRef}>
+			{/* <Canvas /> */}
 			{chatMessages ? (
 				chatMessages?.map((msg, index) => <ChatMessage {...msg} key={index} />)
 			) : (

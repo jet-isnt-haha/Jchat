@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import Home from './pages/Home';
 import History from './pages/History';
+import Canvas from './pages/Canvas';
 export default function App() {
 	return (
 		<Router>
@@ -14,6 +15,7 @@ export default function App() {
 				<Route path="/session" element={<Home />} />
 				<Route path="/session/:id" element={<Home />} />
 				<Route path="/history" element={<History />} />
+				<Route path="/canvas" element={<Canvas />} />
 				<Route path="*" element={<Navigate to="/session" />} />
 			</Routes>
 		</Router>
