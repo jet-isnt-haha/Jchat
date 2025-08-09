@@ -91,5 +91,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 				return { searchedSessions: null };
 			}
 		});
+	},
+
+	deleteSession: (sessionId) => {
+		set((state) => ({
+			sessions: state.sessions.filter((s) => s.id !== sessionId),
+			currentSessionId:
+				state.currentSessionId === sessionId ? null : state.currentSessionId
+		}));
 	}
 }));

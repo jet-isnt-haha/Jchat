@@ -13,8 +13,14 @@ const HistoryBody = () => {
 		estimateSize: 50
 	});
 
-	const { showModal, handleTouchEnd, handleTouchStart, closeModal } =
-		useShowModal();
+	const {
+		showModal,
+		handleTouchEnd,
+		handleTouchStart,
+		handleTouchMove,
+		closeModal,
+		selectedId
+	} = useShowModal();
 	return (
 		<main
 			className="history-body"
@@ -34,7 +40,8 @@ const HistoryBody = () => {
 								transform: `translateY(${virtualItem.start}px)`
 							}}
 							key={virtualItem.key}
-							onTouchStart={handleTouchStart}
+							onTouchStart={handleTouchStart(session.id)}
+							onTouchMove={handleTouchMove}
 							onTouchEnd={handleTouchEnd}
 						/>
 					);
@@ -42,7 +49,9 @@ const HistoryBody = () => {
 			) : (
 				<>未找到结果</>
 			)}
-			{showModal && <SessionModal closeModal={closeModal} />}
+			{showModal && (
+				<SessionModal closeModal={closeModal} sessionId={selectedId} />
+			)}
 		</main>
 	);
 };

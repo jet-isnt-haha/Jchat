@@ -30,4 +30,5 @@ export interface ChatStore {
 	getCurrentMessages: () => Message[] | undefined;
 	setCurrentSessionId: (id: string) => void;
 	setSearchSessions: (keywords: string) => void;
+	deleteSession: (sessionId: string) => void;
 }

@@ -10,6 +10,7 @@ const ChatSession = ({
 	session,
 	style,
 	onTouchStart,
+	onTouchMove,
 	onTouchEnd
 }: ChatSessionProps) => {
 	const navigate = useNavigate();
@@ -21,6 +22,7 @@ const ChatSession = ({
 			}}
 			style={style}
 			onTouchStart={onTouchStart}
+			onTouchMove={onTouchMove}
 			onTouchEnd={onTouchEnd}
 		>
 			{session.title}

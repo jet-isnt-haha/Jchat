@@ -1,8 +1,33 @@
+import { useChatStore } from '@/store/chatStore';
+import { useState } from 'react';
+import ConfirmDialog from './ConfirmDialog';
+
 interface SessionModalProps {
 	closeModal: () => void;
+	sessionId: string;
 }
 
-const SessionModal = ({ closeModal }: SessionModalProps) => {
+const SessionModal = ({ closeModal, sessionId }: SessionModalProps) => {
+	const { deleteSession } = useChatStore();
+	const [showConfirm, setShowConfirm] = useState(false);
+	const handleOptionClick = (option: string) => {
+		switch (option) {
+			case 'delete': {
+				setShowConfirm(true);
+			}
+		}
+	};
+
+	const handleConfirmDelete = () => {
+		deleteSession(sessionId);
+		setShowConfirm(false);
+		closeModal();
+	};
+	const handleCancelDelete = () => {
+		setShowConfirm(false);
+		closeModal();
+	};
+
 	return (
 		<>
 			{/* 半透明遮罩层 */}
@@ -25,9 +50,9 @@ const SessionModal = ({ closeModal }: SessionModalProps) => {
 					{/* 选项列表 */}
 					<div className="px-4 pb-6">
 						{[
-							{ icon: '✏️', label: 'rename', action: 'edit' },
-							{ icon: '📋', label: 'pin', action: 'copy' },
-							{ icon: '🗑️', label: 'delete', action: 'delete', danger: true }
+							{ icon: '✏️', label: '重命名', action: 'edit' },
+							{ icon: '📋', label: '置顶', action: 'copy' },
+							{ icon: '🗑️', label: '删除', action: 'delete', danger: true }
 						].map((option, index) => (
 							<div
 								key={index}
@@ -36,7 +61,7 @@ const SessionModal = ({ closeModal }: SessionModalProps) => {
 										? 'hover:bg-red-50 active:bg-red-100'
 										: 'hover:bg-gray-50 active:bg-gray-100'
 								}`}
-								// onClick={() => handleOptionClick(option.action)}
+								onClick={() => handleOptionClick(option.action)}
 							>
 								<span className="text-2xl">{option.icon}</span>
 								<span
@@ -51,6 +76,17 @@ const SessionModal = ({ closeModal }: SessionModalProps) => {
 					</div>
 				</div>
 			</div>
+			{/* 确认删除对话框 */}
+			<ConfirmDialog
+				isOpen={showConfirm}
+				title="删除会话"
+				message="确定要删除这个会话吗？删除后将无法恢复，所有对话记录都将丢失。"
+				onConfirm={handleConfirmDelete}
+				onCancel={handleCancelDelete}
+				confirmText="删除"
+				cancelText="取消"
+				danger={true}
+			/>
 		</>
 	);
 };
