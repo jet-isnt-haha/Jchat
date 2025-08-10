@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react';
+import { useAppConfig } from './useConfig';
 
 export const useShowModal = () => {
 	const [showModal, setShowModal] = useState(false);
-
+	const { touch: _touch } = useAppConfig();
 	const longPressTimer = useRef<ReturnType<typeof setTimeout>>(null);
 	const touchStart = useRef({ x: 0, y: 0, time: 0 });
 	const hasMoved = useRef(false);
-	const MOVE_THRESHOLD = 10; // 移动超过10px就取消长按
+
 	const [selectedId, setSelectedId] = useState('');
 
 	const handleTouchStart =
@@ -28,7 +29,7 @@ export const useShowModal = () => {
 					setSelectedId(id);
 					setShowModal(true);
 				}
-			}, 500);
+			}, _touch.longPressDelay);
 		};
 
 	const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -38,7 +39,7 @@ export const useShowModal = () => {
 		const deltaX = Math.abs(touch.clientX - touchStart.current.x);
 		const deltaY = Math.abs(touch.clientY - touchStart.current.y);
 		// 如果移动距离超过阈值，标记为已移动
-		if (deltaX > MOVE_THRESHOLD || deltaY > MOVE_THRESHOLD) {
+		if (deltaX > _touch.moveThreshold || deltaY > _touch.moveThreshold) {
 			hasMoved.current = true;
 			// 取消长按定时器
 			if (longPressTimer.current) {

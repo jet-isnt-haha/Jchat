@@ -3,11 +3,13 @@ import ChatMessage from './ChatMessage';
 import '../styles/global.css';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useEffect } from 'react';
+import { useTexts } from '@/hooks/useConfig';
 
 const ChatBody = () => {
 	const chatMessages = useChatStore().getCurrentMessages();
 	const { containerRef, autoScrollToBottom, forceScrollToBottom } =
 		useAutoScroll();
+	const { messages } = useTexts();
 
 	//每次消息更新时滚动到底部
 
@@ -27,7 +29,7 @@ const ChatBody = () => {
 			{chatMessages ? (
 				chatMessages?.map((msg, index) => <ChatMessage {...msg} key={index} />)
 			) : (
-				<p className="">请输入你的问题</p>
+				<p className="">{messages.emptyChat}</p>
 			)}
 		</main>
 	);

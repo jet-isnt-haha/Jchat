@@ -5,11 +5,12 @@ import type {
 	ChatStore,
 	Message
 } from '~/packages/types/chatType';
+import config from '@/configs';
 
 //创建 zustand Store
 export const useChatStore = create<ChatStore>((set, get) => ({
 	//初始状态
-	sessions: process.env.NODE_ENV === 'development' ? mockChatSessions : [],
+	sessions: import.meta.env.DEV ? mockChatSessions : [],
 	currentSessionId: null,
 	/* process.env.NODE_ENV === 'development'
 			? mockChatSessions[0]?.id || null
@@ -28,14 +29,17 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 		set((state) => {
 			const sessions = state.sessions.map((session) => {
 				if (session.id === state.currentSessionId) {
+					const shouldUpdateTitle =
+						session.messages.length === 0 && config.app.session.autoTitle;
+					const newTitle = shouldUpdateTitle
+						? message.content.slice(0, config.app.session.titleMaxLength) +
+							config.app.session.titleSuffix
+						: session.title;
 					return {
 						...session,
 						messages: [...session.messages, message],
 						updatedAt: Date.now(),
-						title:
-							session.messages.length === 0
-								? message.content.slice(0, 20) + '...'
-								: session.title
+						title: newTitle
 					};
 				}
 				return session;

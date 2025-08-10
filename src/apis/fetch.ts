@@ -1,3 +1,4 @@
+import { apiConfig } from '@/configs/api.config';
 import type { Message } from '~/packages/types/chatType';
 
 export function generateAPI(chatMessages: Message[], signal: AbortSignal) {
@@ -6,7 +7,7 @@ export function generateAPI(chatMessages: Message[], signal: AbortSignal) {
 		content: msg.content
 	}));
 
-	return fetch('http://127.0.0.1:3000/api/generate', {
+	return fetch(`${apiConfig.baseURL}${apiConfig.endpoints.generate}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

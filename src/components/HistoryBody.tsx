@@ -4,13 +4,15 @@ import ChatSession from './ChatSession';
 import { useRowVirtualizer } from '@/hooks/useRowVirtualizer';
 import SessionModal from './SessionModal';
 import { useShowModal } from '@/hooks/useShowModal';
+import { useAppConfig, useTexts } from '@/hooks/useConfig';
 
 const HistoryBody = () => {
 	const { sessions: chatSessions, searchedSessions } = useChatStore();
-
+	const { virtualization } = useAppConfig();
+	const { messages } = useTexts();
 	const { rowVirtualizer, parentRef } = useRowVirtualizer({
 		count: chatSessions.length,
-		estimateSize: 50
+		estimateSize: virtualization.estimatedItemSize
 	});
 
 	const {
@@ -47,7 +49,7 @@ const HistoryBody = () => {
 					);
 				})
 			) : (
-				<>未找到结果</>
+				<>{messages.noResults}</>
 			)}
 			{showModal && (
 				<SessionModal closeModal={closeModal} sessionId={selectedId} />

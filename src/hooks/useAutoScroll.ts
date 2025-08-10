@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useAppConfig } from './useConfig';
 
 export const useAutoScroll = () => {
 	const containerRef = useRef<HTMLElement>(null);
 	const [isAutoScroll, setIsAutoScroll] = useState(true);
+	const { touch } = useAppConfig();
 
 	const autoScrollToBottom = () => {
 		if (isAutoScroll) {
@@ -28,7 +30,8 @@ export const useAutoScroll = () => {
 
 		const handleScroll = () => {
 			const { scrollTop, scrollHeight, clientHeight } = container;
-			const isNearBottom = scrollHeight - scrollTop - clientHeight < 30; //30px容差
+			const isNearBottom =
+				scrollHeight - scrollTop - clientHeight < touch.scrollTolerance; //容差
 			setIsAutoScroll(isNearBottom);
 		};
 		container.addEventListener('scroll', handleScroll);
