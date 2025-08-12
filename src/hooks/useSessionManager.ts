@@ -6,12 +6,12 @@ export const useSessionManager = () => {
 	const { id } = useParams();
 	const { setCurrentSessionId, getCurrentMessages } = useChatStore();
 	const navigate = useNavigate();
-
 	useEffect(() => {
 		if (id) {
-			setCurrentSessionId(id);
 			if (!getCurrentMessages()) {
 				navigate('/');
+			} else {
+				setCurrentSessionId(id);
 			}
 		}
 	}, [id]);

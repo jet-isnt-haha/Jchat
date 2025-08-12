@@ -25,10 +25,12 @@ export interface ChatStore {
 	isLoading: boolean;
 	searchedSessions: ChatSession[] | null;
 	//Actions
+	createSession: () => string;
 	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
 	updateMessage: (messageId: string, updates: Message) => void;
 	getCurrentMessages: () => Message[] | undefined;
 	setCurrentSessionId: (id: string) => void;
 	setSearchSessions: (keywords: string) => void;
 	deleteSession: (sessionId: string) => void;
+	setIsLoading: (status: boolean) => void;
 }

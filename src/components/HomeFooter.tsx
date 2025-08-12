@@ -5,7 +5,6 @@ import { useTexts } from '@/hooks/useConfig';
 const HomeFooter = () => {
 	const { inputRef, handleFormSubmit, isLoading } = useChatSubmit();
 	const { placeholders, icons } = useTexts();
-
 	return (
 		<div className="chat-footer">
 			<form action="#" className="chat-form" onSubmit={handleFormSubmit}>

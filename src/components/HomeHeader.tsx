@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/global.css';
+import { useAppConfig } from '@/hooks/useConfig';
 
 const HomeHeader = () => {
 	const navigate = useNavigate();
+	const { routes } = useAppConfig();
 	return (
 		<header className="chat-header">
 			<div className="chat-info">
 				<button
 					onClick={() => {
-						navigate('/history');
+						navigate(routes.history);
 					}}
 					className="material-symbols-outlined"
 				>
@@ -17,7 +19,7 @@ const HomeHeader = () => {
 			</div>
 			<button
 				onClick={() => {
-					navigate('/session/new');
+					navigate(routes.sessionNew);
 				}}
 				className="material-symbols-outlined"
 			>

@@ -20,7 +20,7 @@ const HistoryHeader = () => {
 				/>
 				<span
 					onClick={() => {
-						navigate(`${routes.home}/${sessionId}`);
+						navigate(`${routes.home}/${sessionId ?? ''}`);
 					}}
 					className={styles.arrow}
 				/>

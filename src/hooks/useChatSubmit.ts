@@ -1,29 +1,31 @@
 import { generateAPI } from '@/apis/fetch';
 import { useChatStore } from '@/store/chatStore';
 import streamProcessor from '@/utils/streamProcessor';
-import { useRef, useState } from 'react';
-
+import { useRef } from 'react';
+import { useCreateSession } from './useCreateSession';
 export const useChatSubmit = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const chatStore = useChatStore();
-	const { getCurrentMessages } = useChatStore();
-	const [isLoading, setIsLoading] = useState(false);
+	const {
+		getCurrentMessages,
+		currentSessionId,
+		setIsLoading,
+		addMessage,
+		updateMessage,
+		isLoading
+	} = useChatStore();
 	const controllerRef = useRef<AbortController | null>(null);
-
-	//卸载时清理
-	// useEffect(() => {
-	// 	return () => {
-	// 		controllerRef.current?.abort();
-	// 	};
-	// }, []);
+	const { createSession } = useCreateSession();
 
 	//处理用户输入
 	const handleUserInput = () => {
 		const userInput = inputRef.current?.value;
 		if (!userInput) return null;
 
+		if (!currentSessionId) {
+			createSession();
+		}
 		//添加用户消息并清空输入框
-		chatStore.addMessage({
+		addMessage({
 			content: userInput,
 			role: 'user'
 		});
@@ -36,9 +38,10 @@ export const useChatSubmit = () => {
 	//处理流式请求与消息更新
 	const fetchAndUpdateResponse = async () => {
 		setIsLoading(true);
-		chatStore.addMessage({
+		addMessage({
 			content: 'Thinking...',
-			role: 'model'
+			role: 'model',
+			isLoading: true
 		});
 
 		const controller = new AbortController();
@@ -51,7 +54,7 @@ export const useChatSubmit = () => {
 			const lastMessage = getCurrentMessages()?.at(-1);
 			if (!lastMessage) return;
 			await streamProcessor(modelResponse, (accumulatedText) => {
-				chatStore.updateMessage(lastMessage.id, {
+				updateMessage(lastMessage.id, {
 					...lastMessage,
 					content: accumulatedText
 				});
@@ -64,6 +67,7 @@ export const useChatSubmit = () => {
 			}
 		} finally {
 			setIsLoading(false);
+			controllerRef.current = null;
 		}
 	};
 

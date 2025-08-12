@@ -14,11 +14,31 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 	currentSessionId: null,
 	/* process.env.NODE_ENV === 'development'
 			? mockChatSessions[0]?.id || null
-			: null */ isLoading: false,
+			: null */
+	isLoading: false,
 	searchedSessions: null,
 
+	setIsLoading: (status) => {
+		set(() => ({
+			isLoading: status
+		}));
+	},
 	//创建新会话
-
+	createSession: () => {
+		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+		const newSession: ChatSession = {
+			id: sessionId,
+			title: config.app.session.defaultTitle,
+			messages: [],
+			createdAt: Date.now(),
+			updatedAt: Date.now()
+		};
+		set((state) => ({
+			sessions: [newSession, ...state.sessions],
+			currentSessionId: sessionId
+		}));
+		return sessionId;
+	},
 	addMessage: (messageData) => {
 		const message: Message = {
 			...messageData,
@@ -89,7 +109,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 				const results: ChatSession[] = state.sessions.filter((session) =>
 					session.title.includes(keywords)
 				);
-				console.log('aaa', results);
 				return { searchedSessions: results };
 			} else {
 				return { searchedSessions: null };
