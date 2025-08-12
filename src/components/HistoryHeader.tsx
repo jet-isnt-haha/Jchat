@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../pages/index.module.less';
-import { useSessionId } from '@/hooks/useSessionId';
+
 import { useHistorySearch } from '@/hooks/useHistorySearch';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
+import { useChatStore } from '@/store/chatStore';
 
 const HistoryHeader = () => {
 	const navigate = useNavigate();
-	const { sessionId } = useSessionId();
+	const sessionId = useChatStore((state) => state.currentSessionId);
 	const { debounceSearchChange } = useHistorySearch();
 	const { placeholders } = useTexts();
 	const { routes } = useAppConfig();

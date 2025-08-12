@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useTexts } from '@/hooks/useConfig';
 
 const ChatBody = () => {
-	const chatMessages = useChatStore().getCurrentMessages();
+	const chatMessages = useChatStore((state) => state.getCurrentMessages)();
 	const { containerRef, autoScrollToBottom, forceScrollToBottom } =
 		useAutoScroll();
 	const { messages } = useTexts();

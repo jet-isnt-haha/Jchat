@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react';
 import { useAppConfig } from './useConfig';
 
 export const useHistorySearch = () => {
-	const { setSearchSessions } = useChatStore();
+	const setSearchSessions = useChatStore((state) => state.setSearchSessions);
 	const { search } = useAppConfig();
 
 	const handleSearchChange = useCallback(
