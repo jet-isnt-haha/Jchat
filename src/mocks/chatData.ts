@@ -129,6 +129,7 @@ export function generateActiveSession(): ChatSession {
 
 	session.messages.push(lastMessage);
 	session.updatedAt = Date.now();
+	session.id = 'this_is_a_test_id_in_case_the_random_id=-=';
 
 	return session;
 }

@@ -7,12 +7,7 @@ import { useShowModal } from '@/hooks/useShowModal';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
 
 const HistoryBody = () => {
-	const { sessions: chatSessions, searchedSessions } = useChatStore(
-		(state) => ({
-			sessions: state.sessions,
-			searchedSessions: state.searchedSessions
-		})
-	);
+	const { sessions: chatSessions, searchedSessions } = useChatStore();
 	const { virtualization } = useAppConfig();
 	const { messages } = useTexts();
 	const { rowVirtualizer, parentRef } = useRowVirtualizer({

@@ -1,3 +1,4 @@
+import { useAppConfig } from '@/hooks/useConfig';
 import type { HTMLAttributes } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ChatSession as _ChatSession } from '~/packages/types/chatType';
@@ -14,11 +15,13 @@ const ChatSession = ({
 	onTouchEnd
 }: ChatSessionProps) => {
 	const navigate = useNavigate();
+	const { routes } = useAppConfig();
 	return (
 		<div
 			className="session"
 			onClick={() => {
-				navigate(`/session/${session.id}`);
+				console.log(session.id);
+				navigate(`${routes.home}/${session.id}`);
 			}}
 			style={style}
 			onTouchStart={onTouchStart}
