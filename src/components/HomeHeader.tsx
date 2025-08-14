@@ -1,30 +1,27 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/global.css';
-import { useAppConfig } from '@/hooks/useConfig';
+import { useAppConfig, useTexts } from '@/hooks/useConfig';
+import IconButton from './common/IconButton';
 
 const HomeHeader = () => {
 	const navigate = useNavigate();
 	const { routes } = useAppConfig();
+	const { icons } = useTexts();
 	return (
 		<header className="chat-header">
-			<div className="chat-info">
-				<button
-					onClick={() => {
-						navigate(routes.history);
-					}}
-					className="material-symbols-outlined"
-				>
-					sort
-				</button>
-			</div>
-			<button
+			<IconButton
+				className={icons.sort}
+				onClick={() => {
+					navigate(routes.history);
+				}}
+			/>
+
+			<IconButton
+				className={icons.edit}
 				onClick={() => {
 					navigate(routes.sessionNew);
 				}}
-				className="material-symbols-outlined"
-			>
-				edit_square
-			</button>
+			/>
 		</header>
 	);
 };

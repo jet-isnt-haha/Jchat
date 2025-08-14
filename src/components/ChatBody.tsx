@@ -30,7 +30,7 @@ const ChatBody = ({ chatMessages }: ChatBodyProps) => {
 	return (
 		<main className="chat-body" ref={containerRef}>
 			{/* <Canvas /> */}
-			{chatMessages ? (
+			{chatMessages.length ? (
 				chatMessages?.map((msg, index) => <ChatMessage {...msg} key={index} />)
 			) : (
 				<p className="">{messages.emptyChat}</p>

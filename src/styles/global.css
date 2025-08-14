@@ -18,7 +18,7 @@ body {
 }
 
 .chat-header {
-	@apply flex items-center justify-between px-[22px] py-[15px] bg-[#6D4FC2];
+	@apply flex items-center justify-between px-[22px] py-[15px] bg-[#6D4FC2] z-10;
 }
 
 .chat-body {
@@ -44,7 +44,7 @@ body {
          text-[0.95rem];
 }
 
-.chat-body .bot-message .message-text {
+.chat-body .model-message .message-text {
 	@apply bg-[#f6f2ff] rounded-[13px_13px_13px_3px] max-w-[100%];
 }
 
@@ -73,8 +73,24 @@ body {
 	@apply block animate-loading-rotate;
 }
 
-.material-symbols-outlined.search {
+.search {
 	@apply inline-block animate-custom-spin;
+}
+
+.history-header {
+	@apply py-3 px-4 bg-[#6d4fc2] border-b border-gray-200;
+}
+
+.history-header .history-searchWrapper {
+	@apply flex items-center justify-between border border-gray-300 rounded-lg px-3 py-2 bg-gray-100;
+}
+
+.history-header .history-searchWrapper input {
+	@apply border-none bg-transparent flex-1 text-sm outline-none;
+}
+
+.history-header .chevron_right {
+	@apply w-5 h-5 ml-2;
 }
 
 .history-body {

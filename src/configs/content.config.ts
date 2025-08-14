@@ -23,7 +23,13 @@ export const contentConfig = {
 			stop: 'crop_square',
 			sort: 'sort',
 			edit: 'edit_square',
-			search: 'search'
+			search: 'search',
+			back: 'chevron_right'
+		},
+		role: {
+			user: 'user',
+			model: 'model',
+			system: 'system'
 		}
 	},
 	modals: {

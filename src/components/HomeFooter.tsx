@@ -1,6 +1,7 @@
 import { useChatSubmit } from '@/hooks/useChatSubmit';
 import '../styles/global.css';
 import { useTexts } from '@/hooks/useConfig';
+import IconButton from './common/IconButton';
 
 const HomeFooter = () => {
 	const { inputRef, handleFormSubmit, isLoading } = useChatSubmit();
@@ -14,11 +15,10 @@ const HomeFooter = () => {
 					className="message-input"
 					ref={inputRef}
 				/>
-				<button
-					className={`material-symbols-outlined ${isLoading && 'loading'}`}
-				>
-					{isLoading ? icons.stop : icons.send}
-				</button>
+				<IconButton
+					className={isLoading ? icons.stop : icons.send}
+					isLoading={isLoading}
+				/>
 			</form>
 		</div>
 	);
