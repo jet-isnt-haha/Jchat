@@ -1,12 +1,16 @@
-import { useChatStore } from '@/store/chatStore';
 import ChatMessage from './ChatMessage';
 import '../styles/global.css';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useEffect } from 'react';
 import { useTexts } from '@/hooks/useConfig';
+import type { Message } from '~/packages/types/chatType';
 
-const ChatBody = () => {
-	const chatMessages = useChatStore((state) => state.getCurrentMessages)();
+interface ChatBodyProps {
+	chatMessages: Message[];
+	sessionId?: string | null;
+}
+
+const ChatBody = ({ chatMessages }: ChatBodyProps) => {
 	const { containerRef, autoScrollToBottom, forceScrollToBottom } =
 		useAutoScroll();
 	const { messages } = useTexts();

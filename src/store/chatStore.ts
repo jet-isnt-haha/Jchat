@@ -92,11 +92,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 			return { sessions };
 		});
 	},
+	// updateSession: (sessionId, update) => {},
 	getCurrentMessages: () => {
 		const state = get();
-		return state.sessions.find(
+		const result = state.sessions.find(
 			(session) => session.id === state.currentSessionId
 		)?.messages;
+		return result ?? [];
 	},
 	setCurrentSessionId: (id) => {
 		set(() => {
@@ -122,5 +124,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 			currentSessionId:
 				state.currentSessionId === sessionId ? null : state.currentSessionId
 		}));
+	},
+	getCurrentSession: (sessionId) => {
+		const state = get();
+		return state.sessions.find((session) => session.id === sessionId) ?? null;
 	}
 }));

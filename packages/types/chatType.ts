@@ -28,7 +28,9 @@ export interface ChatStore {
 	createSession: () => string;
 	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
 	updateMessage: (messageId: string, updates: Message) => void;
-	getCurrentMessages: () => Message[] | undefined;
+	// updateSession: (sessionId: string, update: ChatSession) => void;
+	getCurrentMessages: () => Message[];
+	getCurrentSession: (sessionId: string) => ChatSession | null;
 	setCurrentSessionId: (id: string) => void;
 	setSearchSessions: (keywords: string) => void;
 	deleteSession: (sessionId: string) => void;

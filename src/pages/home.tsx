@@ -6,12 +6,12 @@ import './index.module.less';
 import { useSessionManager } from '@/hooks/useSessionManager';
 
 const Home = () => {
-	useSessionManager();
+	const { chatMessages } = useSessionManager();
 
 	return (
 		<section className={styles.home}>
 			<HomeHeader />
-			<ChatBody />
+			<ChatBody chatMessages={chatMessages} />
 			<HomeFooter />
 		</section>
 	);

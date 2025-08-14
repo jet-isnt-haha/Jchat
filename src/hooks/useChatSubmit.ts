@@ -5,16 +5,11 @@ import { useRef } from 'react';
 import { useCreateSession } from './useCreateSession';
 export const useChatSubmit = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const {
-		getCurrentMessages,
-		currentSessionId,
-		setIsLoading,
-		addMessage,
-		updateMessage,
-		isLoading
-	} = useChatStore();
+	const { getCurrentMessages, currentSessionId, addMessage, updateMessage } =
+		useChatStore();
 	const controllerRef = useRef<AbortController | null>(null);
 	const { createSession } = useCreateSession();
+	const isLoading = getCurrentMessages().at(-1)?.isLoading;
 
 	//处理用户输入
 	const handleUserInput = () => {
@@ -37,7 +32,6 @@ export const useChatSubmit = () => {
 
 	//处理流式请求与消息更新
 	const fetchAndUpdateResponse = async () => {
-		setIsLoading(true);
 		addMessage({
 			content: 'Thinking...',
 			role: 'model',
@@ -59,6 +53,10 @@ export const useChatSubmit = () => {
 					content: accumulatedText
 				});
 			});
+			updateMessage(lastMessage.id, {
+				...getCurrentMessages().at(-1)!,
+				isLoading: false
+			});
 		} catch (error: unknown) {
 			if (error instanceof Error && error.name === 'AbortError') {
 				console.log('请求被用户取消');
@@ -66,7 +64,6 @@ export const useChatSubmit = () => {
 				console.error('请求发生错误', error);
 			}
 		} finally {
-			setIsLoading(false);
 			controllerRef.current = null;
 		}
 	};
@@ -75,7 +72,6 @@ export const useChatSubmit = () => {
 		e.preventDefault();
 		if (isLoading && controllerRef.current) {
 			controllerRef.current.abort();
-			setIsLoading(false);
 			return;
 		}
 
