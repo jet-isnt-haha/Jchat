@@ -4,12 +4,22 @@ interface IconButtonProps {
 	onClick?: () => void;
 	className: string;
 	isLoading?: boolean;
+	danger?: boolean;
 }
 
-const IconButton = ({ onClick, className, isLoading }: IconButtonProps) => {
+const IconButton = ({
+	onClick,
+	className,
+	isLoading,
+	danger = false
+}: IconButtonProps) => {
 	const _className = `material-symbols-outlined ${className} ${isLoading ? 'loading' : ''}`;
 	return (
-		<button className={_className} onClick={onClick}>
+		<button
+			className={_className}
+			onClick={onClick}
+			style={danger ? { color: 'red' } : undefined}
+		>
 			{className}
 		</button>
 	);

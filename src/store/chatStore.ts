@@ -93,6 +93,11 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 		});
 	},
 	// updateSession: (sessionId, update) => {},
+	getMessage: (messageId) => {
+		const state = get();
+		const messages = state.getCurrentMessages();
+		return messages.find((message) => message.id === messageId) ?? null;
+	},
 	getCurrentMessages: () => {
 		const state = get();
 		const result = state.sessions.find(

@@ -26,17 +26,12 @@ body {
 }
 
 .chat-body .message {
-	@apply flex gap-[11px] items-center;
+	@apply gap-[11px] items-center;
 }
 
 /* 转换后的Tailwind @apply形式 */
 .chat-body .bot-message.error .message-text {
 	@apply text-red-500;
-}
-
-.chat-body .bot-message svg {
-	@apply h-[35px] w-[35px] p-[6px] flex-shrink-0 fill-white 
-         self-end mb-[2px] bg-[#6d4fc2] rounded-full;
 }
 
 .chat-body .message .message-text {
@@ -99,4 +94,18 @@ body {
 
 .session {
 	@apply absolute py-4 px-3 w-full top-0 left-0  bg-[#fff]  max-w-[100%] border-2 border-[#f6f2ff];
+}
+
+.message-actions {
+	@apply w-full h-8 px-2 flex gap-2  mt-1 border-2  border-[#6D4FC2] rounded-md bg-[#fff];
+
+	/* 初始不隐藏容器，而是隐藏内部按钮 */
+}
+
+.message-actions button {
+	@apply h-full text-[16px] md:hidden; /* 隐藏按钮 */
+}
+
+.message-actions:hover button {
+	@apply md:block; /* 当容器被 hover 时显示按钮 */
 }
