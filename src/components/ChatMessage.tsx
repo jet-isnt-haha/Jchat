@@ -21,6 +21,7 @@ const ChatMessage = (msg: Message) => {
 			)}
 			{msg.role === role.model && (
 				<MessageActions
+					MessageId={msg.id}
 					onCopy={handleCopy}
 					onDelete={handleDelete}
 					onFavor={handleFavor}

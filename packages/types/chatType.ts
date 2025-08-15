@@ -24,6 +24,7 @@ export interface ChatStore {
 	currentSessionId: string | null;
 	isLoading: boolean;
 	searchedSessions: ChatSession[] | null;
+	currentController: AbortController | null;
 	//Actions
 	createSession: () => string;
 	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
@@ -37,4 +38,6 @@ export interface ChatStore {
 	deleteMessage: (messageId: string) => void;
 	deleteSession: (sessionId: string) => void;
 	setIsLoading: (status: boolean) => void;
+	setCurrentController: (controller: AbortController) => void;
+	clearCurrentController: () => void;
 }

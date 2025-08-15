@@ -2,8 +2,10 @@ import { useState } from 'react';
 import ConfirmDialog from './common/ConfirmDialog';
 import IconButton from './common/IconButton';
 import { useModals } from '@/hooks/useConfig';
+import { useChatStore } from '@/store/chatStore';
 
 interface MessageActionsProps {
+	MessageId: string;
 	onCopy: () => void;
 	onDelete: () => void;
 	onFavor: () => void;
@@ -12,6 +14,7 @@ interface MessageActionsProps {
 }
 
 const MessageActions = ({
+	MessageId,
 	onCopy,
 	onDelete,
 	onFavor,
@@ -20,7 +23,7 @@ const MessageActions = ({
 }: MessageActionsProps) => {
 	const [showConfirm, setShowConfirm] = useState(false);
 	const { confirmDelete } = useModals();
-
+	const getCurrentMessages = useChatStore((state) => state.getCurrentMessages);
 	return (
 		<>
 			<div className="message-actions">
@@ -33,8 +36,10 @@ const MessageActions = ({
 					}}
 				/>
 				<IconButton className="cards_star" onClick={onFavor} />
-				<IconButton className="refresh" onClick={onRefresh} />
 				<IconButton className="share" onClick={onShare} />
+				{getCurrentMessages().at(-1)!.id === MessageId && (
+					<IconButton className="refresh" onClick={onRefresh} />
+				)}
 			</div>
 			<ConfirmDialog
 				isOpen={showConfirm}

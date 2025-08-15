@@ -17,6 +17,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 			: null */
 	isLoading: false,
 	searchedSessions: null,
+	currentController: null,
 
 	setIsLoading: (status) => {
 		set(() => ({
@@ -151,5 +152,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 	getSession: (sessionId) => {
 		const state = get();
 		return state.sessions.find((session) => session.id === sessionId) ?? null;
-	}
+	},
+	setCurrentController: (controller) => set({ currentController: controller }),
+	clearCurrentController: () => set({ currentController: null })
 }));

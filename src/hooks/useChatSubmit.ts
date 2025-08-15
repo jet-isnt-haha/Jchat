@@ -3,6 +3,7 @@ import { useChatStore } from '@/store/chatStore';
 import streamProcessor from '@/utils/streamProcessor';
 import { useRef } from 'react';
 import { useCreateSession } from './useCreateSession';
+import type { Message } from '~/packages/types/chatType';
 export const useChatSubmit = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const {
@@ -11,9 +12,11 @@ export const useChatSubmit = () => {
 		addMessage,
 		updateMessage,
 		getMessage,
-		deleteMessage
+		deleteMessage,
+		currentController,
+		setCurrentController,
+		clearCurrentController
 	} = useChatStore();
-	const controllerRef = useRef<AbortController | null>(null);
 	const { createSession } = useCreateSession();
 	const isLoading = getCurrentMessages().at(-1)?.isLoading;
 
@@ -44,7 +47,7 @@ export const useChatSubmit = () => {
 		});
 	};
 	//处理流式请求与消息更新
-	const fetchAndUpdateResponse = async () => {
+	const fetchAndUpdateResponse = async (delta: Message[] = []) => {
 		addMessage({
 			content: 'Thinking...',
 			role: 'model',
@@ -52,10 +55,11 @@ export const useChatSubmit = () => {
 		});
 		const messageId = getCurrentMessages().at(-1)!.id;
 		const controller = new AbortController();
-		controllerRef.current = controller;
+		setCurrentController(controller);
+
 		try {
 			const modelResponse = await generateAPI(
-				getCurrentMessages()!,
+				[...getCurrentMessages()!, ...delta],
 				controller.signal
 			);
 			const lastMessage = getCurrentMessages()?.at(-1);
@@ -78,14 +82,15 @@ export const useChatSubmit = () => {
 				console.error('请求发生错误', error);
 			}
 		} finally {
-			controllerRef.current = null;
+			clearCurrentController();
 		}
 	};
 
 	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (isLoading && controllerRef.current) {
-			controllerRef.current.abort();
+
+		if (isLoading && currentController) {
+			currentController.abort();
 			return;
 		}
 
@@ -99,6 +104,7 @@ export const useChatSubmit = () => {
 	return {
 		inputRef,
 		handleFormSubmit,
-		isLoading
+		isLoading,
+		fetchAndUpdateResponse
 	};
 };

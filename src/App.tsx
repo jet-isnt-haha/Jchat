@@ -4,9 +4,10 @@ import {
 	Route,
 	Navigate
 } from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './pages/home';
 import History from './pages/History';
 import Canvas from './pages/Canvas';
+import Test from './pages/Test';
 export default function App() {
 	return (
 		<Router>
@@ -16,6 +17,7 @@ export default function App() {
 				<Route path="/session/:id" element={<Home />} />
 				<Route path="/history" element={<History />} />
 				<Route path="/canvas" element={<Canvas />} />
+				<Route path="/test" element={<Test />} />
 				<Route path="*" element={<Navigate to="/session" />} />
 			</Routes>
 		</Router>
