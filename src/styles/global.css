@@ -97,15 +97,20 @@ body {
 }
 
 .message-actions {
-	@apply w-full h-8 px-2 flex gap-2  mt-1 border-2  border-[#6D4FC2] rounded-md bg-[#fff];
-
+	@apply w-full h-8 px-2 flex   mt-1 border-2  border-[#6D4FC2] rounded-md bg-[#fff] md:border-0;
 	/* 初始不隐藏容器，而是隐藏内部按钮 */
 }
 
 .message-actions button {
-	@apply h-full text-[16px] md:hidden; /* 隐藏按钮 */
+	@apply h-full px-1.5 text-[16px] md:hidden; /* 隐藏按钮 */
 }
 
 .message-actions:hover button {
 	@apply md:block; /* 当容器被 hover 时显示按钮 */
+}
+
+/* 单个按钮被 hover 时的额外效果 */
+.message-actions button:hover {
+	@apply md:bg-[#f0f0f0] text-[#6D4FC2] rounded-md transform scale-105 transition-all duration-200;
+	/* 可根据需要调整样式，比如背景色、颜色、缩放效果等 */
 }

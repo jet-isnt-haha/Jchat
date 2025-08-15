@@ -3,6 +3,7 @@ import { useCopyToClipboard } from './common/useCopyToClipboard';
 
 export const useMessageActions = (messageId: string) => {
 	const getMessage = useChatStore((state) => state.getMessage);
+	const deleteMessage = useChatStore((state) => state.deleteMessage);
 	const message = getMessage(messageId)!;
 	const { copyToClipboard } = useCopyToClipboard();
 	const handleCopy = async () => {
@@ -11,8 +12,9 @@ export const useMessageActions = (messageId: string) => {
 		if (result) alert('复制成功');
 	};
 	const handleDelete = () => {
-		console.log('Delete');
+		deleteMessage(messageId);
 	};
+
 	const handleFavor = () => {
 		console.log('Favor');
 	};

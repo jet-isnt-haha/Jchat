@@ -122,7 +122,25 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 			}
 		});
 	},
-
+	deleteMessage: (messageId) => {
+		set((state) => {
+			const updatedSessions = state.sessions.map((session) => {
+				//只处理当前会话
+				if (session.id === state.currentSessionId) {
+					const updatedMessages = session.messages.filter(
+						(message) => message.id !== messageId
+					);
+					return {
+						...session,
+						messages: updatedMessages,
+						updatedAt: Date.now()
+					};
+				}
+				return session;
+			});
+			return { sessions: updatedSessions };
+		});
+	},
 	deleteSession: (sessionId) => {
 		set((state) => ({
 			sessions: state.sessions.filter((s) => s.id !== sessionId),
@@ -130,7 +148,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 				state.currentSessionId === sessionId ? null : state.currentSessionId
 		}));
 	},
-	getCurrentSession: (sessionId) => {
+	getSession: (sessionId) => {
 		const state = get();
 		return state.sessions.find((session) => session.id === sessionId) ?? null;
 	}

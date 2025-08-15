@@ -1,6 +1,6 @@
 import { useChatStore } from '@/store/chatStore';
 import { useState } from 'react';
-import ConfirmDialog from './ConfirmDialog';
+import ConfirmDialog from './common/ConfirmDialog';
 import { useModals, useUIConfig } from '@/hooks/useConfig';
 
 interface SessionModalProps {
