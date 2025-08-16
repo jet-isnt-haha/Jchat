@@ -191,7 +191,7 @@ body {
 	@apply border border-gray-200 p-2 text-sm;
 }
 .message-text th {
-	@apply bg-gray-50 font-medium;
+	@apply bg-gray-50 font-bold;
 }
 
 /* LaTeX 公式 */

@@ -3,12 +3,13 @@ import '../styles/global.css';
 import { useTexts } from '@/hooks/useConfig';
 import MessageActions from './MessageActions';
 import { useMessageActions } from '@/hooks/useMessageActions';
+import { useMessageRender } from '@/hooks/useMessageRender';
 
 const ChatMessage = (msg: Message) => {
 	const { messages, icons, role } = useTexts();
 	const { handleCopy, handleDelete, handleFavor, handleRefresh, handleShare } =
 		useMessageActions(msg.id);
-
+	const [renderedMessage] = useMessageRender(msg.content, msg.role);
 	return (
 		<div
 			className={`message ${msg.role === role.model ? role.model : role.user}-message ${msg.isError ? 'error' : ''}`}
@@ -20,7 +21,9 @@ const ChatMessage = (msg: Message) => {
 			) : (
 				<p
 					className="message-text"
-					dangerouslySetInnerHTML={{ __html: msg.content }}
+					dangerouslySetInnerHTML={{
+						__html: renderedMessage
+					}}
 				/>
 			)}
 			{msg.role === role.model && !msg.isLoading && (

@@ -4,7 +4,6 @@ import streamProcessor from '@/utils/streamProcessor';
 import { useRef } from 'react';
 import { useCreateSession } from './useCreateSession';
 import type { Message } from '~/packages/types/chatType';
-import { useRenderText } from './common/useRenderText';
 export const useChatSubmit = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const {
@@ -20,8 +19,6 @@ export const useChatSubmit = () => {
 	} = useChatStore();
 	const { createSession } = useCreateSession();
 	const isLoading = getCurrentMessages().at(-1)?.isLoading;
-
-	const { renderedSummary } = useRenderText();
 
 	//处理用户输入
 	const handleUserInput = () => {
@@ -67,11 +64,10 @@ export const useChatSubmit = () => {
 			);
 			const lastMessage = getCurrentMessages()?.at(-1);
 			if (!lastMessage) return;
-			await streamProcessor(modelResponse, async (accumulatedText) => {
-				const renderedContent = await renderedSummary(accumulatedText);
+			await streamProcessor(modelResponse, (accumulatedText) => {
 				updateMessage(lastMessage.id, {
 					...lastMessage,
-					content: renderedContent
+					content: accumulatedText
 				});
 			});
 			setMessageIsLoading(messageId, false);

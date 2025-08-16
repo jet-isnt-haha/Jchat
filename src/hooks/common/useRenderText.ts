@@ -11,7 +11,7 @@ import 'katex/dist/katex.min.css';
   ↓ 第三步：DOMPurify处理
 净化HTML（过滤危险内容）
   ↓ 第四步：前端渲染
-HTML标签被浏览器解析 → 展示为富文本（公式、加粗、列表等
+HTML标签被浏览器解析 → 展示为富文本（公式、加粗、列表等）
 */
 export const useRenderText = () => {
 	const renderLatex = (text: string) => {
@@ -44,7 +44,7 @@ export const useRenderText = () => {
 		return text;
 	};
 
-	const renderedSummary = async (summary: string) => {
+	const renderingSummary = async (summary: string) => {
 		if (!summary) return '';
 
 		// 先处理 Markdown 内容中的 LaTeX 公式
@@ -57,5 +57,5 @@ export const useRenderText = () => {
 		return DOMPurify.sanitize(rawHtml);
 	};
 
-	return { renderedSummary };
+	return { renderingSummary };
 };
