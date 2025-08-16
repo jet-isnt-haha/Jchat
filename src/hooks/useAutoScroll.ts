@@ -6,11 +6,11 @@ export const useAutoScroll = () => {
 	const [isAutoScroll, setIsAutoScroll] = useState(true);
 	const { touch } = useAppConfig();
 
-	const autoScrollToBottom = () => {
+	const autoScrollToBottom = useCallback(() => {
 		if (isAutoScroll) {
 			scrollToBottom();
 		}
-	};
+	}, [isAutoScroll]);
 	const forceScrollToBottom = () => {
 		scrollToBottom();
 	};

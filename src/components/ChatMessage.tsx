@@ -4,12 +4,14 @@ import { useTexts } from '@/hooks/useConfig';
 import MessageActions from './MessageActions';
 import { useMessageActions } from '@/hooks/useMessageActions';
 import { useMessageRender } from '@/hooks/useMessageRender';
+import { useOnRenderedCallback } from '@/hooks/useOnRenderedCallback';
 
-const ChatMessage = (msg: Message) => {
+const ChatMessage = (msg: Message & { onRendered?: () => void }) => {
 	const { messages, icons, role } = useTexts();
 	const { handleCopy, handleDelete, handleFavor, handleRefresh, handleShare } =
 		useMessageActions(msg.id);
 	const [renderedMessage] = useMessageRender(msg.content, msg.role);
+	useOnRenderedCallback(renderedMessage, msg.onRendered, 0);
 	return (
 		<div
 			className={`message ${msg.role === role.model ? role.model : role.user}-message ${msg.isError ? 'error' : ''}`}

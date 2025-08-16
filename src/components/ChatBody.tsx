@@ -31,7 +31,16 @@ const ChatBody = ({ chatMessages }: ChatBodyProps) => {
 		<main className="chat-body" ref={containerRef}>
 			{/* <Canvas /> */}
 			{chatMessages.length ? (
-				chatMessages?.map((msg, index) => <ChatMessage {...msg} key={index} />)
+				chatMessages?.map((msg, index) => {
+					const isLast = index === chatMessages.length - 1;
+					return (
+						<ChatMessage
+							{...msg}
+							key={index}
+							onRendered={isLast ? autoScrollToBottom : undefined}
+						/>
+					);
+				})
 			) : (
 				<p className="">{messages.emptyChat}</p>
 			)}

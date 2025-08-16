@@ -51,7 +51,11 @@ export const useRenderText = () => {
 		const processedText = renderLatex(summary);
 
 		// 再将 Markdown 转换为 HTML
-		const rawHtml = await marked(processedText);
+		let rawHtml = await marked(processedText);
+
+		// 为所有表格包裹滚动容器
+		rawHtml = rawHtml.replace(/<table/g, '<div class="table-container"><table');
+		rawHtml = rawHtml.replace(/<\/table>/g, '</table></div>');
 
 		// 最后使用 DOMPurify 过滤 HTML
 		return DOMPurify.sanitize(rawHtml);
