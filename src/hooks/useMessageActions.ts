@@ -1,4 +1,4 @@
-import { useChatStore } from '@/store/chatStore';
+import { useChatStore } from '@/store';
 import { useCopyToClipboard } from './common/useCopyToClipboard';
 import { useChatSubmit } from './useChatSubmit';
 

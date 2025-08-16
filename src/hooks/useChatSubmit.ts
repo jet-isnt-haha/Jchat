@@ -1,9 +1,10 @@
 import { generateAPI } from '@/apis/fetch';
-import { useChatStore } from '@/store/chatStore';
 import streamProcessor from '@/utils/streamProcessor';
 import { useRef } from 'react';
 import { useCreateSession } from './useCreateSession';
 import type { Message } from '~/packages/types/chatType';
+import { useChatStore } from '@/store';
+
 export const useChatSubmit = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const {

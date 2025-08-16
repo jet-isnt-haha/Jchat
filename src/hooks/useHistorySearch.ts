@@ -1,7 +1,7 @@
-import { useChatStore } from '@/store/chatStore';
 import debounce from '@/utils/debounce';
 import { useCallback, useEffect } from 'react';
 import { useAppConfig } from './useConfig';
+import { useChatStore } from '@/store';
 
 export const useHistorySearch = () => {
 	const setSearchSessions = useChatStore((state) => state.setSearchSessions);

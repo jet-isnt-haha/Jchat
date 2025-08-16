@@ -1,10 +1,10 @@
-import { useChatStore } from '@/store/chatStore';
 import '../styles/global.css';
 import ChatSession from './ChatSession';
 import { useRowVirtualizer } from '@/hooks/useRowVirtualizer';
 import SessionModal from './SessionModal';
 import { useShowModal } from '@/hooks/useShowModal';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
+import { useChatStore } from '@/store';
 
 const HistoryBody = () => {
 	const { sessions: chatSessions, searchedSessions } = useChatStore();

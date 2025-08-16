@@ -1,6 +1,6 @@
-import { useChatStore } from '@/store/chatStore';
 import { useRef, useEffect } from 'react';
 import * as acorn from 'acorn';
+import { useChatStore } from '@/store';
 // 这个组件展示了如何在 React 中使用 Canvas 元素
 const App = () => {
 	// 1. 使用 useRef 创建一个 ref，用于引用 canvas 元素

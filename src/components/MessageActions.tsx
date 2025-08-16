@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ConfirmDialog from './common/ConfirmDialog';
 import IconButton from './common/IconButton';
 import { useModals } from '@/hooks/useConfig';
-import { useChatStore } from '@/store/chatStore';
+import { useChatStore } from '@/store';
 
 interface MessageActionsProps {
 	MessageId: string;

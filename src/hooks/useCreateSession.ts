@@ -1,6 +1,6 @@
-import { useChatStore } from '@/store/chatStore';
 import { useNavigate } from 'react-router-dom';
 import { useAppConfig } from './useConfig';
+import { useChatStore } from '@/store';
 
 export const useCreateSession = () => {
 	const navigate = useNavigate();
