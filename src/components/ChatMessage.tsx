@@ -17,7 +17,10 @@ const ChatMessage = (msg: Message) => {
 					{icons.search}
 				</span>
 			) : (
-				<p className="message-text">{msg.content}</p>
+				<p
+					className="message-text"
+					dangerouslySetInnerHTML={{ __html: msg.content }}
+				/>
 			)}
 			{msg.role === role.model && (
 				<MessageActions
