@@ -8,6 +8,7 @@ const ChatMessage = (msg: Message) => {
 	const { messages, icons, role } = useTexts();
 	const { handleCopy, handleDelete, handleFavor, handleRefresh, handleShare } =
 		useMessageActions(msg.id);
+
 	return (
 		<div
 			className={`message ${msg.role === role.model ? role.model : role.user}-message ${msg.isError ? 'error' : ''}`}
@@ -22,7 +23,7 @@ const ChatMessage = (msg: Message) => {
 					dangerouslySetInnerHTML={{ __html: msg.content }}
 				/>
 			)}
-			{msg.role === role.model && (
+			{msg.role === role.model && !msg.isLoading && (
 				<MessageActions
 					MessageId={msg.id}
 					onCopy={handleCopy}

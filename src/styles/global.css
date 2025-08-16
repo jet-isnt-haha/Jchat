@@ -36,7 +36,7 @@ body {
 
 .chat-body .message .message-text {
 	@apply p-[12px_16px] max-w-[75%] break-words whitespace-pre-line 
-         text-[0.95rem];
+         text-[0.95rem] select-text;
 }
 
 .chat-body .model-message .message-text {
@@ -113,4 +113,91 @@ body {
 .message-actions button:hover {
 	@apply md:bg-[#f0f0f0] text-[#6D4FC2] rounded-md transform scale-105 transition-all duration-200;
 	/* 可根据需要调整样式，比如背景色、颜色、缩放效果等 */
+}
+
+/* 标题（h1-h6） */
+.message-text h1,
+.message-text h2,
+.message-text h3,
+.message-text h4,
+.message-text h5,
+.message-text h6 {
+	@apply font-bold text-indigo-800 my-2 mt-3; /* 标题颜色与模型消息背景呼应 */
+}
+.message-text h1 {
+	@apply text-2xl;
+}
+.message-text h2 {
+	@apply text-xl;
+}
+.message-text h3 {
+	@apply text-lg;
+}
+.message-text h4,
+.message-text h5,
+.message-text h6 {
+	@apply text-base;
+}
+
+/* 段落 */
+.message-text p {
+	@apply my-2; /* 段落间距 */
+}
+
+/* 列表 */
+.message-text ul,
+.message-text ol {
+	@apply pl-6 my-2; /* 左侧缩进 */
+}
+.message-text ul {
+	@apply list-disc;
+} /* 无序列表 */
+.message-text ol {
+	@apply list-decimal;
+} /* 有序列表 */
+.message-text li {
+	@apply my-1;
+} /* 列表项间距 */
+
+/* 代码块 */
+.message-text pre {
+	@apply bg-gray-100 p-3 rounded-md overflow-x-auto my-3 text-sm 
+         font-mono; /* 代码块背景、滚动、字体 */
+}
+/* 行内代码 */
+.message-text code {
+	@apply bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+/* 链接 */
+.message-text a {
+	@apply text-blue-600 underline underline-offset-2;
+}
+.message-text a:hover {
+	@apply text-blue-800;
+}
+
+/* 引用块 */
+.message-text blockquote {
+	@apply border-l-4 border-indigo-300 pl-4 italic text-gray-600 my-3;
+}
+
+/* 表格 */
+.message-text table {
+	@apply w-full border-collapse my-3;
+}
+.message-text th,
+.message-text td {
+	@apply border border-gray-200 p-2 text-sm;
+}
+.message-text th {
+	@apply bg-gray-50 font-medium;
+}
+
+/* LaTeX 公式 */
+.message-text .katex {
+	@apply text-[1.05em]; /* 公式稍大于正文 */
+}
+.message-text .katex-display {
+	@apply my-3 overflow-x-auto; /* 块级公式间距和滚动 */
 }

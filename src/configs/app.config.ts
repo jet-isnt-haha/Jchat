@@ -19,7 +19,7 @@ export const appConfig = {
 	touch: {
 		longPressDelay: 500,
 		moveThreshold: 10,
-		scrollTolerance: 30
+		scrollTolerance: 40
 	},
 	virtualization: {
 		estimatedItemSize: 50,
