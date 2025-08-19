@@ -1,5 +1,7 @@
 //文本内容配置
 
+import type { ItemActions } from '~/packages/types/chatType';
+
 export const contentConfig = {
 	// 用户界面文本
 	ui: {
@@ -44,7 +46,7 @@ export const contentConfig = {
 				{ icon: '✏️', label: '重命名', action: 'edit', danger: false },
 				{ icon: '📋', label: '置顶', action: 'pin', danger: false },
 				{ icon: '🗑️', label: '删除', action: 'delete', danger: true }
-			]
+			] as ItemActions[]
 		}
 	},
 	system: {

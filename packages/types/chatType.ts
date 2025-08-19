@@ -17,30 +17,12 @@ export interface ChatSession {
 	updatedAt: number;
 }
 
-//Store 状态类型
-// export interface ChatStore {
-// 	//状态
-// 	sessions: ChatSession[];
-// 	currentSessionId: string | null;
-// 	isLoading: boolean;
-// 	searchedSessions: ChatSession[] | null;
-// 	currentController: AbortController | null;
-// 	//Actions
-// 	createSession: () => string;
-// 	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
-// 	updateMessage: (messageId: string, update: Message) => void;
-// 	// updateSession: (sessionId: string, update: ChatSession) => void;
-// 	getMessage: (messageId: string) => Message | null;
-// 	getCurrentMessages: () => Message[];
-// 	getSession: (sessionId: string) => ChatSession | null;
-// 	setCurrentSessionId: (id: string) => void;
-// 	setSearchSessions: (keywords: string) => void;
-// 	deleteMessage: (messageId: string) => void;
-// 	deleteSession: (sessionId: string) => void;
-// 	setIsLoading: (status: boolean) => void;
-// 	setCurrentController: (controller: AbortController) => void;
-// 	clearCurrentController: () => void;
-// }
+export interface ItemActions {
+	icon: string;
+	label: string;
+	action: string;
+	danger: boolean;
+}
 
 export interface MessageSlice {
 	currentController: AbortController | null;
@@ -56,14 +38,20 @@ export interface MessageSlice {
 
 export interface SessionSlice {
 	sessions: ChatSession[];
-	currentSessionId: string | null;
 	searchedSessions: ChatSession[] | null;
+	tempSession: ChatSession | null;
+	isInTempMode: boolean;
+	currentSessionId: string | null;
 
 	createSession: () => string;
 	setCurrentSessionId: (id: string) => void;
 	setSearchSessions: (keywords: string) => void;
 	deleteSession: (sessionId: string) => void;
 	getSession: (sessionId: string) => ChatSession | null;
+
+	//temp
+	createTempSession: () => string;
+	discardTempSession: () => void;
 }
 
 export type ChatStore = SessionSlice & MessageSlice;
