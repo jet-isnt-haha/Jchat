@@ -1,5 +1,11 @@
+import TempModeBar from '@/components/TempModeBar';
+
 const Test = () => {
-	return <></>;
+	return (
+		<>
+			<TempModeBar />
+		</>
+	);
 };
 
 export default Test;

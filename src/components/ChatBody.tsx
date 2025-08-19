@@ -4,6 +4,8 @@ import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useEffect } from 'react';
 import { useTexts } from '@/hooks/useConfig';
 import type { Message } from '~/packages/types/chatType';
+import { useChatStore } from '@/store';
+import TempModeBar from './TempModeBar';
 
 interface ChatBodyProps {
 	chatMessages: Message[];
@@ -14,6 +16,7 @@ const ChatBody = ({ chatMessages }: ChatBodyProps) => {
 	const { containerRef, autoScrollToBottom, forceScrollToBottom } =
 		useAutoScroll();
 	const { messages } = useTexts();
+	const isInTempMode = useChatStore((state) => state.isInTempMode);
 
 	//每次消息更新时滚动到底部
 
@@ -30,6 +33,7 @@ const ChatBody = ({ chatMessages }: ChatBodyProps) => {
 	return (
 		<main className="chat-body" ref={containerRef}>
 			{/* <Canvas /> */}
+			{isInTempMode && <TempModeBar />}
 			{chatMessages.length ? (
 				chatMessages?.map((msg, index) => {
 					const isLast = index === chatMessages.length - 1;

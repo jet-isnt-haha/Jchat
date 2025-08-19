@@ -115,6 +115,30 @@ body {
 	/* 可根据需要调整样式，比如背景色、颜色、缩放效果等 */
 }
 
+.temp-mode-bar {
+	@apply w-4/5 h-20 bottom-30 border-y-3 rounded-[10px] border-indigo-600 bg-[#6D4FC2] mt-2 px-4 absolute;
+}
+.temp-form {
+	@apply flex relative;
+}
+.temp-form input {
+	@apply w-full h-full pr-[30%] font-mono bg-[#f6f2ff] border-none outline-none ring-1 ring-indigo-100 focus:ring-0 focus:caret-[#6D4FC2];
+}
+
+.temp-form button {
+	@apply h-full aspect-square  rounded-full bg-[#6D4FC2] text-white text-[1.15rem]  cursor-pointer transition-all duration-200 ease-in-out border-none outline-none right-6 absolute;
+}
+
+/* 第一个按钮（从右数第二个位置） */
+.temp-form button:nth-child(2) {
+	@apply right-15; /* 距离右侧80px */
+}
+
+/* 第二个按钮（最右侧） */
+.temp-form button:nth-child(3) {
+	@apply right-6; /* 距离右侧6px */
+}
+
 /* 标题（h1-h6） */
 .message-text h1,
 .message-text h2,

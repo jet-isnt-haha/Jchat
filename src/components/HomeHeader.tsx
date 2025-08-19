@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import '../styles/global.css';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
 import IconButton from './common/IconButton';
+import ModeModal from './ModeModal';
+import { useShowModal } from '@/hooks/useShowModal';
 
 const HomeHeader = () => {
 	const navigate = useNavigate();
 	const { routes } = useAppConfig();
 	const { icons } = useTexts();
+	const { showModal, setShowModal } = useShowModal();
 	return (
 		<header className="chat-header">
 			<IconButton
@@ -19,9 +21,16 @@ const HomeHeader = () => {
 			<IconButton
 				className={icons.edit}
 				onClick={() => {
-					navigate(routes.sessionNew);
+					setShowModal(true);
 				}}
 			/>
+			{showModal && (
+				<ModeModal
+					closeModal={() => {
+						setShowModal(false);
+					}}
+				/>
+			)}
 		</header>
 	);
 };

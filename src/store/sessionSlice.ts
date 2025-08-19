@@ -16,6 +16,24 @@ export const createSessionSlice: StateCreator<
 	sessions: import.meta.env.DEV ? mockChatSessions : [],
 	currentSessionId: null,
 	searchedSessions: null,
+	tempSession: null,
+	isInTempMode: false,
+
+	createTempSession: () => {
+		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+		const tempSession: ChatSession = {
+			id: sessionId,
+			title: '临时对话',
+			messages: [],
+			createdAt: Date.now(),
+			updatedAt: Date.now()
+		};
+		set({ tempSession, isInTempMode: true });
+		return sessionId;
+	},
+	discardTempSession: () => {
+		set({ tempSession: null, isInTempMode: false });
+	},
 
 	createSession: () => {
 		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
