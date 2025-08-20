@@ -24,6 +24,13 @@ export interface ItemActions {
 	danger: boolean;
 }
 
+export interface SessionAndUpdater {
+	session: ChatSession;
+	updateState: (modifiedSession: ChatSession) => void;
+}
+
+type ChatMode = 'normal' | 'temp';
+
 export interface MessageSlice {
 	currentController: AbortController | null;
 
@@ -41,8 +48,10 @@ export interface SessionSlice {
 	searchedSessions: ChatSession[] | null;
 	tempSession: ChatSession | null;
 	isInTempMode: boolean;
+	chatMode: ChatMode;
 	currentSessionId: string | null;
 
+	setTempMode: (option: boolean) => void;
 	createSession: () => string;
 	setCurrentSessionId: (id: string) => void;
 	setSearchSessions: (keywords: string) => void;

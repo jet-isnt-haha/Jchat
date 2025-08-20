@@ -18,7 +18,11 @@ export const createSessionSlice: StateCreator<
 	searchedSessions: null,
 	tempSession: null,
 	isInTempMode: false,
+	chatMode: 'normal',
 
+	setTempMode: (option: boolean) => {
+		set({ isInTempMode: option });
+	},
 	createTempSession: () => {
 		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 		const tempSession: ChatSession = {
@@ -28,11 +32,14 @@ export const createSessionSlice: StateCreator<
 			createdAt: Date.now(),
 			updatedAt: Date.now()
 		};
-		set({ tempSession, isInTempMode: true });
+		set({ tempSession, currentSessionId: sessionId });
 		return sessionId;
 	},
 	discardTempSession: () => {
-		set({ tempSession: null, isInTempMode: false });
+		set((state) => {
+			state.setTempMode(false);
+			return { tempSession: null };
+		});
 	},
 
 	createSession: () => {
