@@ -29,7 +29,13 @@ export interface SessionAndUpdater {
 	updateState: (modifiedSession: ChatSession) => void;
 }
 
-type ChatMode = 'normal' | 'temp';
+export type ChatMode = 'normal' | 'temp';
+
+//业务策略接口
+export interface ChatActionsStrategy {
+	handleCreateSession: () => void;
+	handleGetMessages: () => Message[];
+}
 
 export interface MessageSlice {
 	currentController: AbortController | null;
@@ -38,6 +44,7 @@ export interface MessageSlice {
 	updateMessage: (messageId: string, update: Message) => void;
 	getMessage: (messageId: string) => Message | null;
 	getCurrentMessages: () => Message[];
+	getTempMessages: () => Message[];
 	deleteMessage: (messageId: string) => void;
 	setCurrentController: (controller: AbortController) => void;
 	clearCurrentController: () => void;
@@ -51,6 +58,7 @@ export interface SessionSlice {
 	chatMode: ChatMode;
 	currentSessionId: string | null;
 
+	setChatMode: (option: ChatMode) => void;
 	setTempMode: (option: boolean) => void;
 	createSession: () => string;
 	setCurrentSessionId: (id: string) => void;
