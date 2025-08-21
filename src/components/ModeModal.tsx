@@ -11,7 +11,7 @@ interface ModeModalProps {
 const ModeModal = ({ closeModal }: ModeModalProps) => {
 	const { routes } = useAppConfig();
 	const navigate = useNavigate();
-	const createTempSession = useChatStore((state) => state.createTempSession);
+	const setTempMode = useChatStore((state) => state.setTempMode);
 	const items: ItemActions[] = [
 		{ icon: '⌛', label: '临时对话', action: 'temp_session', danger: false },
 		{ icon: '💎', label: '新对话', action: 'new_session', danger: false }
@@ -19,7 +19,7 @@ const ModeModal = ({ closeModal }: ModeModalProps) => {
 	const handleItemsClick = (option: string) => {
 		switch (option) {
 			case 'temp_session': {
-				createTempSession();
+				setTempMode(true);
 				closeModal();
 				break;
 			}

@@ -116,10 +116,10 @@ body {
 }
 
 .temp-mode-bar {
-	@apply w-4/5 h-20 bottom-30 border-y-3 rounded-[10px] border-indigo-600 bg-[#6D4FC2] mt-2 px-4 absolute;
+	@apply w-4/5 bottom-30 border-y-3 rounded-[10px] border-indigo-600 bg-[#6D4FC2] mt-2 px-4 absolute;
 }
 .temp-form {
-	@apply flex relative;
+	@apply relative flex items-center space-x-2 mt-2;
 }
 .temp-form input {
 	@apply w-full h-full pr-[30%] font-mono bg-[#f6f2ff] border-none outline-none ring-1 ring-indigo-100 focus:ring-0 focus:caret-[#6D4FC2];

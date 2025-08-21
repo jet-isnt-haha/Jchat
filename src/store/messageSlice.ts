@@ -60,20 +60,24 @@ export const createMessageSlice: StateCreator<
 	},
 	getCurrentMessages: () => {
 		const state = get();
-		if (state.chatMode === 'normal' && state.currentSessionId) {
-			return (
-				state.sessions.find((session) => session.id === state.currentSessionId)
-					?.messages ?? []
-			);
-		} else if (state.chatMode === 'temp' && state.tempSession) {
-			return state.tempSession.messages;
-		}
 
-		return [];
+		return (
+			state.sessions.find((session) => session.id === state.currentSessionId)
+				?.messages ?? []
+		);
+	},
+	getTempMessages: () => {
+		const state = get();
+		return state.tempSession?.messages ?? [];
 	},
 	getMessage: (messageId: string) => {
 		const state = get();
 		const messages = state.getCurrentMessages();
-		return messages.find((message) => message.id === messageId) ?? null;
+		const tempMessages = state.getTempMessages();
+		return (
+			messages.find((message) => message.id === messageId) ??
+			tempMessages.find((message) => message.id === messageId) ??
+			null
+		);
 	}
 });

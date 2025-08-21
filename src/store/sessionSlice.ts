@@ -4,7 +4,8 @@ import type { StateCreator } from 'zustand';
 import type {
 	ChatStore,
 	ChatSession,
-	SessionSlice
+	SessionSlice,
+	ChatMode
 } from '~/packages/types/chatType';
 
 export const createSessionSlice: StateCreator<
@@ -20,20 +21,28 @@ export const createSessionSlice: StateCreator<
 	isInTempMode: false,
 	chatMode: 'normal',
 
+	setChatMode: (option: ChatMode) => {
+		set({ chatMode: option });
+	},
 	setTempMode: (option: boolean) => {
 		set({ isInTempMode: option });
 	},
 	createTempSession: () => {
-		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-		const tempSession: ChatSession = {
-			id: sessionId,
-			title: '临时对话',
-			messages: [],
-			createdAt: Date.now(),
-			updatedAt: Date.now()
-		};
-		set({ tempSession, currentSessionId: sessionId });
-		return sessionId;
+		const tempSession = get().tempSession;
+		if (!tempSession) {
+			const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+			const tempSession: ChatSession = {
+				id: sessionId,
+				title: '临时对话',
+				messages: [],
+				createdAt: Date.now(),
+				updatedAt: Date.now()
+			};
+			set({ tempSession, currentSessionId: sessionId });
+			return sessionId;
+		} else {
+			return tempSession.id;
+		}
 	},
 	discardTempSession: () => {
 		set((state) => {

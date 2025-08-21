@@ -11,8 +11,7 @@ export const useSessionManager = () => {
 
 	//起到订阅作用
 	const currentSessionId = useChatStore((state) => state.currentSessionId);
-	const session = useChatStore((state) => state.sessions);
-
+	const sessions = useChatStore((state) => state.sessions);
 	const chatMessages = getCurrentMessages();
 	const navigate = useNavigate();
 
@@ -33,6 +32,6 @@ export const useSessionManager = () => {
 	return {
 		chatMessages,
 		sessionId: currentSessionId,
-		session
+		sessions
 	};
 };
