@@ -28,6 +28,7 @@ export default async function streamProcessor(
 				const jsonStr = JSON.parse(str.slice(6));
 
 				const delta = jsonStr.choices[0].delta.content;
+				console.log(delta);
 				if (delta) {
 					accumulatedText += delta;
 					onDelta(accumulatedText);

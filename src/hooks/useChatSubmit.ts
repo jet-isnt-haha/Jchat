@@ -1,14 +1,13 @@
 import { generateAPI } from '@/apis/fetch';
 import streamProcessor from '@/utils/streamProcessor';
 import { useRef } from 'react';
-import { useCreateSession } from './useCreateSession';
 import type { Message } from '~/packages/types/chatType';
 import { useChatStore } from '@/store';
+import getChatActionsStrategy from './chatStrategies/getChatActionsStrategy';
 
 export const useChatSubmit = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const {
-		getCurrentMessages,
 		currentSessionId,
 		addMessage,
 		updateMessage,
@@ -16,19 +15,29 @@ export const useChatSubmit = () => {
 		deleteMessage,
 		currentController,
 		setCurrentController,
-		clearCurrentController
+		clearCurrentController,
+		chatMode
 	} = useChatStore();
-	const { createSession } = useCreateSession();
-	const isLoading = getCurrentMessages().at(-1)?.isLoading;
-
+	const strategy = getChatActionsStrategy(chatMode);
+	const isLoading = strategy.handleGetMessages().at(-1)?.isLoading;
 	//处理用户输入
 	const handleUserInput = () => {
 		const userInput = inputRef.current?.value;
 		if (!userInput) return null;
 
-		if (!currentSessionId) {
-			createSession();
+		switch (chatMode) {
+			case 'normal': {
+				if (!currentSessionId) {
+					strategy.handleCreateSession();
+				}
+				break;
+			}
+			case 'temp': {
+				strategy.handleCreateSession();
+				break;
+			}
 		}
+
 		//添加用户消息并清空输入框
 		addMessage({
 			content: userInput,
@@ -54,19 +63,21 @@ export const useChatSubmit = () => {
 			role: 'model',
 			isLoading: true
 		});
-		const messageId = getCurrentMessages().at(-1)!.id;
+		const messages = strategy.handleGetMessages();
+		const lastMessage = messages.at(-1);
+		const messageId = lastMessage!.id;
 		const controller = new AbortController();
 		setCurrentController(controller);
 
 		try {
 			const modelResponse = await generateAPI(
-				[...getCurrentMessages()!, ...delta],
+				[...messages, ...delta],
 				controller.signal
 			);
-			const lastMessage = getCurrentMessages()?.at(-1);
+
 			if (!lastMessage) return;
 			await streamProcessor(modelResponse, (accumulatedText) => {
-				updateMessage(lastMessage.id, {
+				updateMessage(messageId, {
 					...lastMessage,
 					content: accumulatedText
 				});

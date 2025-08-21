@@ -60,7 +60,9 @@ const deleteMessageFromChatSession = (
 
 const getSessionAndUpdater = (
 	get: () => ChatStore,
-	set: (updater: (state: ChatStore) => Partial<ChatStore> | ChatStore) => void
+	set: (
+		updater: ((state: ChatStore) => Partial<ChatStore>) | Partial<ChatStore>
+	) => void
 ): SessionAndUpdater | null => {
 	const state = get();
 	//常规会话模式
@@ -80,8 +82,14 @@ const getSessionAndUpdater = (
 				}
 			};
 		}
+	} else if (state.chatMode === 'temp' && state.tempSession) {
+		return {
+			session: state.tempSession,
+			updateState: (modifiedSession) => {
+				set({ tempSession: modifiedSession });
+			}
+		};
 	}
-
 	return null;
 };
 
