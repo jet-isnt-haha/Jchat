@@ -39,15 +39,15 @@ body {
          text-[0.95rem] select-text;
 }
 
-.chat-body .model-message .message-text {
+.chat-body .message.model-message .message-text {
 	@apply bg-[#f6f2ff] rounded-[13px_13px_13px_3px] max-w-[100%];
 }
 
-.chat-body .user-message {
+.chat-body .message.user-message {
 	@apply flex flex-col items-end;
 }
 
-.chat-body .user-message .message-text {
+.chat-body .message.user-message .message-text {
 	@apply bg-[#6d4fc2] text-white rounded-[13px_13px_3px_13px];
 }
 
@@ -116,16 +116,22 @@ body {
 }
 
 .temp-mode-bar {
-	@apply w-4/5 bottom-30 border-3 rounded-[10px] border-indigo-300 bg-[#6D4FC2] mt-2 px-4 absolute;
+	@apply w-4/5 bottom-30 border-3 rounded-[10px] border-indigo-300 bg-[#6D4FC2] mt-2 px-4 py-1 absolute;
 	background: linear-gradient(to right, #6d4fc2, #f6f2ff);
 }
 .temp-form {
 	@apply relative flex items-center space-x-2 my-2;
 }
 .temp-body {
-	@apply px-1;
+	@apply flex flex-col w-full  rounded-md  
+           min-h-[0px] max-h-[400px] transition-all duration-300 
+           overflow-y-auto scrollbar-thin scrollbar-thumb-[#ddd3f9] scrollbar-track-transparent;
 }
-.temp-user-message {
+.temp-message {
+	@apply p-1;
+}
+
+.temp-message.user-message {
 	@apply text-[#f6f2ff];
 }
 
@@ -139,12 +145,15 @@ body {
 
 /* 第一个按钮（从右数第二个位置） */
 .temp-form button:nth-child(2) {
-	@apply right-15; /* 距离右侧80px */
+	@apply right-16; /* 距离右侧80px */
 }
 
 /* 第二个按钮（最右侧） */
 .temp-form button:nth-child(3) {
-	@apply right-6; /* 距离右侧6px */
+	@apply right-8; /* 距离右侧6px */
+}
+.temp-form button:nth-child(4) {
+	@apply right-2; /* 距离右侧6px */
 }
 
 /* 标题（h1-h6） */
@@ -237,4 +246,10 @@ body {
 }
 .message-text .katex-display {
 	@apply my-3 overflow-x-auto; /* 块级公式间距和滚动 */
+}
+
+.material-symbols-outlined.disabled {
+	@apply bg-gray-600 cursor-not-allowed;
+	color: #9ca3af; /* 灰色文字 */
+	opacity: 0.7; /* 降低不透明度增强禁用感 */
 }

@@ -69,6 +69,7 @@ export interface SessionSlice {
 	//temp
 	createTempSession: () => string;
 	discardTempSession: () => void;
+	saveTempSession: () => void;
 }
 
 export type ChatStore = SessionSlice & MessageSlice;

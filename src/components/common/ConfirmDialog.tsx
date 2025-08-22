@@ -6,7 +6,7 @@ interface ConfirmDialogProps {
 	onCancel: () => void;
 	confirmText: string;
 	cancelText: string;
-	danger: boolean;
+	danger?: boolean;
 }
 
 const ConfirmDialog = ({

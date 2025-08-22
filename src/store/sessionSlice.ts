@@ -46,11 +46,18 @@ export const createSessionSlice: StateCreator<
 	},
 	discardTempSession: () => {
 		set((state) => {
+			state.setChatMode('normal');
 			state.setTempMode(false);
 			return { tempSession: null };
 		});
 	},
-
+	saveTempSession: () => {
+		set((state) => {
+			if (state.tempSession)
+				return { sessions: [state.tempSession, ...state.sessions] };
+			else return { sessions: state.sessions };
+		});
+	},
 	createSession: () => {
 		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 		const newSession: ChatSession = {
