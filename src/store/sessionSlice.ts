@@ -38,7 +38,7 @@ export const createSessionSlice: StateCreator<
 				createdAt: Date.now(),
 				updatedAt: Date.now()
 			};
-			set({ tempSession, currentSessionId: sessionId });
+			set({ tempSession });
 			return sessionId;
 		} else {
 			return tempSession.id;

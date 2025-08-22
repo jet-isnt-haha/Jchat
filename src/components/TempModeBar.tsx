@@ -10,10 +10,10 @@ const TempModeBar = () => {
 	const discardTempSession = useChatStore((state) => state.discardTempSession);
 	const setChatMode = useChatStore((state) => state.setChatMode);
 	return (
-		<div className="temp-mode-bar ">
+		<div className="temp-mode-bar">
 			<TempBody />
 			<form action="#" className="temp-form " onSubmit={handleFormSubmit}>
-				<input ref={inputRef} type="text" placeholder="在上下文中询问或编辑" />
+				<input ref={inputRef} type="text" placeholder="ask in context" />
 				<IconButton
 					type="submit"
 					className={isLoading ? icons.stop : icons.send}

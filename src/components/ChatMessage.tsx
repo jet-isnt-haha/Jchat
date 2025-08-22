@@ -5,9 +5,10 @@ import MessageActions from './MessageActions';
 import { useMessageActions } from '@/hooks/useMessageActions';
 import { useMessageRender } from '@/hooks/useMessageRender';
 import { useOnRenderedCallback } from '@/hooks/useOnRenderedCallback';
+import MessageBar from './common/MessageBar';
 
 const ChatMessage = (msg: Message & { onRendered?: () => void }) => {
-	const { messages, icons, role } = useTexts();
+	const { role } = useTexts();
 	const { handleCopy, handleDelete, handleFavor, handleRefresh, handleShare } =
 		useMessageActions(msg.id);
 	const [renderedMessage] = useMessageRender(msg.content, msg.role);
@@ -16,18 +17,8 @@ const ChatMessage = (msg: Message & { onRendered?: () => void }) => {
 		<div
 			className={`message ${msg.role === role.model ? role.model : role.user}-message ${msg.isError ? 'error' : ''}`}
 		>
-			{msg.content === messages.thinking ? (
-				<span className={`material-symbols-outlined ${icons.search}`}>
-					{icons.search}
-				</span>
-			) : (
-				<p
-					className="message-text"
-					dangerouslySetInnerHTML={{
-						__html: renderedMessage
-					}}
-				/>
-			)}
+			<MessageBar msg={msg} />
+
 			{msg.role === role.model && !msg.isLoading && (
 				<MessageActions
 					MessageId={msg.id}
