@@ -1,12 +1,13 @@
 import { useChatSubmit } from '@/hooks/useChatSubmit';
 import '../styles/global.css';
-import { useTexts } from '@/hooks/useConfig';
+import { useAppConfig, useTexts } from '@/hooks/useConfig';
 import IconButton from './common/IconButton';
 import { useChatStore } from '@/store';
 
 const HomeFooter = () => {
 	const { inputRef, handleFormSubmit, isLoading } = useChatSubmit();
 	const { placeholders, icons } = useTexts();
+	const { chatMode } = useAppConfig();
 	const setChatMode = useChatStore((state) => state.setChatMode);
 	return (
 		<div className="chat-footer">
@@ -22,7 +23,7 @@ const HomeFooter = () => {
 					className={isLoading ? icons.stop : icons.send}
 					isLoading={isLoading}
 					onClick={() => {
-						setChatMode('normal');
+						setChatMode(chatMode.normal);
 					}}
 				/>
 			</form>

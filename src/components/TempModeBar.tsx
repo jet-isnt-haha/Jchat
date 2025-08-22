@@ -1,6 +1,6 @@
 import { useChatSubmit } from '@/hooks/useChatSubmit';
 import IconButton from './common/IconButton';
-import { useTexts } from '@/hooks/useConfig';
+import { useAppConfig, useModals, useTexts } from '@/hooks/useConfig';
 import TempBody from './TempBody';
 import { useChatStore } from '@/store';
 import ConfirmDialog from './common/ConfirmDialog';
@@ -11,6 +11,8 @@ const TempModeBar = () => {
 
 	const { inputRef, handleFormSubmit, isLoading } = useChatSubmit();
 	const { icons } = useTexts();
+	const { confirmSave } = useModals();
+	const { chatMode } = useAppConfig();
 	const { discardTempSession, tempSession, setChatMode, saveTempSession } =
 		useChatStore();
 	const messages = tempSession?.messages ?? [];
@@ -25,12 +27,15 @@ const TempModeBar = () => {
 					className={isLoading ? icons.stop : icons.send}
 					isLoading={isLoading}
 					onClick={() => {
-						setChatMode('temp');
+						setChatMode(chatMode.temp);
 					}}
 				/>
-				<IconButton className={'close'} onClick={() => discardTempSession()} />
 				<IconButton
-					className={'save'}
+					className={icons.close}
+					onClick={() => discardTempSession()}
+				/>
+				<IconButton
+					className={icons.save}
 					onClick={() => {
 						setShowConfirm(true);
 					}}
@@ -39,16 +44,16 @@ const TempModeBar = () => {
 			</form>
 			<ConfirmDialog
 				isOpen={showConfirm}
-				title={'保存会话'}
-				message={'确定保存这个会话吗？'}
+				title={confirmSave.title}
+				message={confirmSave.message}
 				onConfirm={() => {
 					saveTempSession();
 					discardTempSession();
 					setShowConfirm(false);
 				}}
 				onCancel={() => setShowConfirm(false)}
-				confirmText={'保存'}
-				cancelText={'取消'}
+				confirmText={confirmSave.confirmText}
+				cancelText={confirmSave.cancelText}
 			/>
 		</div>
 	);

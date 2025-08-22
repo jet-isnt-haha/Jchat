@@ -15,7 +15,7 @@ const SessionModal = ({ closeModal, sessionId }: SessionModalProps) => {
 	const [showConfirm, setShowConfirm] = useState(false);
 	const handleOptionClick = (option: string) => {
 		switch (option) {
-			case 'delete': {
+			case sessionActions.option.delete: {
 				setShowConfirm(true);
 				break;
 			}

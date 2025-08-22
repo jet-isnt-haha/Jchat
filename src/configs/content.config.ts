@@ -26,7 +26,14 @@ export const contentConfig = {
 			sort: 'sort',
 			edit: 'edit_square',
 			search: 'search',
-			back: 'chevron_right'
+			back: 'chevron_right',
+			save: 'save',
+			close: 'close',
+			copy: 'content_copy',
+			delete: 'delete',
+			star: 'cards_star',
+			share: 'share',
+			refresh: 'refresh'
 		},
 		role: {
 			user: 'user',
@@ -41,12 +48,21 @@ export const contentConfig = {
 			confirmText: '删除',
 			cancelText: '取消'
 		},
+		confirmSave: {
+			title: '保存会话',
+			message: '确定要保存这个会话吗？',
+			confirmText: '保存',
+			cancelText: '取消'
+		},
 		sessionActions: {
 			options: [
 				{ icon: '✏️', label: '重命名', action: 'edit', danger: false },
 				{ icon: '📋', label: '置顶', action: 'pin', danger: false },
 				{ icon: '🗑️', label: '删除', action: 'delete', danger: true }
-			] as ItemActions[]
+			] as ItemActions[],
+			option: {
+				delete: 'delete'
+			}
 		}
 	},
 	system: {

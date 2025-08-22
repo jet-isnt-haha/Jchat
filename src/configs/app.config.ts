@@ -34,5 +34,9 @@ export const appConfig = {
 		history: '/history',
 		canvas: '/canvas',
 		sessionNew: '/session/new'
+	},
+	chatMode: {
+		normal: 'normal',
+		temp: 'temp'
 	}
 } as const;
