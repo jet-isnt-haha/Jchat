@@ -8,8 +8,7 @@ export const useTouchController = () => {
 	const hasMoved = useRef(false);
 
 	const handleTouchStart =
-		(id: string, handleTouchEvent: () => void) =>
-		(e: React.TouchEvent<HTMLDivElement>) => {
+		(handleTouchEvent: () => void) => (e: React.TouchEvent<HTMLDivElement>) => {
 			const touch = e.touches[0];
 			touchStart.current = {
 				x: touch.clientX,

@@ -15,7 +15,7 @@ const HistoryBody = () => {
 		count: chatSessions.length,
 		estimateSize: virtualization.estimatedItemSize
 	});
-
+	const sessionList = searchedSessions || chatSessions;
 	const { showModal, closeModal, selectedId, openModal } = useShowModal();
 	const { handleTouchEnd, handleTouchStart, handleTouchMove } =
 		useTouchController();
@@ -26,11 +26,22 @@ const HistoryBody = () => {
 			ref={parentRef}
 			style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
 		>
-			{!searchedSessions || searchedSessions.length ? (
+			{sessionList.length > 0 ? (
 				rowVirtualizer.getVirtualItems().map((virtualItem) => {
-					const session = searchedSessions
-						? searchedSessions[virtualItem.index]
-						: chatSessions[virtualItem.index];
+					if (
+						virtualItem.index < 0 ||
+						virtualItem.index >= sessionList.length
+					) {
+						return null;
+					}
+
+					const session = sessionList[virtualItem.index];
+
+					// 只在session有效时渲染组件
+					if (!session) {
+						return null;
+					}
+
 					return (
 						<ChatSession
 							session={session}
@@ -39,7 +50,7 @@ const HistoryBody = () => {
 								transform: `translateY(${virtualItem.start}px)`
 							}}
 							key={virtualItem.key}
-							onTouchStart={handleTouchStart(session.id, () => {
+							onTouchStart={handleTouchStart(() => {
 								openModal(session.id);
 							})}
 							onTouchMove={handleTouchMove}
