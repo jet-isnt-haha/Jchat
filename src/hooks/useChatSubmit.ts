@@ -37,7 +37,7 @@ export const useChatSubmit = () => {
 				break;
 			}
 		}
-
+		console.log(chatMode);
 		//添加用户消息并清空输入框
 		addMessage({
 			content: userInput,
@@ -105,7 +105,6 @@ export const useChatSubmit = () => {
 			currentController.abort();
 			return;
 		}
-
 		const userInput = handleUserInput();
 
 		if (userInput) {

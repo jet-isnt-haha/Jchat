@@ -33,7 +33,8 @@ export const contentConfig = {
 			delete: 'delete',
 			star: 'cards_star',
 			share: 'share',
-			refresh: 'refresh'
+			refresh: 'refresh',
+			branch: 'graph_1'
 		},
 		role: {
 			user: 'user',

@@ -37,6 +37,7 @@ export const appConfig = {
 	},
 	chatMode: {
 		normal: 'normal',
-		temp: 'temp'
+		temp: 'temp',
+		branch: 'branch'
 	}
 } as const;

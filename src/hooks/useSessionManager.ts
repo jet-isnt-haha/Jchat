@@ -4,14 +4,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 export const useSessionManager = () => {
 	const { id } = useParams();
-	const setCurrentSessionId = useChatStore(
-		(state) => state.setCurrentSessionId
-	);
-	const getCurrentMessages = useChatStore((state) => state.getCurrentMessages);
+	const {
+		setCurrentSessionId,
+		getCurrentMessages,
+		sessions,
+		currentSessionId,
+		findSessionById
+	} = useChatStore();
 
-	//起到订阅作用
-	const currentSessionId = useChatStore((state) => state.currentSessionId);
-	const sessions = useChatStore((state) => state.sessions);
 	const chatMessages = getCurrentMessages();
 	const navigate = useNavigate();
 
@@ -23,8 +23,13 @@ export const useSessionManager = () => {
 				navigate('/session');
 				setCurrentSessionId('');
 			} else {
-				// 正常会话ID，设置当前sessionId
-				setCurrentSessionId(id);
+				const session = findSessionById(id);
+				if (session) {
+					setCurrentSessionId(id);
+				} else {
+					// 会话不存在，重定向到首页
+					navigate('/session');
+				}
 			}
 		}
 	}, [id]);

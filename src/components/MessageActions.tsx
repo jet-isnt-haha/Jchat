@@ -3,6 +3,8 @@ import ConfirmDialog from './common/ConfirmDialog';
 import IconButton from './common/IconButton';
 import { useModals, useTexts } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';
+import { useNavigate } from 'react-router-dom';
+import { useCreateSession } from '@/hooks/useCreateSession';
 
 interface MessageActionsProps {
 	MessageId: string;
@@ -25,6 +27,19 @@ const MessageActions = ({
 	const { confirmDelete } = useModals();
 	const getCurrentMessages = useChatStore((state) => state.getCurrentMessages);
 	const { icons } = useTexts();
+
+	const { createChildSession } = useCreateSession();
+	const { currentSessionId } = useChatStore();
+	const navigate = useNavigate();
+	const createBranch = () => {
+		if (currentSessionId) {
+			const lastId = getCurrentMessages().at(-3)?.id;
+			console.log(currentSessionId);
+			console.log(lastId);
+			if (lastId) createChildSession(currentSessionId, lastId);
+		}
+	};
+
 	return (
 		<>
 			<div className="message-actions">
@@ -39,7 +54,17 @@ const MessageActions = ({
 				<IconButton className={icons.star} onClick={onFavor} />
 				<IconButton className={icons.share} onClick={onShare} />
 				{getCurrentMessages().at(-1)!.id === MessageId && (
-					<IconButton className={icons.refresh} onClick={onRefresh} />
+					<>
+						<IconButton className={icons.refresh} onClick={onRefresh} />
+						<IconButton
+							className={icons.branch}
+							onClick={() => createBranch()}
+						/>
+						<IconButton
+							className={'danger'}
+							onClick={() => navigate('/branch')}
+						/>
+					</>
 				)}
 			</div>
 			<ConfirmDialog
