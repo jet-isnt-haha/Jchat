@@ -1,3 +1,5 @@
+import type ChatSession from '@/components/ChatSession';
+
 //消息类型定义
 export interface Message {
 	id: string;
@@ -15,6 +17,11 @@ export interface ChatSession {
 	messages: Message[];
 	createdAt: number;
 	updatedAt: number;
+	isBranched?: boolean;
+	parentId?: string;
+	children: ChatSession[];
+	// 新增：分支点元数据
+	parentLastMessageId?: string;
 }
 
 export interface ItemActions {
@@ -29,7 +36,7 @@ export interface SessionAndUpdater {
 	updateState: (modifiedSession: ChatSession) => void;
 }
 
-export type ChatMode = 'normal' | 'temp';
+export type ChatMode = 'normal' | 'temp' | 'branch';
 
 //业务策略接口
 export interface ChatActionsStrategy {
@@ -60,16 +67,21 @@ export interface SessionSlice {
 
 	setChatMode: (option: ChatMode) => void;
 	setTempMode: (option: boolean) => void;
-	createSession: () => string;
+	createSession: (session?: Partial<ChatSession> | null) => string;
 	setCurrentSessionId: (id: string) => void;
 	setSearchSessions: (keywords: string) => void;
 	deleteSession: (sessionId: string) => void;
-	getSession: (sessionId: string) => ChatSession | null;
+	updateSession: (sessionId: string, update: Partial<ChatSession>) => void;
 
 	//temp
 	createTempSession: () => string;
 	discardTempSession: () => void;
 	saveTempSession: () => void;
+
+	//branch
+	createChildSession: (parentId: string, parentLastMessageId: string) => string;
+	findSessionById: (sessionId: string) => ChatSession | null;
+	findRootSessionById: (sessionId: string) => ChatSession | null;
 }
 
 export type ChatStore = SessionSlice & MessageSlice;

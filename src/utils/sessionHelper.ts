@@ -67,18 +67,12 @@ const getSessionAndUpdater = (
 	const state = get();
 	//常规会话模式
 	if (state.chatMode === 'normal' && state.currentSessionId) {
-		const currrentSession = state.sessions.find(
-			(session) => session.id === state.currentSessionId
-		);
-		if (currrentSession) {
+		const currentSession = state.findSessionById(state.currentSessionId);
+		if (currentSession) {
 			return {
-				session: currrentSession,
+				session: currentSession,
 				updateState: (modifedSession) => {
-					set((currentState) => ({
-						sessions: currentState.sessions.map((session) =>
-							session.id === modifedSession.id ? modifedSession : session
-						)
-					}));
+					state.updateSession(currentSession.id, modifedSession);
 				}
 			};
 		}

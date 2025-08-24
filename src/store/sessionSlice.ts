@@ -36,7 +36,9 @@ export const createSessionSlice: StateCreator<
 				title: '临时对话',
 				messages: [],
 				createdAt: Date.now(),
-				updatedAt: Date.now()
+				updatedAt: Date.now(),
+				isBranched: false,
+				children: []
 			};
 			set({ tempSession });
 			return sessionId;
@@ -58,18 +60,20 @@ export const createSessionSlice: StateCreator<
 			else return { sessions: state.sessions };
 		});
 	},
-	createSession: () => {
+	createSession: (session = null) => {
 		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 		const newSession: ChatSession = {
 			id: sessionId,
 			title: config.app.session.defaultTitle,
 			messages: [],
 			createdAt: Date.now(),
-			updatedAt: Date.now()
+			updatedAt: Date.now(),
+			isBranched: false,
+			children: [],
+			...session
 		};
 		set((state) => ({
-			sessions: [newSession, ...state.sessions],
-			currentSessionId: sessionId
+			sessions: [newSession, ...state.sessions]
 		}));
 		return sessionId;
 	},
@@ -97,8 +101,93 @@ export const createSessionSlice: StateCreator<
 				state.currentSessionId === sessionId ? null : state.currentSessionId
 		}));
 	},
-	getSession: (sessionId: string) => {
+
+	updateSession: (sessionId: string, update) => {
 		const state = get();
-		return state.sessions.find((session) => session.id === sessionId) ?? null;
+		const found = state.findSessionById(sessionId);
+		const root = state.findRootSessionById(sessionId);
+		if (!found?.parentId) {
+			set((state) => ({
+				sessions: state.sessions.map((s) => {
+					if (s.id === sessionId) {
+						s = { ...s, ...update };
+					}
+					return s;
+				})
+			}));
+		} else {
+			const parent = state.findSessionById(found.parentId);
+			if (parent) {
+				parent.children =
+					parent?.children.map((child) => {
+						if (child.id === sessionId) {
+							return { ...child, ...update };
+						}
+						return child;
+					}) ?? [];
+				set((state) => ({
+					sessions: state.sessions.map((s) => {
+						if (s.id === root?.id) {
+							return root;
+						}
+						return s;
+					})
+				}));
+			}
+		}
+	},
+	createChildSession: (parentId: string, parentLastMessageId: string) => {
+		const state = get();
+		const parent = state.findSessionById(parentId);
+		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+		if (parent) {
+			const SlicedMessages = parent.messages.slice(0, -2);
+			const childSession: ChatSession = {
+				id: sessionId,
+				title: config.app.session.defaultTitle,
+				messages: SlicedMessages,
+				createdAt: Date.now(),
+				updatedAt: Date.now(),
+				isBranched: false,
+				children: [],
+				parentId,
+				parentLastMessageId
+			};
+			parent.children.push(childSession);
+			parent.isBranched = true;
+		}
+		return sessionId;
+	},
+	findSessionById: (sessionId: string) => {
+		const state = get();
+		function searchInSession(session: ChatSession): ChatSession | null {
+			if (session.id === sessionId) return session;
+			if (session.children && session.isBranched)
+				for (const childSession of session.children) {
+					const found = searchInSession(childSession);
+					if (found) return found;
+				}
+
+			return null;
+		}
+
+		for (const session of state.sessions) {
+			const found = searchInSession(session);
+			if (found) return found;
+		}
+		return null;
+	},
+	findRootSessionById: (sessionId: string) => {
+		const { findSessionById } = get();
+		const childSession = findSessionById(sessionId);
+		if (!childSession) return null;
+		if (!childSession.parentId) return childSession;
+		let parentSession = findSessionById(childSession.parentId);
+		while (parentSession) {
+			if (parentSession.parentId)
+				parentSession = findSessionById(parentSession.parentId);
+			else return parentSession;
+		}
+		return null;
 	}
 });

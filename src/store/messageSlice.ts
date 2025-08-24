@@ -35,6 +35,7 @@ export const createMessageSlice: StateCreator<
 			sessionInfo.session,
 			newMessage
 		);
+		console.log(updatedSession);
 		sessionInfo.updateState(updatedSession);
 	},
 	updateMessage: (messageId: string, update: Message) => {
@@ -60,11 +61,9 @@ export const createMessageSlice: StateCreator<
 	},
 	getCurrentMessages: () => {
 		const state = get();
-
-		return (
-			state.sessions.find((session) => session.id === state.currentSessionId)
-				?.messages ?? []
-		);
+		if (!state.currentSessionId) return [];
+		const session = state.findSessionById(state.currentSessionId);
+		return session?.messages ?? [];
 	},
 	getTempMessages: () => {
 		const state = get();
