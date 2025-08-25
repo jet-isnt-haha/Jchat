@@ -9,8 +9,14 @@ import MessageBar from './common/MessageBar';
 
 const ChatMessage = (msg: Message & { onRendered?: () => void }) => {
 	const { role } = useTexts();
-	const { handleCopy, handleDelete, handleFavor, handleRefresh, handleShare } =
-		useMessageActions(msg.id);
+	const {
+		handleCopy,
+		handleDelete,
+		handleFavor,
+		handleRefresh,
+		handleShare,
+		handleBranch
+	} = useMessageActions(msg.id);
 	const [renderedMessage] = useMessageRender(msg.content, msg.role);
 	useOnRenderedCallback(renderedMessage, msg.onRendered, 0);
 	return (
@@ -27,6 +33,7 @@ const ChatMessage = (msg: Message & { onRendered?: () => void }) => {
 					onFavor={handleFavor}
 					onRefresh={handleRefresh}
 					onShare={handleShare}
+					onBranch={handleBranch}
 				/>
 			)}
 		</div>

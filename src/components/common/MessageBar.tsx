@@ -9,6 +9,9 @@ interface MessageBarProps {
 const MessageBar = ({ msg }: MessageBarProps) => {
 	const { messages, icons, role } = useTexts();
 	const [renderedMessage] = useMessageRender(msg.content, msg.role);
+	if (msg.role === role.system) {
+		return <></>;
+	}
 
 	return (
 		<>

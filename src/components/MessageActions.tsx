@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import ConfirmDialog from './common/ConfirmDialog';
 import IconButton from './common/IconButton';
 import { useModals, useTexts } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';
-import { useNavigate } from 'react-router-dom';
-import { useCreateSession } from '@/hooks/useCreateSession';
+import type { ConfirmConfig } from '~/packages/types/chatType';
 
 interface MessageActionsProps {
 	MessageId: string;
@@ -13,7 +12,18 @@ interface MessageActionsProps {
 	onFavor: () => void;
 	onRefresh: () => void;
 	onShare: () => void;
+	onBranch: () => void;
 }
+interface ConfirmState {
+	showConfirm: boolean;
+	confirm: ConfirmConfig;
+	onSomething: () => void;
+}
+
+type ConfirmAction =
+	| { type: 'delete' }
+	| { type: 'branch' }
+	| { type: 'close' };
 
 const MessageActions = ({
 	MessageId,
@@ -21,25 +31,39 @@ const MessageActions = ({
 	onDelete,
 	onFavor,
 	onRefresh,
-	onShare
+	onShare,
+	onBranch
 }: MessageActionsProps) => {
-	const [showConfirm, setShowConfirm] = useState(false);
-	const { confirmDelete } = useModals();
-	const getCurrentMessages = useChatStore((state) => state.getCurrentMessages);
-	const { icons } = useTexts();
-
-	const { createChildSession } = useCreateSession();
-	const { currentSessionId } = useChatStore();
-	const navigate = useNavigate();
-	const createBranch = () => {
-		if (currentSessionId) {
-			const lastId = getCurrentMessages().at(-3)?.id;
-			console.log(currentSessionId);
-			console.log(lastId);
-			if (lastId) createChildSession(currentSessionId, lastId);
+	const { confirmDelete, confirmBranch } = useModals();
+	const todoReducer = (state: ConfirmState, action: ConfirmAction) => {
+		switch (action.type) {
+			case 'delete':
+				return {
+					confirm: confirmDelete,
+					onSomething: onDelete,
+					showConfirm: true
+				};
+			case 'branch':
+				return {
+					confirm: confirmBranch,
+					onSomething: onBranch,
+					showConfirm: true
+				};
+			case 'close':
+				return { ...state, showConfirm: false };
+			default:
+				return state;
 		}
 	};
 
+	const [state, dispatch] = useReducer(todoReducer, {
+		confirm: confirmDelete,
+		onSomething: onDelete,
+		showConfirm: false
+	});
+
+	const getCurrentMessages = useChatStore((state) => state.getCurrentMessages);
+	const { icons } = useTexts();
 	return (
 		<>
 			<div className="message-actions">
@@ -48,7 +72,7 @@ const MessageActions = ({
 					className={icons.delete}
 					danger={true}
 					onClick={() => {
-						setShowConfirm(true);
+						dispatch({ type: 'delete' });
 					}}
 				/>
 				<IconButton className={icons.star} onClick={onFavor} />
@@ -58,27 +82,25 @@ const MessageActions = ({
 						<IconButton className={icons.refresh} onClick={onRefresh} />
 						<IconButton
 							className={icons.branch}
-							onClick={() => createBranch()}
-						/>
-						<IconButton
-							className={'danger'}
-							onClick={() => navigate('/branch')}
+							onClick={() => {
+								dispatch({ type: 'branch' });
+							}}
 						/>
 					</>
 				)}
 			</div>
 			<ConfirmDialog
-				isOpen={showConfirm}
-				title={confirmDelete.title}
-				message={confirmDelete.message}
+				isOpen={state.showConfirm}
+				title={state.confirm.title}
+				message={state.confirm.message}
 				onConfirm={() => {
-					onDelete();
-					setShowConfirm(false);
+					state.onSomething();
+					dispatch({ type: 'close' });
 				}}
-				onCancel={() => setShowConfirm(false)}
-				confirmText={confirmDelete.confirmText}
-				cancelText={confirmDelete.cancelText}
-				danger={true}
+				onCancel={() => dispatch({ type: 'close' })}
+				confirmText={state.confirm.confirmText}
+				cancelText={state.confirm.cancelText}
+				danger={state.confirm.danger}
 			/>
 		</>
 	);

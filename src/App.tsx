@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import History from './pages/History';
 import Canvas from './pages/Canvas';
 import Test from './pages/Test';
+import Branch from './pages/Branch';
 export default function App() {
 	return (
 		<Router>
@@ -18,6 +19,7 @@ export default function App() {
 				<Route path="/history" element={<History />} />
 				<Route path="/canvas" element={<Canvas />} />
 				<Route path="/test" element={<Test />} />
+				<Route path="/branch" element={<Branch />} />
 				<Route path="*" element={<Navigate to="/session" />} />
 			</Routes>
 		</Router>
