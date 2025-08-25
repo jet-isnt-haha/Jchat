@@ -10,7 +10,6 @@ export const useHistorySearch = () => {
 	const handleSearchChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
 			const keywords = e.target.value;
-			console.log(keywords);
 			setSearchSessions(keywords);
 		},
 		[setSearchSessions]

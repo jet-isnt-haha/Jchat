@@ -20,7 +20,6 @@ const ChatSession = ({
 		<div
 			className="session"
 			onClick={() => {
-				console.log(session.id);
 				navigate(`${routes.home}/${session.id}`);
 			}}
 			style={style}

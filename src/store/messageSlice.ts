@@ -35,7 +35,6 @@ export const createMessageSlice: StateCreator<
 			sessionInfo.session,
 			newMessage
 		);
-		console.log(updatedSession);
 		sessionInfo.updateState(updatedSession);
 	},
 	updateMessage: (messageId: string, update: Message) => {
