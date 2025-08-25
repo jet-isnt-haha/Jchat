@@ -33,11 +33,11 @@ export const appConfig = {
 		sessionWithId: '/session/:id',
 		history: '/history',
 		canvas: '/canvas',
-		sessionNew: '/session/new'
+		sessionNew: '/session/new',
+		branch: '/branch'
 	},
 	chatMode: {
 		normal: 'normal',
-		temp: 'temp',
-		branch: 'branch'
+		temp: 'temp'
 	}
 } as const;

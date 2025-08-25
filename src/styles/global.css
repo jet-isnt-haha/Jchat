@@ -156,6 +156,12 @@ body {
 	@apply right-2; /* 距离右侧6px */
 }
 
+.branch .branch-header button {
+	@apply absolute left-2 cursor-pointer hover:bg-gray-200 rounded-md;
+}
+.branch .branch-body button {
+	@apply p-0.5 cursor-pointer hover:bg-gray-200 rounded;
+}
 /* 标题（h1-h6） */
 .message-text h1,
 .message-text h2,

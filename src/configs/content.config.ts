@@ -1,6 +1,6 @@
 //文本内容配置
 
-import type { ItemActions } from '~/packages/types/chatType';
+import type { ConfirmConfig, ItemActions } from '~/packages/types/chatType';
 
 export const contentConfig = {
 	// 用户界面文本
@@ -27,6 +27,7 @@ export const contentConfig = {
 			edit: 'edit_square',
 			search: 'search',
 			back: 'chevron_right',
+			left_back: 'chevron_left',
 			save: 'save',
 			close: 'close',
 			copy: 'content_copy',
@@ -34,7 +35,9 @@ export const contentConfig = {
 			star: 'cards_star',
 			share: 'share',
 			refresh: 'refresh',
-			branch: 'graph_1'
+			branch: 'graph_1',
+			down: 'keyboard_arrow_down',
+			right: 'keyboard_arrow_right'
 		},
 		role: {
 			user: 'user',
@@ -47,22 +50,55 @@ export const contentConfig = {
 			title: '删除会话',
 			message: '确定要删除这个会话吗？删除后将无法恢复，所有对话记录都将丢失。',
 			confirmText: '删除',
-			cancelText: '取消'
-		},
+			cancelText: '取消',
+			danger: true
+		} as ConfirmConfig,
 		confirmSave: {
 			title: '保存会话',
 			message: '确定要保存这个会话吗？',
 			confirmText: '保存',
-			cancelText: '取消'
-		},
+			cancelText: '取消',
+			danger: false
+		} as ConfirmConfig,
+		confirmBranch: {
+			title: '开启分支会话',
+			message: '确定要开启这个分支会话吗？',
+			confirmText: '开启',
+			cancelText: '取消',
+			danger: false
+		} as ConfirmConfig,
 		sessionActions: {
 			options: [
 				{ icon: '✏️', label: '重命名', action: 'edit', danger: false },
 				{ icon: '📋', label: '置顶', action: 'pin', danger: false },
+				{ icon: '🔀', label: '分支', action: 'branch', danger: false },
 				{ icon: '🗑️', label: '删除', action: 'delete', danger: true }
 			] as ItemActions[],
 			option: {
-				delete: 'delete'
+				delete: 'delete',
+				branch: 'branch'
+			}
+		},
+		modeActions: {
+			options: [
+				{
+					icon: '⌛',
+					label: '临时对话',
+					action: 'temp_session',
+					danger: false
+				},
+				{
+					icon: '🔀',
+					label: '分支对话',
+					action: 'branch_session',
+					danger: false
+				},
+				{ icon: '🆕', label: '新对话', action: 'new_session', danger: false }
+			] as ItemActions[],
+			option: {
+				temp: 'temp_session',
+				branch: 'branch_session',
+				new: 'new_session'
 			}
 		}
 	},

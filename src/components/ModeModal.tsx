@@ -1,7 +1,6 @@
-import type { ItemActions } from '~/packages/types/chatType';
 import ItemModal from './common/ItemModal';
 import { useNavigate } from 'react-router-dom';
-import { useAppConfig } from '@/hooks/useConfig';
+import { useAppConfig, useModals } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';
 
 interface ModeModalProps {
@@ -10,21 +9,24 @@ interface ModeModalProps {
 
 const ModeModal = ({ closeModal }: ModeModalProps) => {
 	const { routes } = useAppConfig();
+	const { modeActions } = useModals();
 	const navigate = useNavigate();
 	const setTempMode = useChatStore((state) => state.setTempMode);
-	const items: ItemActions[] = [
-		{ icon: '⌛', label: '临时对话', action: 'temp_session', danger: false },
-		{ icon: '💎', label: '新对话', action: 'new_session', danger: false }
-	];
+
 	const handleItemsClick = (option: string) => {
 		switch (option) {
-			case 'temp_session': {
+			case modeActions.option.temp: {
 				setTempMode(true);
 				closeModal();
 				break;
 			}
-			case 'new_session': {
+			case modeActions.option.new: {
 				navigate(routes.sessionNew);
+				closeModal();
+				break;
+			}
+			case modeActions.option.branch: {
+				navigate(routes.branch);
 				closeModal();
 				break;
 			}
@@ -33,7 +35,7 @@ const ModeModal = ({ closeModal }: ModeModalProps) => {
 
 	return (
 		<ItemModal
-			items={items}
+			items={modeActions.options}
 			closeModal={closeModal}
 			handleItemsClick={handleItemsClick}
 		/>

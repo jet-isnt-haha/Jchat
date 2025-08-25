@@ -96,7 +96,8 @@ function generateSession(index: number = 0): ChatSession {
 		title: faker.helpers.arrayElement(conversationTopics),
 		messages,
 		createdAt,
-		updatedAt: createdAt + 1000 * 60 * faker.number.int({ min: 5, max: 120 }) // 更新时间稍晚
+		updatedAt: createdAt + 1000 * 60 * faker.number.int({ min: 5, max: 120 }), // 更新时间稍晚
+		children: []
 	};
 }
 
@@ -112,12 +113,13 @@ export function generateEmptySession(): ChatSession {
 		title: '新对话',
 		messages: [],
 		createdAt: Date.now(),
-		updatedAt: Date.now()
+		updatedAt: Date.now(),
+		children: []
 	};
 }
 
 export function generateActiveSession(): ChatSession {
-	const session = generateSession();
+	let session = generateSession();
 	// 最后一条消息是用户消息，模拟等待回复的状态
 	const lastMessage: Message = {
 		id: `msg_${faker.string.uuid()}`,
@@ -130,7 +132,194 @@ export function generateActiveSession(): ChatSession {
 	session.messages.push(lastMessage);
 	session.updatedAt = Date.now();
 	session.id = 'this_is_a_test_id_in_case_the_random_id=-=';
-
+	session = {
+		id: 'this_is_a_test_id_in_case_the_random_id=-=',
+		title: '测试分支喵',
+		messages: [
+			{
+				content: 'hello',
+				role: 'user',
+				id: 'msg_1756057200768_xkdam7u',
+				timestamp: 1756057200768
+			},
+			{
+				content:
+					'Hello! 😊  \nHow can I help you today? Whether you have a question, need assistance with something, or just want to chat—I’m here for it!',
+				role: 'model',
+				isLoading: false,
+				id: 'msg_1756057200768_l44tet7',
+				timestamp: 1756057200768
+			},
+			{
+				content: 'hello again',
+				role: 'user',
+				id: 'msg_1756057214847_6xqxbkd',
+				timestamp: 1756057214847
+			},
+			{
+				content:
+					"Hello again! 👋  \nNoticed your \"Thinking...\" — hope you're pondering something fun, deep, or curious! 😄  \nWhenever you're ready, I'm all ears (or eyes, technically). What’s on your mind?",
+				role: 'model',
+				isLoading: false,
+				id: 'msg_1756057214847_9051zhy',
+				timestamp: 1756057214847
+			}
+		],
+		createdAt: 1756057200767,
+		updatedAt: 1756057226427,
+		isBranched: true,
+		children: [
+			{
+				id: '1756057227573_2yl1vju',
+				title: '新对话',
+				messages: [
+					{
+						content: 'hello',
+						role: 'user',
+						id: 'msg_1756057200768_xkdam7u',
+						timestamp: 1756057200768
+					},
+					{
+						content:
+							'Hello! 😊  \nHow can I help you today? Whether you have a question, need assistance with something, or just want to chat—I’m here for it!',
+						role: 'model',
+						isLoading: false,
+						id: 'msg_1756057200768_l44tet7',
+						timestamp: 1756057200768
+					},
+					{
+						content: 'goodbye',
+						role: 'user',
+						id: 'msg_1756057232159_u1qud0d',
+						timestamp: 1756057232159
+					},
+					{
+						content:
+							'Goodbye! 👋  \nIt was nice chatting with you. If you ever need help again, I’ll be right here. Take care and see you next time! 🌟',
+						role: 'model',
+						isLoading: false,
+						id: 'msg_1756057232159_oql7t6f',
+						timestamp: 1756057232159
+					},
+					{
+						content: '谢谢',
+						role: 'user',
+						id: 'msg_1756057248528_hyxjfxs',
+						timestamp: 1756057248528
+					},
+					{
+						content:
+							"You're very welcome! 😊  \nIf you ever need anything—whether it’s a question, help, or just someone to chat with—I’m here for you anytime.  \nTake care, and see you next time! 🌟💬",
+						role: 'model',
+						isLoading: false,
+						id: 'msg_1756057248528_jo0dzor',
+						timestamp: 1756057248528
+					}
+				],
+				createdAt: 1756057227573,
+				updatedAt: 1756057256851,
+				isBranched: true,
+				children: [
+					{
+						id: '1756057264096_scp8u3l',
+						title: '新对话',
+						messages: [
+							{
+								content: 'hello',
+								role: 'user',
+								id: 'msg_1756057200768_xkdam7u',
+								timestamp: 1756057200768
+							},
+							{
+								content:
+									'Hello! 😊  \nHow can I help you today? Whether you have a question, need assistance with something, or just want to chat—I’m here for it!',
+								role: 'model',
+								isLoading: false,
+								id: 'msg_1756057200768_l44tet7',
+								timestamp: 1756057200768
+							},
+							{
+								content: 'goodbye',
+								role: 'user',
+								id: 'msg_1756057232159_u1qud0d',
+								timestamp: 1756057232159
+							},
+							{
+								content:
+									'Goodbye! 👋  \nIt was nice chatting with you. If you ever need help again, I’ll be right here. Take care and see you next time! 🌟',
+								role: 'model',
+								isLoading: false,
+								id: 'msg_1756057232159_oql7t6f',
+								timestamp: 1756057232159
+							},
+							{
+								content: '拒绝',
+								role: 'user',
+								id: 'msg_1756057270360_yefssgu',
+								timestamp: 1756057270360
+							},
+							{
+								content:
+									'您的消息只有一个词“拒绝”，我理解您可能是在表达某种反对或不愿继续沟通的意愿。不过，由于缺乏具体上下文，我无法确定您具体拒绝的是什么。  \n\n为了更好地帮助您，您可以：  \n1️⃣ **补充说明**：比如拒绝某个建议？拒绝继续对话？或其他具体内容？  \n2️⃣ **直接提出需求**：告诉我您需要什么，我会调整回应方式。  \n3️⃣ **简单告知状态**：例如“不想聊了”“需要其他帮助”等。  \n\n我会尊重您的任何选择，等待您的进一步说明 🌟',
+								role: 'model',
+								isLoading: false,
+								id: 'msg_1756057270360_x91l94o',
+								timestamp: 1756057270360
+							}
+						],
+						createdAt: 1756057264096,
+						updatedAt: 1756057284626,
+						isBranched: false,
+						children: [],
+						parentId: '1756057227573_2yl1vju',
+						parentLastMessageId: 'msg_1756057232159_oql7t6f'
+					}
+				],
+				parentId: 'this_is_a_test_id_in_case_the_random_id=-=',
+				parentLastMessageId: 'msg_1756057200768_l44tet7'
+			},
+			{
+				id: '1756057289947_mjirrx9',
+				title: '新对话',
+				messages: [
+					{
+						content: 'hello',
+						role: 'user',
+						id: 'msg_1756057200768_xkdam7u',
+						timestamp: 1756057200768
+					},
+					{
+						content:
+							'Hello! 😊  \nHow can I help you today? Whether you have a question, need assistance with something, or just want to chat—I’m here for it!',
+						role: 'model',
+						isLoading: false,
+						id: 'msg_1756057200768_l44tet7',
+						timestamp: 1756057200768
+					},
+					{
+						content: 'cool',
+						role: 'user',
+						id: 'msg_1756057293616_jbp2oep',
+						timestamp: 1756057293616
+					},
+					{
+						content:
+							'No worries — short & sweet works too! 😎  \nWhenever you\'re ready, just throw me a question, topic, or task. Here are a few ideas if you’d like:\n\n- **Curious?** → "Explain quantum computing simply"  \n- **Need help?** → "Help me plan a 3-day study schedule"  \n- **Just chat?** → "What’s something interesting happening in science lately?"\n\nOr surprise me! 🙌',
+						role: 'model',
+						isLoading: false,
+						id: 'msg_1756057293616_d045ata',
+						timestamp: 1756057293616
+					}
+				],
+				createdAt: 1756057289947,
+				updatedAt: 1756057305579,
+				isBranched: false,
+				children: [],
+				parentId: 'this_is_a_test_id_in_case_the_random_id=-=',
+				parentLastMessageId: 'msg_1756057200768_l44tet7'
+			}
+		]
+	};
 	return session;
 }
 
@@ -199,84 +388,3 @@ export const mockUtils = {
 		currentSessionId: null
 	})
 };
-
-// 中文支持的版本
-export function generateChineseMockSessions(count: number = 5): ChatSession[] {
-	const chineseTopics = [
-		'如何提高工作效率',
-		'健康生活方式建议',
-		'学习编程的最佳路径',
-		'旅游景点推荐',
-		'美食制作指南',
-		'投资理财建议',
-		'职业规划讨论',
-		'技术发展趋势',
-		'读书心得分享',
-		'生活小技巧'
-	];
-
-	const chineseUserQuestions = [
-		'请问你能详细解释一下吗？',
-		'我该如何开始学习这个？',
-		'你有什么好的建议吗？',
-		'这种方法真的有效吗？',
-		'能给我举个具体的例子吗？',
-		'遇到这种情况应该怎么处理？',
-		'你觉得这样做合适吗？',
-		'还有其他的解决方案吗？',
-		'我应该注意哪些问题？',
-		'能推荐一些相关资源吗？'
-	];
-
-	const chineseAssistantResponses = [
-		'当然可以！让我为您详细说明一下...',
-		'这确实是个很好的问题，根据我的理解...',
-		'我建议您可以从以下几个方面入手...',
-		'基于您的情况，我认为最好的方法是...',
-		'这里有几个实用的建议供您参考...',
-		'让我分享一些相关的经验和见解...',
-		'您可以尝试以下几种不同的方法...',
-		'这个问题确实需要仔细考虑，我们可以这样分析...',
-		'从实际应用的角度来看...',
-		'综合各种因素考虑...'
-	];
-
-	return Array.from({ length: count }, (_, index) => {
-		const messageCount = faker.number.int({ min: 2, max: 12 });
-		const messages: Message[] = [];
-
-		for (let i = 0; i < messageCount; i += 2) {
-			// 用户消息
-			messages.push({
-				id: `msg_${faker.string.uuid()}`,
-				content: faker.helpers.arrayElement(chineseUserQuestions),
-				role: 'user',
-				timestamp: Date.now() - 1000 * 60 * i,
-				isLoading: false
-			});
-
-			// 助手回复
-			if (i + 1 < messageCount) {
-				messages.push({
-					id: `msg_${faker.string.uuid()}`,
-					content:
-						faker.helpers.arrayElement(chineseAssistantResponses) +
-						faker.lorem.paragraphs(1),
-					role: 'model',
-					timestamp: Date.now() - 1000 * 60 * (i + 1),
-					isLoading: false
-				});
-			}
-		}
-
-		const createdAt = Date.now() - 1000 * 60 * 60 * 24 * index;
-
-		return {
-			id: `${faker.string.uuid()}`,
-			title: faker.helpers.arrayElement(chineseTopics),
-			messages: messages.sort((a, b) => a.timestamp - b.timestamp),
-			createdAt,
-			updatedAt: createdAt + 1000 * 60 * faker.number.int({ min: 5, max: 120 })
-		};
-	});
-}

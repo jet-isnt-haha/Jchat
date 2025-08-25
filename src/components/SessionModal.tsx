@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import ConfirmDialog from './common/ConfirmDialog';
-import { useModals } from '@/hooks/useConfig';
+import { useAppConfig, useModals } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';
 import ItemModal from './common/ItemModal';
+import { useNavigate } from 'react-router-dom';
 
 interface SessionModalProps {
 	closeModal: () => void;
@@ -10,13 +11,20 @@ interface SessionModalProps {
 }
 
 const SessionModal = ({ closeModal, sessionId }: SessionModalProps) => {
-	const { deleteSession } = useChatStore();
+	const navigate = useNavigate();
+	const { deleteSession, setCurrentSessionId } = useChatStore();
 	const { confirmDelete, sessionActions } = useModals();
+	const { routes } = useAppConfig();
 	const [showConfirm, setShowConfirm] = useState(false);
 	const handleOptionClick = (option: string) => {
 		switch (option) {
 			case sessionActions.option.delete: {
 				setShowConfirm(true);
+				break;
+			}
+			case sessionActions.option.branch: {
+				setCurrentSessionId(sessionId);
+				navigate(routes.branch);
 				break;
 			}
 		}
