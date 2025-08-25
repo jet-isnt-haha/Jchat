@@ -5,7 +5,8 @@ import type {
 	ChatStore,
 	ChatSession,
 	SessionSlice,
-	ChatMode
+	ChatMode,
+	Message
 } from '~/packages/types/chatType';
 
 export const createSessionSlice: StateCreator<
@@ -62,10 +63,17 @@ export const createSessionSlice: StateCreator<
 	},
 	createSession: (session = null) => {
 		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+		const startMessage: Message = {
+			content: '开始对话',
+			id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+			timestamp: Date.now(),
+			role: 'system'
+		};
+
 		const newSession: ChatSession = {
 			id: sessionId,
 			title: config.app.session.defaultTitle,
-			messages: [],
+			messages: [startMessage],
 			createdAt: Date.now(),
 			updatedAt: Date.now(),
 			isBranched: false,

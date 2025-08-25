@@ -1,10 +1,12 @@
 import { useChatStore } from '@/store';
 import { useCopyToClipboard } from './common/useCopyToClipboard';
 import { useChatSubmit } from './useChatSubmit';
+import { useCreateSession } from './useCreateSession';
 
 export const useMessageActions = (messageId: string) => {
-	const getMessage = useChatStore((state) => state.getMessage);
-	const deleteMessage = useChatStore((state) => state.deleteMessage);
+	const { getMessage, deleteMessage, currentSessionId, getCurrentMessages } =
+		useChatStore();
+	const { createChildSession } = useCreateSession();
 	const message = getMessage(messageId)!;
 	const { copyToClipboard } = useCopyToClipboard();
 	const { fetchAndUpdateResponse, isLoading } = useChatSubmit();
@@ -36,11 +38,18 @@ export const useMessageActions = (messageId: string) => {
 	const handleShare = () => {
 		console.log('Share');
 	};
+	const handleBranch = () => {
+		if (currentSessionId) {
+			const lastId = getCurrentMessages().at(-3)?.id;
+			if (lastId) createChildSession(currentSessionId, lastId);
+		}
+	};
 	return {
 		handleCopy,
 		handleDelete,
 		handleFavor,
 		handleRefresh,
-		handleShare
+		handleShare,
+		handleBranch
 	};
 };

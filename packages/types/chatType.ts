@@ -20,7 +20,6 @@ export interface ChatSession {
 	isBranched?: boolean;
 	parentId?: string;
 	children: ChatSession[];
-	// 新增：分支点元数据
 	parentLastMessageId?: string;
 }
 
@@ -31,12 +30,20 @@ export interface ItemActions {
 	danger: boolean;
 }
 
+export interface ConfirmConfig {
+	title: string;
+	message: string;
+	confirmText: string;
+	cancelText: string;
+	danger: boolean;
+}
+
 export interface SessionAndUpdater {
 	session: ChatSession;
 	updateState: (modifiedSession: ChatSession) => void;
 }
 
-export type ChatMode = 'normal' | 'temp' | 'branch';
+export type ChatMode = 'normal' | 'temp';
 
 //业务策略接口
 export interface ChatActionsStrategy {
