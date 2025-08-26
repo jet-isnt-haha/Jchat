@@ -20,6 +20,7 @@ module.exports = {
 		{ name: 'Vue' },
 		{ name: 'node' }
 	],
+	allowCustomScopes: true,
 	// it needs to match the value for field type. Eg.: 'fix'
 	/*  scopeOverrides: {
 	fix: [
