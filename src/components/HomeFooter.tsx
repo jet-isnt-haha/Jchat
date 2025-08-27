@@ -23,7 +23,9 @@ const HomeFooter = () => {
 					className={isLoading ? icons.stop : icons.send}
 					isLoading={isLoading}
 					onClick={() => {
-						setChatMode(chatMode.normal);
+						if (!isLoading) {
+							setChatMode(chatMode.normal);
+						}
 					}}
 				/>
 			</form>

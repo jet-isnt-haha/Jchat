@@ -16,7 +16,6 @@ const TempModeBar = () => {
 	const { discardTempSession, tempSession, setChatMode, saveTempSession } =
 		useChatStore();
 	const messages = tempSession?.messages ?? [];
-
 	return (
 		<div className="temp-mode-bar">
 			<TempBody chatMessages={messages} />
@@ -27,7 +26,9 @@ const TempModeBar = () => {
 					className={isLoading ? icons.stop : icons.send}
 					isLoading={isLoading}
 					onClick={() => {
-						setChatMode(chatMode.temp);
+						if (!isLoading) {
+							setChatMode(chatMode.temp);
+						}
 					}}
 				/>
 				<IconButton
