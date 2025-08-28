@@ -1,5 +1,5 @@
 import type { Message } from '~/packages/types/chatType';
-import MessageBar from './common/MessageBar';
+import MessageBar from '../common/MessageBar';
 import { useTexts } from '@/hooks/useConfig';
 
 interface TempBodyProps {

@@ -1,7 +1,7 @@
 import { useChatStore } from '@/store';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppConfig } from './useConfig';
+import { useAppConfig } from '../useConfig';
 
 export const useSessionManager = () => {
 	const { id } = useParams();

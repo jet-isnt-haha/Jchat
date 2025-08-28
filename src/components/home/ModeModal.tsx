@@ -1,4 +1,4 @@
-import ItemModal from './common/ItemModal';
+import ItemModal from '../common/ItemModal';
 import { useNavigate } from 'react-router-dom';
 import { useAppConfig, useModals } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';

@@ -1,9 +1,9 @@
 import styles from './index.module.less';
-import HomeFooter from '@/components/HomeFooter';
-import HomeHeader from '@/components/HomeHeader';
-import ChatBody from '@/components/ChatBody';
+import HomeFooter from '@/components/home/HomeFooter';
+import HomeHeader from '@/components/home/HomeHeader';
+import ChatBody from '@/components/home/ChatBody';
 import './index.module.less';
-import { useSessionManager } from '@/hooks/useSessionManager';
+import { useSessionManager } from '@/hooks/home/useSessionManager';
 
 const Home = () => {
 	const { chatMessages } = useSessionManager();

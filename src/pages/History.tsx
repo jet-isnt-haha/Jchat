@@ -1,7 +1,7 @@
-import HistoryHeader from '@/components/HistoryHeader';
+import HistoryHeader from '@/components/history/HistoryHeader';
 import styles from './index.module.less';
-import HistoryBody from '@/components/HistoryBody';
-import HistoryFooter from '@/components/HistoryFooter';
+import HistoryBody from '@/components/history/HistoryBody';
+import HistoryFooter from '@/components/history/HistoryFooter';
 const History = () => {
 	return (
 		<section className={styles.history}>

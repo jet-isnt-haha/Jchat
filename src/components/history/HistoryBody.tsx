@@ -1,6 +1,5 @@
-import '../styles/global.css';
 import ChatSession from './ChatSession';
-import { useRowVirtualizer } from '@/hooks/useRowVirtualizer';
+import { useRowVirtualizer } from '@/hooks/common/useRowVirtualizer';
 import SessionModal from './SessionModal';
 import { useShowModal } from '@/hooks/useShowModal';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';

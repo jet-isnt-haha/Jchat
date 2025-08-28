@@ -1,7 +1,7 @@
 import { useChatStore } from '@/store';
-import { useCopyToClipboard } from './common/useCopyToClipboard';
-import { useChatSubmit } from './useChatSubmit';
-import { useCreateSession } from './useCreateSession';
+import { useCopyToClipboard } from '../common/useCopyToClipboard';
+import { useChatSubmit } from '../useChatSubmit';
+import { useCreateSession } from '../useCreateSession';
 
 export const useMessageActions = (messageId: string) => {
 	const { getMessage, deleteMessage, currentSessionId, getCurrentMessages } =

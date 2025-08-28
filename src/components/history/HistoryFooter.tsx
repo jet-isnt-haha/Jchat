@@ -1,5 +1,5 @@
 import { useAppConfig } from '@/hooks/useConfig';
-import styles from '../pages/index.module.less';
+import styles from '../../pages/index.module.less';
 const HistoryFooter = () => {
 	const { user } = useAppConfig();
 	return (

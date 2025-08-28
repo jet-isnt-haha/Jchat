@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
-import IconButton from './common/IconButton';
+import IconButton from '../common/IconButton';
 import ModeModal from './ModeModal';
 import { useShowModal } from '@/hooks/useShowModal';
 

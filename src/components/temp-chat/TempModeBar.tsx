@@ -1,9 +1,9 @@
 import { useChatSubmit } from '@/hooks/useChatSubmit';
-import IconButton from './common/IconButton';
+import IconButton from '../common/IconButton';
 import { useAppConfig, useModals, useTexts } from '@/hooks/useConfig';
 import TempBody from './TempBody';
 import { useChatStore } from '@/store';
-import ConfirmDialog from './common/ConfirmDialog';
+import ConfirmDialog from '../common/ConfirmDialog';
 import { useState } from 'react';
 
 const TempModeBar = () => {

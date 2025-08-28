@@ -1,11 +1,10 @@
 import ChatMessage from './ChatMessage';
-import '../styles/global.css';
-import { useAutoScroll } from '@/hooks/useAutoScroll';
+import { useAutoScroll } from '@/hooks/common/useAutoScroll';
 import { useEffect } from 'react';
 import { useTexts } from '@/hooks/useConfig';
 import type { Message } from '~/packages/types/chatType';
 import { useChatStore } from '@/store';
-import TempModeBar from './TempModeBar';
+import TempModeBar from '../temp-chat/TempModeBar';
 
 interface ChatBodyProps {
 	chatMessages: Message[];

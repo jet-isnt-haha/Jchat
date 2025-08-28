@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
-import ConfirmDialog from './common/ConfirmDialog';
-import IconButton from './common/IconButton';
+import ConfirmDialog from '../common/ConfirmDialog';
+import IconButton from '../common/IconButton';
 import { useModals, useTexts } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';
 import type { ConfirmConfig } from '~/packages/types/chatType';

@@ -1,7 +1,6 @@
 import { useChatSubmit } from '@/hooks/useChatSubmit';
-import '../styles/global.css';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
-import IconButton from './common/IconButton';
+import IconButton from '../common/IconButton';
 import { useChatStore } from '@/store';
 
 const HomeFooter = () => {

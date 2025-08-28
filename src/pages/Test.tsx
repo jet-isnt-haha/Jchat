@@ -1,4 +1,4 @@
-import TempModeBar from '@/components/TempModeBar';
+import TempModeBar from '@/components/temp-chat/TempModeBar';
 
 const Test = () => {
 	return (

@@ -1,4 +1,4 @@
-import BranchCollapse from '@/components/BranchCollapse';
+import BranchCollapse from '@/components/branch/BranchCollapse';
 import IconButton from '@/components/common/IconButton';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';

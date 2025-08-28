@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import ConfirmDialog from './common/ConfirmDialog';
+import ConfirmDialog from '../common/ConfirmDialog';
 import { useAppConfig, useModals } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';
-import ItemModal from './common/ItemModal';
+import ItemModal from '../common/ItemModal';
 import { useNavigate } from 'react-router-dom';
 
 interface SessionModalProps {

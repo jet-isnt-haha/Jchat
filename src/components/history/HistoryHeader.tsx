@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useHistorySearch } from '@/hooks/useHistorySearch';
+import { useHistorySearch } from '@/hooks/history/useHistorySearch';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
-import IconButton from './common/IconButton';
+import IconButton from '../common/IconButton';
 import { useChatStore } from '@/store';
 
 const HistoryHeader = () => {

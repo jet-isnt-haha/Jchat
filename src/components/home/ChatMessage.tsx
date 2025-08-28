@@ -1,11 +1,10 @@
 import type { Message } from '~/packages/types/chatType';
-import '../styles/global.css';
 import { useTexts } from '@/hooks/useConfig';
 import MessageActions from './MessageActions';
-import { useMessageActions } from '@/hooks/useMessageActions';
+import { useMessageActions } from '@/hooks/home/useMessageActions';
 import { useMessageRender } from '@/hooks/useMessageRender';
 import { useOnRenderedCallback } from '@/hooks/useOnRenderedCallback';
-import MessageBar from './common/MessageBar';
+import MessageBar from '../common/MessageBar';
 
 const ChatMessage = (msg: Message & { onRendered?: () => void }) => {
 	const { role } = useTexts();
