@@ -100,8 +100,17 @@ export const contentConfig = {
 				branch: 'branch_session',
 				new: 'new_session'
 			}
+		},
+		branchActions: {
+			options: [
+				{ icon: '🗑️', label: '删除', action: 'delete', danger: true }
+			] as ItemActions[],
+			option: {
+				delete: 'delete'
+			}
 		}
 	},
+
 	system: {
 		errors: {
 			requestCanceled: '请求被用户取消',

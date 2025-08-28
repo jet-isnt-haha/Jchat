@@ -1,5 +1,3 @@
-import type ChatSession from '@/components/history/ChatSession';
-
 //消息类型定义
 export interface Message {
 	id: string;

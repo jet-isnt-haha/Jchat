@@ -1,5 +1,5 @@
 import ChatMessage from './ChatMessage';
-import { useAutoScroll } from '@/hooks/common/useAutoScroll';
+import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useEffect } from 'react';
 import { useTexts } from '@/hooks/useConfig';
 import type { Message } from '~/packages/types/chatType';

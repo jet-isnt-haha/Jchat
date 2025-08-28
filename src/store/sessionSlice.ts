@@ -103,11 +103,28 @@ export const createSessionSlice: StateCreator<
 		});
 	},
 	deleteSession: (sessionId: string) => {
-		set((state) => ({
-			sessions: state.sessions.filter((s) => s.id !== sessionId),
-			currentSessionId:
-				state.currentSessionId === sessionId ? null : state.currentSessionId
-		}));
+		const state = get();
+		const found = state.findSessionById(sessionId);
+		const root = state.findRootSessionById(sessionId);
+		if (!found?.parentId) {
+			set((state) => ({
+				sessions: state.sessions.filter((s) => s.id !== sessionId)
+			}));
+		} else {
+			const parent = state.findSessionById(found.parentId);
+			if (parent) {
+				parent.children =
+					parent?.children.filter((child) => child.id !== sessionId) ?? [];
+				set((state) => ({
+					sessions: state.sessions.map((s) => {
+						if (s.id === root?.id) {
+							return root;
+						}
+						return s;
+					})
+				}));
+			}
+		}
 	},
 
 	updateSession: (sessionId: string, update) => {

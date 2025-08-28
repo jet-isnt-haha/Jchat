@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useAppConfig } from '../useConfig';
+import { useAppConfig } from './useConfig';
 
 export const useAutoScroll = () => {
 	const containerRef = useRef<HTMLElement>(null);
