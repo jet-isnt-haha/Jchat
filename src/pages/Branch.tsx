@@ -61,7 +61,7 @@ const Branch = () => {
 	};
 
 	return (
-		<section className="branch w-screen h-screen min-h-[100dvh] flex flex-col bg-white overflow-hidden relative">
+		<section className="branch w-full h-screen min-h-[100dvh] flex flex-col bg-white overflow-hidden relative">
 			<header className="branch-header flex items-center justify-center px-[22px] py-[15px] bg-[#f6f2ff] z-10 border-b border-[#ebe5ff]">
 				<IconButton
 					className={icons.left_back}

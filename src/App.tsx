@@ -9,19 +9,26 @@ import History from './pages/History';
 import Canvas from './pages/Canvas';
 import Test from './pages/Test';
 import Branch from './pages/Branch';
+import styles from './pages/index.module.less';
 export default function App() {
 	return (
 		<Router>
-			{/* 	<Navigation /> */}
-			<Routes>
-				<Route path="/session" element={<Home />} />
-				<Route path="/session/:id" element={<Home />} />
-				<Route path="/history" element={<History />} />
-				<Route path="/canvas" element={<Canvas />} />
-				<Route path="/test" element={<Test />} />
-				<Route path="/branch" element={<Branch />} />
-				<Route path="*" element={<Navigate to="/session" />} />
-			</Routes>
+			<div className={styles.section}>
+				<div className={styles.test}>
+					<Branch />
+				</div>
+
+				{/* 原有的路由配置不变 */}
+				<Routes>
+					<Route path="/session" element={<Home />} />
+					<Route path="/session/:id" element={<Home />} />
+					<Route path="/history" element={<History />} />
+					<Route path="/canvas" element={<Canvas />} />
+					<Route path="/test" element={<Test />} /> {/* 原/test路由保留 */}
+					<Route path="/branch" element={<Branch />} />
+					<Route path="*" element={<Navigate to="/session" />} />
+				</Routes>
+			</div>
 		</Router>
 	);
 }

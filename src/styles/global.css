@@ -8,6 +8,7 @@ html,
 body {
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 	overscroll-behavior: none; /* 防止橡皮筋效果 */
 	-webkit-overflow-scrolling: auto; /* 禁用iOS弹性滚动 */
 	touch-action: manipulation; /* 只允许基本触摸操作 */

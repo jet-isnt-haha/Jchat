@@ -1,4 +1,5 @@
 import { useUIConfig } from '@/hooks/useConfig';
+import { useScreenSize } from '@/hooks/useScreenSize';
 import type { ItemActions } from '~/packages/types/chatType';
 
 interface ItemModalProps {
@@ -8,8 +9,8 @@ interface ItemModalProps {
 }
 
 const ItemModal = ({ closeModal, items, handleItemsClick }: ItemModalProps) => {
+	const [isLargeScreen] = useScreenSize(768);
 	const { colors } = useUIConfig();
-
 	return (
 		<>
 			{/* 半透明遮罩层 */}
@@ -19,7 +20,7 @@ const ItemModal = ({ closeModal, items, handleItemsClick }: ItemModalProps) => {
 			/>
 
 			{/* 底部弹出框 */}
-			<div className="fixed inset-x-0 bottom-0 z-50 ">
+			<div className="fixed inset-x-1 bottom-0 z-50">
 				<div className="bg-white rounded-t-3xl shadow-2xl">
 					{/* 拖拽指示器 */}
 					<div
@@ -41,7 +42,7 @@ const ItemModal = ({ closeModal, items, handleItemsClick }: ItemModalProps) => {
 									option.danger
 										? 'hover:bg-red-50 active:bg-red-100'
 										: 'hover:bg-gray-50 active:bg-gray-100'
-								}`}
+								} ${(option.action === 'branch' || option.action === 'branch_session') && isLargeScreen ? 'hidden' : ''}`}
 								onClick={() => handleItemsClick(option.action)}
 							>
 								<span className="text-2xl">{option.icon}</span>
