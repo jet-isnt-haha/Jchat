@@ -2,6 +2,7 @@ import { useChatStore } from '@/store';
 import { useCopyToClipboard } from '../common/useCopyToClipboard';
 import { useChatSubmit } from '../useChatSubmit';
 import { useCreateSession } from '../useCreateSession';
+import { useExportSession } from '../useExportSession';
 
 export const useMessageActions = (messageId: string) => {
 	const { getMessage, deleteMessage, currentSessionId, getCurrentMessages } =
@@ -9,6 +10,7 @@ export const useMessageActions = (messageId: string) => {
 	const { createChildSession } = useCreateSession();
 	const message = getMessage(messageId)!;
 	const { copyToClipboard } = useCopyToClipboard();
+	const { exportAsImage } = useExportSession();
 	const { fetchAndUpdateResponse, isLoading } = useChatSubmit();
 
 	const handleCopy = async () => {
@@ -36,7 +38,7 @@ export const useMessageActions = (messageId: string) => {
 		}
 	};
 	const handleShare = () => {
-		console.log('Share');
+		exportAsImage();
 	};
 	const handleBranch = () => {
 		if (currentSessionId) {
