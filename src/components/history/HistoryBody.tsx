@@ -54,6 +54,9 @@ const HistoryBody = () => {
 							})}
 							onTouchMove={handleTouchMove}
 							onTouchEnd={handleTouchEnd}
+							onMoreClick={() => {
+								openModal(session.id);
+							}}
 						/>
 					);
 				})

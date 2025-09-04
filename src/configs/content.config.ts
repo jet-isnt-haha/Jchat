@@ -37,7 +37,8 @@ export const contentConfig = {
 			refresh: 'refresh',
 			branch: 'graph_1',
 			down: 'keyboard_arrow_down',
-			right: 'keyboard_arrow_right'
+			right: 'keyboard_arrow_right',
+			more: 'more_horiz'
 		},
 		role: {
 			user: 'user',

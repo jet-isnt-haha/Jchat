@@ -94,7 +94,7 @@ body {
 }
 
 .session {
-	@apply absolute py-4 px-3 w-full top-0 left-0  bg-[#fff]  max-w-[100%] border-2 border-[#f6f2ff];
+	@apply absolute py-4 px-3 w-full top-0 left-0  bg-[#fff]  max-w-[100%] border-2 border-[#f6f2ff] flex items-center justify-between hover:bg-[#f6f2ff]/30;
 }
 
 .message-actions {

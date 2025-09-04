@@ -8,7 +8,7 @@ export const useScreenSize = (lgThan: number) => {
 	// 监听窗口大小变化
 	useEffect(() => {
 		const handleResize = () => {
-			setIsLargeScreen(window.innerWidth >= 1024);
+			setIsLargeScreen(window.innerWidth > lgThan);
 		};
 
 		window.addEventListener('resize', handleResize);
