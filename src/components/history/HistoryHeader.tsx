@@ -20,6 +20,7 @@ const HistoryHeader = () => {
 				/>
 				<IconButton
 					className={icons.back}
+					styleClass="cursor-pointer hover:opacity-50"
 					onClick={() => {
 						navigate(`${routes.home}/${sessionId ?? ''}`);
 					}}

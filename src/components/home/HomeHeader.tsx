@@ -13,6 +13,7 @@ const HomeHeader = () => {
 		<header className="chat-header">
 			<IconButton
 				className={icons.sort}
+				styleClass="cursor-pointer hover:opacity-50"
 				onClick={() => {
 					navigate(routes.history);
 				}}
@@ -20,6 +21,7 @@ const HomeHeader = () => {
 
 			<IconButton
 				className={icons.edit}
+				styleClass="cursor-pointer hover:opacity-50"
 				onClick={() => {
 					setShowModal(true);
 				}}

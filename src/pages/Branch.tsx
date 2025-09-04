@@ -1,6 +1,7 @@
 import BranchCollapse from '@/components/branch/BranchCollapse';
 import IconButton from '@/components/common/IconButton';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
+import { useScreenSize } from '@/hooks/useScreenSize';
 import { useChatStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import type { ChatSession } from '~/packages/types/chatType'; // 导入 ChatSession 类型
@@ -27,6 +28,7 @@ const Branch = () => {
 	const { icons } = useTexts();
 	const { routes } = useAppConfig();
 	const navigate = useNavigate();
+	const [isLargeScreen] = useScreenSize(768);
 	// 1. 类型防护：解决 currentSessionId 为 null 的问题
 	// 只有 currentSessionId 存在时，才调用 findRootSessionById
 	const rootSession: ChatSession | null = currentSessionId
@@ -63,10 +65,12 @@ const Branch = () => {
 	return (
 		<section className="branch w-full h-screen min-h-[100dvh] flex flex-col bg-white overflow-hidden relative">
 			<header className="branch-header flex items-center justify-center px-[22px] py-[15px] bg-[#f6f2ff] z-10 border-b border-[#ebe5ff]">
-				<IconButton
-					className={icons.left_back}
-					onClick={() => navigate(`${routes.home}/${currentSessionId}`)}
-				/>
+				{!isLargeScreen && (
+					<IconButton
+						className={icons.left_back}
+						onClick={() => navigate(`${routes.home}/${currentSessionId}`)}
+					/>
+				)}
 				<h2 className="font-medium text-gray-800">分支树导航</h2>
 			</header>
 

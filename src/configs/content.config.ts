@@ -7,7 +7,7 @@ export const contentConfig = {
 	ui: {
 		placeholders: {
 			messageInput: 'message...',
-			searchInput: 'Search Grok History'
+			searchInput: 'Search History'
 		},
 		buttons: {
 			confirm: '确认',

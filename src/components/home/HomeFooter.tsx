@@ -21,6 +21,7 @@ const HomeFooter = () => {
 					type="submit"
 					className={isLoading ? icons.stop : icons.send}
 					isLoading={isLoading}
+					styleClass="cursor-pointer hover:opacity-80"
 					onClick={() => {
 						if (!isLoading) {
 							setChatMode(chatMode.normal);
