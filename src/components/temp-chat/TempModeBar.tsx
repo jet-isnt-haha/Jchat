@@ -20,7 +20,15 @@ const TempModeBar = () => {
 		<div className="temp-mode-bar">
 			<TempBody chatMessages={messages} />
 			<form action="#" className="temp-form " onSubmit={handleFormSubmit}>
-				<input ref={inputRef} type="text" placeholder="ask in context" />
+				<textarea
+					rows={1}
+					ref={inputRef}
+					placeholder="ask in context"
+					onChange={(e) => {
+						e.target.style.height = 'auto';
+						e.target.style.height = e.target.scrollHeight + 'px';
+					}}
+				/>
 				<IconButton
 					type="submit"
 					className={isLoading ? icons.stop : icons.send}

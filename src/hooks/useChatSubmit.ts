@@ -6,7 +6,7 @@ import { useChatStore } from '@/store';
 import getChatActionsStrategy from './chatStrategies/getChatActionsStrategy';
 
 export const useChatSubmit = () => {
-	const inputRef = useRef<HTMLInputElement>(null);
+	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const {
 		currentSessionId,
 		addMessage,

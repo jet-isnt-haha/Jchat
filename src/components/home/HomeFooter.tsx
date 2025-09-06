@@ -11,11 +11,15 @@ const HomeFooter = () => {
 	return (
 		<div className="chat-footer">
 			<form action="#" className="chat-form" onSubmit={handleFormSubmit}>
-				<input
-					type="text"
+				<textarea
+					rows={1}
 					placeholder={placeholders.messageInput}
 					className="message-input"
 					ref={inputRef}
+					onChange={(e) => {
+						e.target.style.height = 'auto';
+						e.target.style.height = e.target.scrollHeight + 'px';
+					}}
 				/>
 				<IconButton
 					type="submit"

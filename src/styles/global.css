@@ -59,8 +59,8 @@ body {
 .chat-footer .chat-form {
 	@apply flex items-center bg-white rounded-[32px] outline outline-[#CCCCE5] shadow-[0_0_8px_rgba(0,0,0,0.06)];
 }
-.chat-footer .chat-form input {
-	@apply border-none outline-none bg-transparent w-full h-[47px] px-[17px] text-[0.95rem];
+.chat-footer .chat-form textarea {
+	@apply border-none outline-none bg-transparent w-full py-[10px]  px-[17px] text-[0.95rem] overflow-y-auto resize-none min-h-[47px] h-auto  max-h-[150px] scrollbar-thin scrollbar-thumb-[#ddd3f9] scrollbar-track-transparent;
 }
 .chat-footer .chat-form button {
 	@apply h-8.5 w-8.5 rounded-full bg-[#6D4FC2] text-white text-[1.15rem] mr-1.5 transition-all duration-200 ease-in-out border-none outline-none flex-shrink-0;
@@ -117,11 +117,11 @@ body {
 }
 
 .temp-mode-bar {
-	@apply w-4/5 bottom-30 border-3 rounded-[10px] border-indigo-300 bg-[#6D4FC2] mt-2 px-4 py-1 absolute;
+	@apply w-4/5 bottom-30 border-3 rounded-[10px] border-indigo-300 bg-[#6D4FC2] mt-2 pr-4 pl-2 py-1 absolute;
 	background: linear-gradient(to right, #6d4fc2, #f6f2ff);
 }
 .temp-form {
-	@apply relative flex items-center space-x-2 my-2;
+	@apply flex items-center bg-white rounded-[32px] outline outline-[#CCCCE5] shadow-[0_0_8px_rgba(0,0,0,0.06)];
 }
 .temp-body {
 	@apply flex flex-col w-full  rounded-md  
@@ -136,12 +136,12 @@ body {
 	@apply text-[#f6f2ff];
 }
 
-.temp-form input {
-	@apply w-full h-full py-1.5 pr-[30%] font-mono bg-[#f6f2ff]  rounded-md outline-none ring-1 ring-indigo-100 focus:ring-0 focus:caret-[#6D4FC2];
+.temp-form textarea {
+	@apply border-none outline-none bg-transparent w-full py-[10px]  px-[17px] text-[0.95rem] overflow-y-auto resize-none min-h-[47px] h-auto  max-h-[100px] scrollbar-thin scrollbar-thumb-[#ddd3f9] scrollbar-track-transparent;
 }
 
 .temp-form button {
-	@apply h-full aspect-square  rounded-full bg-[#6D4FC2] text-white text-[1.15rem]  cursor-pointer transition-all duration-200 ease-in-out border-none outline-none absolute;
+	@apply h-8.5 w-8.5 mx-0.5 flex-1 aspect-square  rounded-full bg-[#6D4FC2] text-white text-[1.15rem]  cursor-pointer transition-all duration-200 ease-in-out border-none outline-none;
 }
 
 /* 第一个按钮（从右数第二个位置） */
