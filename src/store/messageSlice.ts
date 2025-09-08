@@ -29,13 +29,11 @@ export const createMessageSlice: StateCreator<
 	addMessage: (messageData: Omit<Message, 'id' | 'timestamp'>) => {
 		const sessionInfo = getSessionAndUpdater(get, set);
 		if (!sessionInfo) return;
-		const sessionId = get().currentSessionId;
-		if (!sessionId) return;
 		const newMessage: Message = {
 			...messageData,
 			id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
 			timestamp: Date.now(),
-			sessionId
+			sessionId: sessionInfo.session.id
 		};
 
 		const updatedSession = addMessageToChatSession(

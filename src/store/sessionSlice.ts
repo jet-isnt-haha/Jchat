@@ -5,7 +5,9 @@ import {
 	getChildrenSessions as apiGetChildrenSessions,
 	getChildMessages as apiGetChildMessages,
 	insertChatSession as apiInsertChatSession,
-	deleteSession as apiDeleteSession
+	deleteSession as apiDeleteSession,
+	insertChatSession,
+	insertChatMessage
 } from '@/services/apiSession';
 import type { StateCreator } from 'zustand';
 import type {
@@ -115,12 +117,19 @@ export const createSessionSlice: StateCreator<
 			return { tempSession: null };
 		});
 	},
-	saveTempSession: () => {
+	saveTempSession: async () => {
+		const state = get();
 		set((state) => {
-			if (state.tempSession)
+			if (state.tempSession) {
 				return { sessions: [state.tempSession, ...state.sessions] };
-			else return { sessions: state.sessions };
+			} else return { sessions: state.sessions };
 		});
+		if (state.tempSession) {
+			await insertChatSession(state.tempSession);
+			state.tempSession.messages.forEach(async (msg) => {
+				await insertChatMessage(msg);
+			});
+		}
 	},
 	createSession: async (session = null) => {
 		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
