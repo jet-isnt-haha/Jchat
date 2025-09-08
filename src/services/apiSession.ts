@@ -12,7 +12,7 @@ import type {
 export async function getMainSessions(): Promise<ChatSession[]> {
 	const { data: dbSessions, error } = await supabase
 		.from('chat_session')
-		.select('*')
+		.select('id, title, created_at, updated_at, is_branched')
 		.is('parent_id', null);
 
 	if (error) {
@@ -251,7 +251,9 @@ export async function getChildMessages(sessionId: string): Promise<Message[]> {
 	return childMessages ?? [];
 }
 
-export async function deleteSession(sessionId: string) {
+export async function deleteSession(
+	sessionId: string
+): Promise<{ success: boolean; error?: Error | string; message?: string }> {
 	//查找所有直接子会话
 	const { data: childSessions, error: findError } = await supabase
 		.from('chat_session')
@@ -259,12 +261,20 @@ export async function deleteSession(sessionId: string) {
 		.eq('parent_id', sessionId);
 	if (findError) {
 		console.error('查找子会话失败:', findError);
-		return { success: false, error: findError };
+		return { success: false, error: findError, message: '查找子会话失败' };
 	}
 
 	//递归删除所有子会话
 	for (const childSession of childSessions || []) {
-		await deleteSession(childSession.id);
+		const childResult = await deleteSession(childSession.id);
+		if (!childResult.success) {
+			console.error('删除子会话失败:', childSession.id, childResult.error);
+			return {
+				success: false,
+				error: childResult.error,
+				message: `删除子会话 ${childSession.id} 失败`
+			};
+		}
 	}
 
 	const { error: messagesError } = await supabase
@@ -274,7 +284,7 @@ export async function deleteSession(sessionId: string) {
 
 	if (messagesError) {
 		console.error('删除消息失败:', messagesError);
-		return { success: false, error: messagesError };
+		return { success: false, error: messagesError, message: '删除消息失败' };
 	}
 
 	const { error: sessionError } = await supabase
@@ -283,8 +293,12 @@ export async function deleteSession(sessionId: string) {
 		.eq('id', sessionId);
 	if (sessionError) {
 		console.error('删除会话失败:', sessionError);
-		return;
+		return { success: false, error: sessionError, message: '删除会话失败' };
 	}
+	return {
+		success: true,
+		message: `会话 ${sessionId} 及其所有子会话已成功删除`
+	};
 }
 
 export async function deleteMessage(messageId: string) {

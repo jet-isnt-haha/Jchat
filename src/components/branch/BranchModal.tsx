@@ -22,10 +22,16 @@ const BranchModal = ({ closeModal, sessionId }: BranchModalProps) => {
 		}
 	};
 
-	const handleConfirmDelete = () => {
-		deleteSession(sessionId);
+	const handleConfirmDelete = async () => {
 		setShowConfirm(false);
 		closeModal();
+		const result = await deleteSession(sessionId);
+		if (result.success) {
+			alert(result.message);
+		} else {
+			alert(result.message);
+			console.log(result.error);
+		}
 	};
 	const handleCancelDelete = () => {
 		setShowConfirm(false);

@@ -97,7 +97,9 @@ export interface SessionSlice {
 	createSession: (session?: Partial<ChatSession> | null) => Promise<string>;
 	setCurrentSessionId: (id: string) => void;
 	setSearchSessions: (keywords: string) => void;
-	deleteSession: (sessionId: string) => void;
+	deleteSession: (
+		sessionId: string
+	) => Promise<{ success: boolean; error?: Error | string; message?: string }>;
 	updateSession: (sessionId: string, update: Partial<ChatSession>) => void;
 
 	//temp
@@ -106,7 +108,10 @@ export interface SessionSlice {
 	saveTempSession: () => void;
 
 	//branch
-	createChildSession: (parentId: string, parentLastMessageId: string) => string;
+	createChildSession: (
+		parentId: string,
+		parentLastMessageId: string
+	) => Promise<string>;
 	findSessionById: (sessionId: string) => ChatSession | null;
 	findRootSessionById: (sessionId: string) => ChatSession | null;
 

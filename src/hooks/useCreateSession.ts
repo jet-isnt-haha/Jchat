@@ -21,11 +21,14 @@ export const useCreateSession = () => {
 		_createTempSession();
 	};
 
-	const createChildSession = (
+	const createChildSession = async (
 		parentId: string,
 		parentLastMessageId: string
 	) => {
-		const childSessionId = _createChildSession(parentId, parentLastMessageId);
+		const childSessionId = await _createChildSession(
+			parentId,
+			parentLastMessageId
+		);
 		setCurrentSessionId(childSessionId);
 		navigate(`${routes.home}/${childSessionId}`, { replace: true });
 	};

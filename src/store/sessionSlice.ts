@@ -187,7 +187,7 @@ export const createSessionSlice: StateCreator<
 				}));
 			}
 		}
-		await apiDeleteSession(sessionId);
+		return await apiDeleteSession(sessionId);
 	},
 
 	updateSession: (sessionId: string, update) => {
@@ -224,7 +224,7 @@ export const createSessionSlice: StateCreator<
 			}
 		}
 	},
-	createChildSession: (parentId: string, parentLastMessageId: string) => {
+	createChildSession: async (parentId: string, parentLastMessageId: string) => {
 		const state = get();
 		const parent = state.findSessionById(parentId);
 		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -243,7 +243,9 @@ export const createSessionSlice: StateCreator<
 			};
 			parent.children.push(childSession);
 			parent.isBranched = true;
+			await apiInsertChatSession(childSession);
 		}
+
 		return sessionId;
 	},
 	findSessionById: (sessionId: string) => {

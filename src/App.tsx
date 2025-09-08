@@ -10,8 +10,9 @@ import Canvas from './pages/Canvas';
 import Test from './pages/Test';
 import Branch from './pages/Branch';
 import styles from './pages/index.module.less';
-import { useEffect } from 'react';
 import { useChatStore } from './store';
+import { useEffect } from 'react';
+
 export default function App() {
 	const setMainSessions = useChatStore((state) => state.setMainSessions);
 
