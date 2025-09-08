@@ -1,4 +1,8 @@
-import { insertChatMessages } from '@/services/apiSession';
+import {
+	deleteMessage as apiDeleteMessage,
+	insertChatMessage,
+	updateChatMessage
+} from '@/services/apiSession';
 import {
 	addMessageToChatSession,
 	deleteMessageFromChatSession,
@@ -25,18 +29,21 @@ export const createMessageSlice: StateCreator<
 	addMessage: (messageData: Omit<Message, 'id' | 'timestamp'>) => {
 		const sessionInfo = getSessionAndUpdater(get, set);
 		if (!sessionInfo) return;
-
+		const sessionId = get().currentSessionId;
+		if (!sessionId) return;
 		const newMessage: Message = {
 			...messageData,
 			id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
-			timestamp: Date.now()
+			timestamp: Date.now(),
+			sessionId
 		};
-		insertChatMessages(newMessage);
+
 		const updatedSession = addMessageToChatSession(
 			sessionInfo.session,
 			newMessage
 		);
 		sessionInfo.updateState(updatedSession);
+		sessionInfo.shouldDBOperate(() => insertChatMessage(newMessage));
 	},
 	updateMessage: (messageId: string, update: Message) => {
 		const sessionInfo = getSessionAndUpdater(get, set);
@@ -48,6 +55,9 @@ export const createMessageSlice: StateCreator<
 			update
 		);
 		sessionInfo.updateState(updatedSession);
+		sessionInfo.shouldDBOperate(() => {
+			if (update.isLoading === false) updateChatMessage(messageId, update);
+		});
 	},
 	deleteMessage: (messageId: string) => {
 		const sessionInfo = getSessionAndUpdater(get, set);
@@ -58,6 +68,7 @@ export const createMessageSlice: StateCreator<
 			messageId
 		);
 		sessionInfo?.updateState(updatedSession);
+		sessionInfo.shouldDBOperate(() => apiDeleteMessage(messageId));
 	},
 	getCurrentMessages: () => {
 		const state = get();

@@ -4,7 +4,8 @@ import {
 	getMessages as apiGetMessages,
 	getChildrenSessions as apiGetChildrenSessions,
 	getChildMessages as apiGetChildMessages,
-	insertChatSession
+	insertChatSession as apiInsertChatSession,
+	deleteSession as apiDeleteSession
 } from '@/services/apiSession';
 import type { StateCreator } from 'zustand';
 import type {
@@ -34,7 +35,13 @@ export const createSessionSlice: StateCreator<
 		if (!state.currentSessionId) return;
 
 		const currentSession = state.findSessionById(state.currentSessionId);
-		if (currentSession && !currentSession?.parentId) {
+		if (!currentSession) return;
+		// 如果会话已有消息，不重新加载
+		if (currentSession.messages && currentSession.messages.length > 0) {
+			console.log('会话已有消息，跳过加载');
+			return;
+		}
+		if (!currentSession?.parentId) {
 			//获取当前会话的消息数组
 			const messages = await apiGetMessages(state.currentSessionId);
 			currentSession.messages = messages;
@@ -115,7 +122,7 @@ export const createSessionSlice: StateCreator<
 			else return { sessions: state.sessions };
 		});
 	},
-	createSession: (session = null) => {
+	createSession: async (session = null) => {
 		const sessionId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 		const startMessage: Message = {
 			content: '开始对话',
@@ -134,10 +141,10 @@ export const createSessionSlice: StateCreator<
 			children: [],
 			...session
 		};
-		insertChatSession(newSession);
 		set((state) => ({
 			sessions: [newSession, ...state.sessions]
 		}));
+		await apiInsertChatSession(newSession);
 		return sessionId;
 	},
 	setCurrentSessionId: (id: string) => {
@@ -157,7 +164,7 @@ export const createSessionSlice: StateCreator<
 			}
 		});
 	},
-	deleteSession: (sessionId: string) => {
+	deleteSession: async (sessionId: string) => {
 		const state = get();
 		const found = state.findSessionById(sessionId);
 		const root = state.findRootSessionById(sessionId);
@@ -180,6 +187,7 @@ export const createSessionSlice: StateCreator<
 				}));
 			}
 		}
+		await apiDeleteSession(sessionId);
 	},
 
 	updateSession: (sessionId: string, update) => {

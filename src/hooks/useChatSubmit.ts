@@ -16,19 +16,23 @@ export const useChatSubmit = () => {
 		currentController,
 		setCurrentController,
 		clearCurrentController,
+		findSessionById,
 		chatMode
 	} = useChatStore();
 	const strategy = getChatActionsStrategy(chatMode);
 	const isLoading = strategy.handleGetMessages().at(-1)?.isLoading;
 	//处理用户输入
-	const handleUserInput = () => {
+	const handleUserInput = async () => {
 		const userInput = inputRef.current?.value;
 		if (!userInput) return null;
 
 		switch (chatMode) {
 			case 'normal': {
-				if (!currentSessionId) {
-					strategy.handleCreateSession();
+				if (
+					!currentSessionId ||
+					(currentSessionId && !findSessionById(currentSessionId))
+				) {
+					await strategy.handleCreateSession();
 				}
 				break;
 			}
@@ -86,7 +90,7 @@ export const useChatSubmit = () => {
 				if (getMessage(messageId)?.content === 'Thinking...') {
 					deleteMessage(messageId);
 				}
-				setMessageIsLoading(messageId, false);
+				await setMessageIsLoading(messageId, false);
 				console.log('请求被用户取消');
 			} else {
 				console.error('请求发生错误', error);
@@ -103,7 +107,7 @@ export const useChatSubmit = () => {
 			currentController.abort();
 			return;
 		}
-		const userInput = handleUserInput();
+		const userInput = await handleUserInput();
 
 		if (userInput) {
 			await fetchAndUpdateResponse();

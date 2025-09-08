@@ -73,6 +73,9 @@ const getSessionAndUpdater = (
 				session: currentSession,
 				updateState: (modifedSession) => {
 					state.updateSession(currentSession.id, modifedSession);
+				},
+				shouldDBOperate: async (DBFn) => {
+					await DBFn();
 				}
 			};
 		}
@@ -81,7 +84,8 @@ const getSessionAndUpdater = (
 			session: state.tempSession,
 			updateState: (modifiedSession) => {
 				set({ tempSession: modifiedSession });
-			}
+			},
+			shouldDBOperate: () => {}
 		};
 	}
 	return null;

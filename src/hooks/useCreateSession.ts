@@ -12,8 +12,8 @@ export const useCreateSession = () => {
 	const _createChildSession = useChatStore((state) => state.createChildSession);
 	const { routes } = useAppConfig();
 
-	const createNewSession = () => {
-		const newSessionId = _createSession();
+	const createNewSession = async () => {
+		const newSessionId = await _createSession();
 		setCurrentSessionId(newSessionId);
 		navigate(`${routes.home}/${newSessionId}`, { replace: true });
 	};

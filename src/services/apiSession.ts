@@ -87,8 +87,9 @@ export async function insertChatSession(chatSession: Partial<ChatSession>) {
 	}
 }
 
-export async function insertChatMessages(message: Partial<Message>) {
-	const { id, content, role, timestamp, isLoading, isError } = message;
+export async function insertChatMessage(message: Partial<Message>) {
+	const { id, content, role, timestamp, isLoading, isError, sessionId } =
+		message;
 	try {
 		const { data, error } = await supabase
 			.from('message')
@@ -98,6 +99,7 @@ export async function insertChatMessages(message: Partial<Message>) {
 					content: content,
 					role: role,
 					time_stamp: timestamp,
+					session_id: sessionId,
 					is_loading: isLoading || false,
 					is_error: isError || false
 				}
@@ -123,7 +125,38 @@ export async function insertChatMessages(message: Partial<Message>) {
 		};
 	}
 }
+export async function updateChatMessage(
+	messageId: string,
+	update: Partial<Message>
+) {
+	const { id, content, role, timestamp, isLoading, isError } = update;
+	const { data: updatedDbMessage, error } = await supabase
+		.from('message')
+		.update([
+			{
+				id: id,
+				content: content,
+				role: role,
+				time_stamp: timestamp,
+				is_loading: isLoading || false,
+				is_error: isError || false
+			}
+		])
+		.eq('id', messageId)
+		.select();
+	if (error) {
+		console.error('更新消息失败:', error);
+		return {
+			success: false,
+			error: error.message
+		};
+	}
 
+	return {
+		success: true,
+		data: updatedDbMessage
+	};
+}
 export async function getChildrenSessions(parentId: string) {
 	const { data: childrenDbSessions, error } = await supabase
 		.from('chat_session')
@@ -216,4 +249,48 @@ export async function getChildMessages(sessionId: string): Promise<Message[]> {
 	].sort((a, b) => a.timestamp - b.timestamp);
 	console.log(childMessages);
 	return childMessages ?? [];
+}
+
+export async function deleteSession(sessionId: string) {
+	//查找所有直接子会话
+	const { data: childSessions, error: findError } = await supabase
+		.from('chat_session')
+		.select('id')
+		.eq('parent_id', sessionId);
+	if (findError) {
+		console.error('查找子会话失败:', findError);
+		return { success: false, error: findError };
+	}
+
+	//递归删除所有子会话
+	for (const childSession of childSessions || []) {
+		await deleteSession(childSession.id);
+	}
+
+	const { error: messagesError } = await supabase
+		.from('message')
+		.delete()
+		.eq('session_id', sessionId);
+
+	if (messagesError) {
+		console.error('删除消息失败:', messagesError);
+		return { success: false, error: messagesError };
+	}
+
+	const { error: sessionError } = await supabase
+		.from('chat_session')
+		.delete()
+		.eq('id', sessionId);
+	if (sessionError) {
+		console.error('删除会话失败:', sessionError);
+		return;
+	}
+}
+
+export async function deleteMessage(messageId: string) {
+	const { error } = await supabase.from('message').delete().eq('id', messageId);
+	if (error) {
+		console.error('删除消息失败', error);
+		return;
+	}
 }

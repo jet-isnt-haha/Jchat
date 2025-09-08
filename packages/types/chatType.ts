@@ -60,6 +60,7 @@ export interface ConfirmConfig {
 export interface SessionAndUpdater {
 	session: ChatSession;
 	updateState: (modifiedSession: ChatSession) => void;
+	shouldDBOperate: (DBFn: () => void) => void;
 }
 
 export type ChatMode = 'normal' | 'temp';
@@ -93,7 +94,7 @@ export interface SessionSlice {
 
 	setChatMode: (option: ChatMode) => void;
 	setTempMode: (option: boolean) => void;
-	createSession: (session?: Partial<ChatSession> | null) => string;
+	createSession: (session?: Partial<ChatSession> | null) => Promise<string>;
 	setCurrentSessionId: (id: string) => void;
 	setSearchSessions: (keywords: string) => void;
 	deleteSession: (sessionId: string) => void;
