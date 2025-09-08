@@ -6,6 +6,7 @@ export interface Message {
 	timestamp: number;
 	isLoading?: boolean;
 	isError?: boolean;
+	sessionId?: string;
 }
 
 //会话类型定义
@@ -19,8 +20,28 @@ export interface ChatSession {
 	parentId?: string;
 	children: ChatSession[];
 	parentLastMessageId?: string;
+	userId?: string;
+}
+export interface DbSession {
+	id: string;
+	title: string;
+	created_at: number;
+	updated_at: number;
+	is_branched: boolean;
+	parent_id?: string;
+	parent_last_message_id?: string;
+	user_id?: string;
 }
 
+export interface DbMessage {
+	id: string;
+	content: string;
+	role: 'user' | 'model' | 'system';
+	time_stamp: number;
+	is_loading?: boolean;
+	is_error?: boolean;
+	session_id: string;
+}
 export interface ItemActions {
 	icon: string;
 	label: string;
@@ -87,6 +108,9 @@ export interface SessionSlice {
 	createChildSession: (parentId: string, parentLastMessageId: string) => string;
 	findSessionById: (sessionId: string) => ChatSession | null;
 	findRootSessionById: (sessionId: string) => ChatSession | null;
+
+	setMainSessions: () => void;
+	hydrateSessionData: () => void;
 }
 
 export type ChatStore = SessionSlice & MessageSlice;

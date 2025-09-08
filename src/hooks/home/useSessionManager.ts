@@ -11,7 +11,8 @@ export const useSessionManager = () => {
 		getCurrentMessages,
 		sessions,
 		currentSessionId,
-		findSessionById
+		findSessionById,
+		hydrateSessionData
 	} = useChatStore();
 
 	const chatMessages = getCurrentMessages();
@@ -28,6 +29,7 @@ export const useSessionManager = () => {
 				const session = findSessionById(id);
 				if (session) {
 					setCurrentSessionId(id);
+					hydrateSessionData();
 				} else {
 					// 会话不存在，重定向到首页
 					navigate(routes.home);

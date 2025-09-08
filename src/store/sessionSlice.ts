@@ -1,5 +1,11 @@
 import config from '@/configs';
-import { mockChatSessions } from '@/mocks/chatData';
+import {
+	getMainSessions as apiGetMainSessions,
+	getMessages as apiGetMessages,
+	getChildrenSessions as apiGetChildrenSessions,
+	getChildMessages as apiGetChildMessages,
+	insertChatSession
+} from '@/services/apiSession';
 import type { StateCreator } from 'zustand';
 import type {
 	ChatStore,
@@ -15,13 +21,61 @@ export const createSessionSlice: StateCreator<
 	[],
 	SessionSlice
 > = (set, get) => ({
-	sessions: import.meta.env.DEV ? mockChatSessions : [],
+	// sessions: import.meta.env.DEV ? mockChatSessions : [],
+	sessions: [],
 	currentSessionId: null,
 	searchedSessions: null,
 	tempSession: null,
 	isInTempMode: false,
 	chatMode: 'normal',
 
+	hydrateSessionData: async () => {
+		const state = get();
+		if (!state.currentSessionId) return;
+
+		const currentSession = state.findSessionById(state.currentSessionId);
+		if (currentSession && !currentSession?.parentId) {
+			//获取当前会话的消息数组
+			const messages = await apiGetMessages(state.currentSessionId);
+			currentSession.messages = messages;
+			//检查并链接当前会话的各个分支
+			async function linkSessions(rootSession: ChatSession) {
+				if (rootSession.isBranched) {
+					const childrenSessions = await apiGetChildrenSessions(rootSession.id);
+					rootSession.children = childrenSessions;
+					for (const child of childrenSessions) {
+						linkSessions(child);
+					}
+				}
+			}
+
+			await linkSessions(currentSession);
+		} else if (currentSession?.parentId) {
+			async function dfs(session: ChatSession) {
+				if (session.parentId) {
+					const parentSession = state.findSessionById(session.parentId);
+					if (parentSession) {
+						await dfs(parentSession);
+					}
+				}
+				session.messages = await apiGetChildMessages(session.id);
+			}
+			await dfs(currentSession);
+			console.log(currentSession);
+		}
+		const updatedSessions = state.sessions.map((session) =>
+			session.id === state.currentSessionId
+				? ({
+						...currentSession
+					} as ChatSession)
+				: session
+		);
+		set({ sessions: updatedSessions });
+	},
+	setMainSessions: async () => {
+		const sessions = await apiGetMainSessions();
+		set({ sessions });
+	},
 	setChatMode: (option: ChatMode) => {
 		set({ chatMode: option });
 	},
@@ -80,6 +134,7 @@ export const createSessionSlice: StateCreator<
 			children: [],
 			...session
 		};
+		insertChatSession(newSession);
 		set((state) => ({
 			sessions: [newSession, ...state.sessions]
 		}));

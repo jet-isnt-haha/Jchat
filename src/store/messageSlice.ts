@@ -1,3 +1,4 @@
+import { insertChatMessages } from '@/services/apiSession';
 import {
 	addMessageToChatSession,
 	deleteMessageFromChatSession,
@@ -30,7 +31,7 @@ export const createMessageSlice: StateCreator<
 			id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
 			timestamp: Date.now()
 		};
-
+		insertChatMessages(newMessage);
 		const updatedSession = addMessageToChatSession(
 			sessionInfo.session,
 			newMessage

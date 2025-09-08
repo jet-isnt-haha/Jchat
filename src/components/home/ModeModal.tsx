@@ -2,6 +2,7 @@ import ItemModal from '../common/ItemModal';
 import { useNavigate } from 'react-router-dom';
 import { useAppConfig, useModals } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';
+import supabase, { insertDataToSupabase } from '@/utils/supabase';
 
 interface ModeModalProps {
 	closeModal: () => void;
@@ -28,6 +29,10 @@ const ModeModal = ({ closeModal }: ModeModalProps) => {
 			case modeActions.option.branch: {
 				navigate(routes.branch);
 				closeModal();
+				break;
+			}
+			case modeActions.option.init: {
+				insertDataToSupabase(supabase);
 				break;
 			}
 		}

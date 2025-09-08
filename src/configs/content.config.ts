@@ -94,12 +94,19 @@ export const contentConfig = {
 					action: 'branch_session',
 					danger: false
 				},
-				{ icon: '🆕', label: '新对话', action: 'new_session', danger: false }
+				{ icon: '🆕', label: '新对话', action: 'new_session', danger: false },
+				{
+					icon: '🐷',
+					label: '初始化数据库',
+					action: 'init_supabase',
+					danger: false
+				}
 			] as ItemActions[],
 			option: {
 				temp: 'temp_session',
 				branch: 'branch_session',
-				new: 'new_session'
+				new: 'new_session',
+				init: 'init_supabase'
 			}
 		},
 		branchActions: {
