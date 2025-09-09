@@ -2,7 +2,7 @@ import {
 	deleteMessage as apiDeleteMessage,
 	getMessageById as apiGetChildMessageById,
 	insertChatMessage,
-	updateChatMessage
+	updateChatMessage as apiUpdateChatMessage
 } from '@/services/apiSession';
 import {
 	addMessageToChatSession,
@@ -57,7 +57,11 @@ export const createMessageSlice: StateCreator<
 		);
 		sessionInfo.updateState(updatedSession);
 		sessionInfo.shouldDBOperate(() => {
-			if (update.isLoading === false) updateChatMessage(messageId, update);
+			if (update.isLoading === false)
+				apiUpdateChatMessage(messageId, {
+					...sessionInfo.session.messages.at(-1),
+					...update
+				});
 		});
 	},
 	deleteMessage: (messageId: string) => {

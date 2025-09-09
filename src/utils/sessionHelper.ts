@@ -71,7 +71,6 @@ const getSessionAndUpdater = (
 		const currentSession = sessionId
 			? state.findSessionById(sessionId)
 			: state.findSessionById(state.currentSessionId);
-		console.log(currentSession);
 		if (currentSession) {
 			return {
 				session: currentSession,

@@ -8,6 +8,7 @@ export const useCreateSession = () => {
 	const setCurrentSessionId = useChatStore(
 		(state) => state.setCurrentSessionId
 	);
+	const currentSessionId = useChatStore((state) => state.currentSessionId);
 	const _createTempSession = useChatStore((state) => state.createTempSession);
 	const _createChildSession = useChatStore((state) => state.createChildSession);
 	const { routes } = useAppConfig();
@@ -32,5 +33,10 @@ export const useCreateSession = () => {
 		setCurrentSessionId(childSessionId);
 		navigate(`${routes.home}/${childSessionId}`, { replace: true });
 	};
-	return { createNewSession, createTempSession, createChildSession };
+	return {
+		createNewSession,
+		createTempSession,
+		createChildSession,
+		currentSessionId
+	};
 };
