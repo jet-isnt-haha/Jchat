@@ -25,6 +25,18 @@ export default defineConfig({
 		}
 	},
 	server: {
-		host: '0.0.0.0'
+		host: '0.0.0.0',
+		proxy: {
+			'/api': {
+				target: 'http://106.53.165.252:8000',
+				changeOrigin: true,
+				secure: false,
+				rewrite: (path) => path.replace(/^\/api/, ''),
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+				}
+			}
+		}
 	}
 });
