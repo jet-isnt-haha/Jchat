@@ -8,12 +8,13 @@ export const useMessageActions = (messageId: string) => {
 	const { getMessage, deleteMessage, currentSessionId, getCurrentMessages } =
 		useChatStore();
 	const { createChildSession } = useCreateSession();
-	const message = getMessage(messageId)!;
+
 	const { copyToClipboard } = useCopyToClipboard();
 	const { exportAsImage } = useExportSession();
 	const { fetchAndUpdateResponse, isLoading } = useChatSubmit();
 
 	const handleCopy = async () => {
+		const message = await getMessage(messageId)!;
 		const content = message.content;
 		const result = await copyToClipboard(content);
 		if (result) alert('复制成功');
