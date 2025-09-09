@@ -1,6 +1,7 @@
 import {
 	convertDbMessagesToFrontend,
-	convertDbSessionsToFrontend
+	convertDbSessionsToFrontend,
+	convertDbMessageToFrontend
 } from '@/utils/dataHelper';
 import supabase from '@/utils/supabase';
 import type {
@@ -8,12 +9,25 @@ import type {
 	DbMessage,
 	Message
 } from '~/packages/types/chatType';
+export async function getMessageById(messageId: string): Promise<Message> {
+	const { data: DbMessage, error } = await supabase
+		.from('message')
+		.select('*')
+		.eq('id', messageId)
+		.single();
 
+	if (error) {
+		console.error('查询特点消息失败', error);
+	}
+
+	return convertDbMessageToFrontend(DbMessage) ?? null;
+}
 export async function getMainSessions(): Promise<ChatSession[]> {
 	const { data: dbSessions, error } = await supabase
 		.from('chat_session')
 		.select('id, title, created_at, updated_at, is_branched')
-		.is('parent_id', null);
+		.is('parent_id', null)
+		.order('updated_at', { ascending: false });
 
 	if (error) {
 		console.error('查询会话失败:', error);
@@ -305,6 +319,43 @@ export async function deleteMessage(messageId: string) {
 	const { error } = await supabase.from('message').delete().eq('id', messageId);
 	if (error) {
 		console.error('删除消息失败', error);
+		return;
+	}
+}
+
+export async function updateSession(
+	sessionId: string,
+	update: Partial<ChatSession>
+) {
+	const {
+		id,
+		title,
+		createdAt,
+		updatedAt,
+		isBranched,
+		parentId,
+		parentLastMessageId,
+		userId
+	} = update;
+	const { error } = await supabase
+		.from('chat_session')
+		.update([
+			{
+				id: id,
+				title: title,
+				created_at: createdAt,
+				updated_at: updatedAt,
+				is_branched: isBranched,
+				parent_id: parentId,
+				parent_last_message_id: parentLastMessageId,
+				user_id: userId
+			}
+		])
+		.eq('id', sessionId)
+		.select();
+
+	if (error) {
+		console.log('更新会话失败', error);
 		return;
 	}
 }

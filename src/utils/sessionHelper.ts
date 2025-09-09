@@ -27,11 +27,11 @@ const addMessageToChatSession = (
 const updateMessageInChatSession = (
 	session: ChatSession,
 	messageId: string,
-	update: Message
+	update: Partial<Message>
 ): ChatSession => {
 	const updatedMessages: Message[] = session.messages.map((message) => {
 		if (message.id === messageId) {
-			return update;
+			return { ...message, ...update };
 		}
 		return message;
 	});
@@ -62,12 +62,16 @@ const getSessionAndUpdater = (
 	get: () => ChatStore,
 	set: (
 		updater: ((state: ChatStore) => Partial<ChatStore>) | Partial<ChatStore>
-	) => void
+	) => void,
+	sessionId?: string
 ): SessionAndUpdater | null => {
 	const state = get();
 	//常规会话模式
 	if (state.chatMode === 'normal' && state.currentSessionId) {
-		const currentSession = state.findSessionById(state.currentSessionId);
+		const currentSession = sessionId
+			? state.findSessionById(sessionId)
+			: state.findSessionById(state.currentSessionId);
+		console.log(currentSession);
 		if (currentSession) {
 			return {
 				session: currentSession,

@@ -75,8 +75,8 @@ export interface MessageSlice {
 	currentController: AbortController | null;
 
 	addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
-	updateMessage: (messageId: string, update: Message) => void;
-	getMessage: (messageId: string) => Message | null;
+	updateMessage: (messageId: string, update: Partial<Message>) => void;
+	getMessage: (messageId: string) => Promise<Message> | Message | null;
 	getCurrentMessages: () => Message[];
 	getTempMessages: () => Message[];
 	deleteMessage: (messageId: string) => void;

@@ -19,23 +19,26 @@ export const useSessionManager = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (id) {
-			// 处理/session/new的情况
-			if (id === 'new') {
-				// 不设置sessionId，直接导航到/session
-				navigate(routes.home);
-				setCurrentSessionId('');
-			} else {
-				const session = findSessionById(id);
-				if (session) {
-					setCurrentSessionId(id);
-					hydrateSessionData();
-				} else {
-					// 会话不存在，重定向到首页
+		const handleSession = async (id: string | undefined) => {
+			if (id) {
+				// 处理/session/new的情况
+				if (id === 'new') {
+					// 不设置sessionId，直接导航到/session
 					navigate(routes.home);
+					setCurrentSessionId('');
+				} else {
+					const session = findSessionById(id);
+					if (session) {
+						setCurrentSessionId(id);
+						await hydrateSessionData();
+					} else {
+						// 会话不存在，重定向到首页
+						navigate(routes.home);
+					}
 				}
 			}
-		}
+		};
+		handleSession(id);
 	}, [id]);
 
 	return {

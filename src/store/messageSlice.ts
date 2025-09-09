@@ -1,5 +1,6 @@
 import {
 	deleteMessage as apiDeleteMessage,
+	getMessageById as apiGetChildMessageById,
 	insertChatMessage,
 	updateChatMessage
 } from '@/services/apiSession';
@@ -43,8 +44,10 @@ export const createMessageSlice: StateCreator<
 		sessionInfo.updateState(updatedSession);
 		sessionInfo.shouldDBOperate(() => insertChatMessage(newMessage));
 	},
-	updateMessage: (messageId: string, update: Message) => {
-		const sessionInfo = getSessionAndUpdater(get, set);
+	updateMessage: async (messageId: string, update: Partial<Message>) => {
+		const message = await get().getMessage(messageId);
+		if (!message?.id) return;
+		const sessionInfo = getSessionAndUpdater(get, set, message.sessionId);
 		if (!sessionInfo) return;
 
 		const updatedSession = updateMessageInChatSession(
@@ -78,14 +81,20 @@ export const createMessageSlice: StateCreator<
 		const state = get();
 		return state.tempSession?.messages ?? [];
 	},
-	getMessage: (messageId: string) => {
+	getMessage: async (messageId: string) => {
 		const state = get();
 		const messages = state.getCurrentMessages();
 		const tempMessages = state.getTempMessages();
-		return (
+
+		const foundMessage =
 			messages.find((message) => message.id === messageId) ??
-			tempMessages.find((message) => message.id === messageId) ??
-			null
-		);
+			tempMessages.find((message) => message.id === messageId);
+
+		if (foundMessage) {
+			return foundMessage;
+		}
+
+		// 异步获取并返回结果
+		return await apiGetChildMessageById(messageId);
 	}
 });

@@ -52,9 +52,8 @@ export const useChatSubmit = () => {
 	};
 
 	//改变MessageIsLoading方法
-	const setMessageIsLoading = (messageId: string, chosen: boolean) => {
+	const setMessageIsLoading = async (messageId: string, chosen: boolean) => {
 		updateMessage(messageId, {
-			...getMessage(messageId)!,
 			isLoading: chosen
 		});
 	};
@@ -80,14 +79,13 @@ export const useChatSubmit = () => {
 			if (!lastMessage) return;
 			await streamProcessor(modelResponse, (accumulatedText) => {
 				updateMessage(messageId, {
-					...lastMessage,
 					content: accumulatedText
 				});
 			});
 			setMessageIsLoading(messageId, false);
 		} catch (error: unknown) {
 			if (error instanceof Error && error.name === 'AbortError') {
-				if (getMessage(messageId)?.content === 'Thinking...') {
+				if ((await getMessage(messageId))?.content === 'Thinking...') {
 					deleteMessage(messageId);
 				}
 				await setMessageIsLoading(messageId, false);

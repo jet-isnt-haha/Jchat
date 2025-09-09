@@ -6,6 +6,7 @@ import {
 	getChildMessages as apiGetChildMessages,
 	insertChatSession as apiInsertChatSession,
 	deleteSession as apiDeleteSession,
+	updateSession as apiUpdateSession,
 	insertChatSession,
 	insertChatMessage
 } from '@/services/apiSession';
@@ -199,7 +200,7 @@ export const createSessionSlice: StateCreator<
 		return await apiDeleteSession(sessionId);
 	},
 
-	updateSession: (sessionId: string, update) => {
+	updateSession: async (sessionId: string, update) => {
 		const state = get();
 		const found = state.findSessionById(sessionId);
 		const root = state.findRootSessionById(sessionId);
@@ -232,6 +233,7 @@ export const createSessionSlice: StateCreator<
 				}));
 			}
 		}
+		await apiUpdateSession(sessionId, update);
 	},
 	createChildSession: async (parentId: string, parentLastMessageId: string) => {
 		const state = get();
@@ -251,7 +253,7 @@ export const createSessionSlice: StateCreator<
 				parentLastMessageId
 			};
 			parent.children.push(childSession);
-			parent.isBranched = true;
+			await apiUpdateSession(parent.id, { isBranched: true });
 			await apiInsertChatSession(childSession);
 		}
 
