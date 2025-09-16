@@ -1,75 +1,133 @@
-name: ci
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [master]
+    branches: [master, develop]
   pull_request:
-    branches: [master]
+    branches: [master, develop]
 
 jobs:
-  code-quality:
+  test:
+    name: Test & Quality Check
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type checking
+        run: pnpm exec tsc --noEmit
+
+      - name: Lint check
+        run: pnpm lint
+
+      - name: Format check
+        run: pnpm prettier --check .
+
+      - name: Run tests
+        run: pnpm test:run
+
+      - name: Generate coverage report
+        if: matrix.node-version == '20'
+        run: pnpm test:coverage
+
+      - name: Upload coverage to Codecov
+        if: matrix.node-version == '20'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{env.STORE_PATH}}
-          key: ${{runner.os}}-pnpm-store-${{hashFiles('**/pnpm-lock.yaml')}}
-          restore-keys: |
-            ${{runner.os}}-pnpm-store-
-      - name: Install dependencies
-        run: pnpm install
-      - name: Lint code
-        run: pnpm lint || echo "跳过lint"
+          node-version: '20'
+          cache: 'pnpm'
 
-  deploy:
-    needs: code-quality
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{env.STORE_PATH}}
-          key: ${{runner.os}}-pnpm-store-${{hashFiles('**/pnpm-lock.yaml')}}
-          restore-keys: |
-            ${{runner.os}}-pnpm-store-
       - name: Install dependencies
-        run: pnpm install
-      - name: Build Project
+        run: pnpm install --frozen-lockfile
+
+      - name: Build project
         run: pnpm build
         env:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+          retention-days: 7
+
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: [test, build]
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build for production
+        run: pnpm build
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
