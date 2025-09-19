@@ -21,7 +21,7 @@
 		"@supabase/supabase-js": "^2.57.2",
 		"@tailwindcss/vite": "^4.1.11",
 		"@tanstack/react-virtual": "^3.13.12",
-		"@zumer/snapdom": "^1.9.9",
+		"@zumer/snapdom": "^1.9.11",
 		"acorn": "^8.15.0",
 		"antd-mobile": "^5.39.0",
 		"axios": "^1.11.0",
