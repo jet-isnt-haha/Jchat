@@ -337,7 +337,7 @@ export const mockChatSessions: ChatSession[] = [
 	generateSession(), // 普通会话
 	generateLongSession(), // 长对话会话
 	generateEmptySession(),
-	...generateMockSessions(10) // 额外3个随机会话
+	...generateMockSessions(1000) // 额外3个随机会话
 ];
 
 // 开发环境下的调试工具

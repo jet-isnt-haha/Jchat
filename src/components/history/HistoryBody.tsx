@@ -1,65 +1,52 @@
 import ChatSession from './ChatSession';
-import { useRowVirtualizer } from '@/hooks/useRowVirtualizer';
 import SessionModal from './SessionModal';
 import { useShowModal } from '@/hooks/useShowModal';
-import { useAppConfig, useTexts } from '@/hooks/useConfig';
+import { useTexts } from '@/hooks/useConfig';
 import { useChatStore } from '@/store';
 import { useTouchController } from '@/hooks/useTouchController';
+import VirtualizedList from '../common/VirtualizedList';
+import { useCallback } from 'react';
 
 const HistoryBody = () => {
 	const { sessions: chatSessions, searchedSessions } = useChatStore();
-	const { virtualization } = useAppConfig();
 	const { messages } = useTexts();
-	const { rowVirtualizer, parentRef } = useRowVirtualizer({
-		count: chatSessions.length,
-		estimateSize: virtualization.estimatedItemSize
-	});
 	const sessionList = searchedSessions || chatSessions;
 	const { showModal, closeModal, selectedId, openModal } = useShowModal();
 	const { handleTouchEnd, handleTouchStart, handleTouchMove } =
 		useTouchController();
-
+	const Row = useCallback(
+		({ style, index }: { style: React.CSSProperties; index: number }) => {
+			const session = sessionList[index];
+			return (
+				<ChatSession
+					style={style}
+					session={session}
+					key={session.id}
+					onTouchStart={handleTouchStart(() => {
+						openModal(session.id);
+					})}
+					onTouchMove={handleTouchMove}
+					onTouchEnd={handleTouchEnd}
+					onMoreClick={() => {
+						openModal(session.id);
+					}}
+				/>
+			);
+		},
+		[sessionList, handleTouchStart, handleTouchMove, handleTouchEnd, openModal]
+	);
 	return (
-		<main
-			className="history-body"
-			ref={parentRef}
-			style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
-		>
+		<main className="history-body min-h-screen overflow-hidden">
 			{sessionList.length > 0 ? (
-				rowVirtualizer.getVirtualItems().map((virtualItem) => {
-					if (
-						virtualItem.index < 0 ||
-						virtualItem.index >= sessionList.length
-					) {
-						return null;
-					}
-
-					const session = sessionList[virtualItem.index];
-
-					// 只在session有效时渲染组件
-					if (!session) {
-						return null;
-					}
-
-					return (
-						<ChatSession
-							session={session}
-							style={{
-								height: `${virtualItem.size}px`,
-								transform: `translateY(${virtualItem.start}px)`
-							}}
-							key={virtualItem.key}
-							onTouchStart={handleTouchStart(() => {
-								openModal(session.id);
-							})}
-							onTouchMove={handleTouchMove}
-							onTouchEnd={handleTouchEnd}
-							onMoreClick={() => {
-								openModal(session.id);
-							}}
-						/>
-					);
-				})
+				<VirtualizedList
+					itemCount={sessionList.length}
+					itemSize={60}
+					height={667}
+					overscan={2}
+					itemKey={(i) => sessionList[i].id}
+				>
+					{Row}
+				</VirtualizedList>
 			) : (
 				<>{messages.noResults}</>
 			)}
