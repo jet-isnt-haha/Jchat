@@ -5,6 +5,7 @@ import { useChatStore } from '@/store';
 
 const HomeFooter = () => {
 	const { inputRef, handleFormSubmit, isLoading } = useChatSubmit();
+
 	const { placeholders, icons } = useTexts();
 	const { chatMode } = useAppConfig();
 	const setChatMode = useChatStore((state) => state.setChatMode);
@@ -16,10 +17,6 @@ const HomeFooter = () => {
 					placeholder={placeholders.messageInput}
 					className="message-input"
 					ref={inputRef}
-					onChange={(e) => {
-						e.target.style.height = 'auto';
-						e.target.style.height = e.target.scrollHeight + 'px';
-					}}
 				/>
 				<IconButton
 					type="submit"

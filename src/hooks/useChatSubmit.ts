@@ -1,12 +1,12 @@
 import { generateAPI } from '@/apis/fetch';
 import streamProcessor from '@/utils/streamProcessor';
-import { useRef } from 'react';
 import type { Message } from '~/packages/types/chatType';
 import { useChatStore } from '@/store';
 import getChatActionsStrategy from './chatStrategies/getChatActionsStrategy';
+import { useAutoResizeTextarea } from './home/useAutoResizeTextArea';
 
 export const useChatSubmit = () => {
-	const inputRef = useRef<HTMLTextAreaElement>(null);
+	const { textareaRef: inputRef } = useAutoResizeTextarea();
 	const {
 		currentSessionId,
 		addMessage,
@@ -23,6 +23,7 @@ export const useChatSubmit = () => {
 	//处理用户输入
 	const handleUserInput = () => {
 		const userInput = inputRef.current?.value;
+		console.log(inputRef.current);
 		if (!userInput) return null;
 
 		switch (chatMode) {
