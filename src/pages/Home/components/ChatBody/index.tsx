@@ -1,4 +1,4 @@
-import ChatMessage from './ChatMessage';
+import ChatMessage from './components/ChatMessage';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useEffect } from 'react';
 import { useTexts } from '@/hooks/useConfig';

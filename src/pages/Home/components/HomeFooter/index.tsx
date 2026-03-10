@@ -1,4 +1,4 @@
-import { useChatSubmit } from '../../../hooks/useChatSubmit';
+import { useChatSubmit } from '../../../../hooks/useChatSubmit';
 import { useAppConfig, useTexts } from '@/hooks/useConfig';
 import IconButton from '@/components/ui/IconButton';
 import { useChatStore } from '@/store';

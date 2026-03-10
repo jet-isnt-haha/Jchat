@@ -65,7 +65,7 @@ const MessageActions = ({
 	const getCurrentMessages = useChatStore((state) => state.getCurrentMessages);
 	const { icons } = useTexts();
 	const actionButtonStyle =
-		'h-full px-1.5 text-[16px] md:hidden group-hover:md:block hover:md:bg-[#f0f0f0] hover:text-[#6D4FC2] hover:rounded-md hover:scale-105 transition-all duration-200';
+		'h-full px-1.5 text-[16px] md:opacity-0 md:pointer-events-none group-hover:md:opacity-100 group-hover:md:pointer-events-auto hover:md:bg-[#f0f0f0] hover:text-[#6D4FC2] hover:rounded-md hover:scale-105 transition-all duration-200';
 	return (
 		<>
 			<div className="group w-full h-8 px-2 flex mt-1 border-2 border-[#6D4FC2] rounded-md bg-white md:border-0">
@@ -94,7 +94,11 @@ const MessageActions = ({
 				/>
 				{getCurrentMessages().at(-1)!.id === MessageId && (
 					<>
-						<IconButton className={icons.refresh} onClick={onRefresh} />
+						<IconButton
+							className={icons.refresh}
+							onClick={onRefresh}
+							styleClass={actionButtonStyle}
+						/>
 						<IconButton
 							className={icons.branch}
 							onClick={() => {

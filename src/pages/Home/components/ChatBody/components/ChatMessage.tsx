@@ -1,8 +1,8 @@
 import type { Message } from '@/types/chatType';
 import { useTexts } from '@/hooks/useConfig';
-import MessageActions from './MessageActions';
-import { useMessageActions } from '../hooks/useMessageActions';
-import { useMessageRender } from '../../../hooks/useMessageRender';
+import MessageActions from '../../MessageActions';
+import { useMessageActions } from '../../../hooks/useMessageActions';
+import { useMessageRender } from '../../../../../hooks/useMessageRender';
 import { useOnRenderedCallback } from '@/hooks/useOnRenderedCallback';
 import MessageBar from '@/components/MessageBar';
 import { cn } from '@/lib/utils';

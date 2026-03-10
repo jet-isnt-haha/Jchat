@@ -1,7 +1,7 @@
 import HomeFooter from './components/HomeFooter';
+import { useSessionManager } from './hooks/useSessionManager';
 import HomeHeader from './components/HomeHeader';
 import ChatBody from './components/ChatBody';
-import { useSessionManager } from './hooks/useSessionManager';
 
 const Home = () => {
 	const { chatMessages } = useSessionManager();
