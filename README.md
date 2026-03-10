@@ -1,12 +1,3 @@
-好，我已经全面分析完项目了。现在我来写 README 文件。
-
----
-
-## README.md 内容
-
-基于对代码的完整分析，以下是为 Jchat 项目编写的 README：
-
-```markdown
 # Jchat
 
 一个基于 React 的 LLM 对话应用，支持会话管理、对话分支、临时对话等功能。针对移动端优化，同时支持桌面端双栏布局。
@@ -43,9 +34,10 @@
 | **虚拟列表** | @tanstack/react-virtual                |
 | **测试**     | Vitest + Testing Library               |
 | **代码规范** | ESLint + Prettier + Husky + Commitizen |
+
 ```
 
-````
+```
 
 ## 快速开始
 
@@ -58,7 +50,7 @@
 
 ```bash
 pnpm install
-````
+```
 
 ### 开发服务器
 
