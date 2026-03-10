@@ -1,6 +1,6 @@
 // src/mocks/chatData.ts
 import { faker } from '@faker-js/faker';
-import type { Message, ChatSession } from '~/packages/types/chatType';
+import type { Message, ChatSession } from '@/types/chatType';
 // 类型定义（与你的实际类型保持一致）
 
 // 预定义的对话主题和内容

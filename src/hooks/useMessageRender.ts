@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useRenderText } from './common/useRenderText';
-import type { Message } from '~/packages/types/chatType';
+import type { Message } from '@/types/chatType';
+import { useRenderText } from './useRenderText';
 
 export const useMessageRender = (
 	content: Message['content'],

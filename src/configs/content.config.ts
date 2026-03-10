@@ -1,6 +1,6 @@
 //文本内容配置
 
-import type { ConfirmConfig, ItemActions } from '~/packages/types/chatType';
+import type { ConfirmConfig, ItemActions } from '@/types/chatType';
 
 export const contentConfig = {
 	// 用户界面文本

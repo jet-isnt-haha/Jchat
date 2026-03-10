@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import type { ChatSession, Message } from '~/packages/types/chatType';
+import type { ChatSession, Message } from '@/types/chatType';
 import {
 	addMessageToChatSession,
 	updateMessageInChatSession,

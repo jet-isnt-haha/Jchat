@@ -4,7 +4,7 @@ import type {
 	ChatStore,
 	Message,
 	SessionAndUpdater
-} from '~/packages/types/chatType';
+} from '@/types/chatType';
 
 const addMessageToChatSession = (
 	session: ChatSession,

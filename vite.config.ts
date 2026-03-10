@@ -7,21 +7,14 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
 	plugins: [react(), tailwindcss()],
 	css: {
-		preprocessorOptions: {
-			less: {
-				// 可选：全局 less 变量、mixin 也可以配置在这里
-				javascriptEnabled: true
-			}
-		},
 		modules: {
-			//让 *.module.less 生效
+			//让 *.module.css 生效
 			generateScopedName: '[name]__[local]__[hash:base64:5]'
 		}
 	},
 	resolve: {
 		alias: {
-			'@': fileURLToPath(new URL('./src', import.meta.url)),
-			'~': fileURLToPath(new URL('./', import.meta.url))
+			'@': fileURLToPath(new URL('./src', import.meta.url))
 		}
 	},
 	server: {

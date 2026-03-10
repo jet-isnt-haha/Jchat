@@ -7,7 +7,7 @@ import type {
 	SessionSlice,
 	ChatMode,
 	Message
-} from '~/packages/types/chatType';
+} from '@/types/chatType';
 
 export const createSessionSlice: StateCreator<
 	ChatStore,

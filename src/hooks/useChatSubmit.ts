@@ -1,9 +1,9 @@
 import { generateAPI } from '@/apis/fetch';
 import streamProcessor from '@/utils/streamProcessor';
-import type { Message } from '~/packages/types/chatType';
+import type { Message } from '@/types/chatType';
 import { useChatStore } from '@/store';
-import getChatActionsStrategy from './chatStrategies/getChatActionsStrategy';
-import { useAutoResizeTextarea } from './home/useAutoResizeTextArea';
+import getChatActionsStrategy from '@/strategies/getChatActionsStrategy';
+import { useAutoResizeTextarea } from './useAutoResizeTextArea';
 
 export const useChatSubmit = () => {
 	const { textareaRef: inputRef } = useAutoResizeTextarea();

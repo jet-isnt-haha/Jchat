@@ -4,17 +4,17 @@ import {
 	Route,
 	Navigate
 } from 'react-router-dom';
-import Home from './pages/Home';
-import History from './pages/History';
-import Canvas from './pages/Canvas';
-import Test from './pages/Test';
-import Branch from './pages/Branch';
-import styles from './pages/index.module.less';
+import Home from './pages/Home/index';
+import History from './pages/History/index';
+import Canvas from './pages/Canvas/index';
+import Test from './pages/Test/index';
+import Branch from './pages/Branch/index';
+
 export default function App() {
 	return (
 		<Router>
-			<div className={styles.section}>
-				<div className={styles.test}>
+			<div className="relative flex">
+				<div className="flex-1 max-md:hidden">
 					<Branch />
 				</div>
 

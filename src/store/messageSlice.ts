@@ -5,11 +5,7 @@ import {
 	updateMessageInChatSession
 } from '@/utils/sessionHelper';
 import type { StateCreator } from 'zustand';
-import type {
-	ChatStore,
-	Message,
-	MessageSlice
-} from '~/packages/types/chatType';
+import type { ChatStore, Message, MessageSlice } from '@/types/chatType';
 
 export const createMessageSlice: StateCreator<
 	ChatStore,

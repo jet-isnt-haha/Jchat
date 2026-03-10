@@ -1,0 +1,138 @@
+/* import google-font Inter Noto Sans */
+@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Inter:opsz,wght@14..32,100..900&family=Lusitana:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Inter:opsz,wght@14..32,100..900&family=Lusitana:wght@400;700&family=Noto+Sans+SC:wght@100..900&display=swap');
+@import 'tailwindcss';
+@plugin 'tailwind-scrollbar';
+@config "../tailwind.config.js";
+html,
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	overscroll-behavior: none; /* 防止橡皮筋效果 */
+	-webkit-overflow-scrolling: auto; /* 禁用iOS弹性滚动 */
+	touch-action: manipulation; /* 只允许基本触摸操作 */
+	user-select: none; /* 全局禁用文本选择 */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.loading {
+	@apply block animate-loading-rotate;
+}
+
+.search {
+	@apply inline-block animate-custom-spin;
+}
+
+/* 第一个按钮（从右数第二个位置） */
+.temp-form button:nth-child(2) {
+	@apply right-16; /* 距离右侧80px */
+}
+
+/* 第二个按钮（最右侧） */
+.temp-form button:nth-child(3) {
+	@apply right-8; /* 距离右侧6px */
+}
+.temp-form button:nth-child(4) {
+	@apply right-2; /* 距离右侧6px */
+}
+
+/* 标题（h1-h6） */
+.message-text h1,
+.message-text h2,
+.message-text h3,
+.message-text h4,
+.message-text h5,
+.message-text h6 {
+	@apply font-bold text-indigo-800 my-1 mt-2; /* 标题颜色与模型消息背景呼应 */
+}
+.message-text h1 {
+	@apply text-2xl;
+}
+.message-text h2 {
+	@apply text-xl;
+}
+.message-text h3 {
+	@apply text-lg;
+}
+.message-text h4,
+.message-text h5,
+.message-text h6 {
+	@apply text-base;
+}
+
+/* 段落 */
+.message-text p {
+	@apply my-1; /* 段落间距 */
+}
+
+/* 列表 */
+.message-text ul,
+.message-text ol {
+	@apply pl-6 my-2; /* 左侧缩进 */
+}
+.message-text ul {
+	@apply list-disc;
+} /* 无序列表 */
+.message-text ol {
+	@apply list-decimal;
+} /* 有序列表 */
+.message-text li {
+	@apply my-0.5;
+} /* 列表项间距 */
+
+/* 代码块 */
+.message-text pre {
+	@apply bg-gray-100 p-3 rounded-md overflow-x-auto my-2 text-sm 
+         font-mono; /* 代码块背景、滚动、字体 */
+}
+/* 行内代码 */
+.message-text code {
+	@apply bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+/* 链接 */
+.message-text a {
+	@apply text-blue-600 underline underline-offset-2;
+}
+.message-text a:hover {
+	@apply text-blue-800;
+}
+
+/* 引用块 */
+.message-text blockquote {
+	@apply border-l-4 border-indigo-300 pl-4 italic text-gray-600 my-2;
+}
+
+/* 表格 */
+
+.message-text .table-container {
+	@apply overflow-x-auto my-2; /* 横向滚动，上下间距 */
+}
+
+.message-text table {
+	@apply w-full border-collapse;
+}
+.message-text th,
+.message-text td {
+	@apply border border-gray-200 p-2 text-sm;
+}
+.message-text th {
+	@apply bg-gray-50 font-bold;
+}
+
+/* LaTeX 公式 */
+.message-text .katex {
+	@apply text-[1.05em]; /* 公式稍大于正文 */
+}
+.message-text .katex-display {
+	@apply my-3 overflow-x-auto; /* 块级公式间距和滚动 */
+}
+
+.material-symbols-outlined.disabled {
+	@apply bg-gray-600 cursor-not-allowed;
+	color: #9ca3af; /* 灰色文字 */
+	opacity: 0.7; /* 降低不透明度增强禁用感 */
+}
